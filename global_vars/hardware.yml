@@ -1,0 +1,30 @@
+---
+
+hardware:
+  # access_list:
+  #   mechanism: <str; "algomatch" | "none" | "tcam">
+  speed_groups:
+    - speed_group: 1
+      serdes: 10g
+    - speed_group: 2
+      serdes: 10g
+    - speed_group: 3
+      serdes: 10g
+    - speed_group: 4
+      serdes: 10g
+    - speed_group: 5
+      serdes: 10g
+    - speed_group: 6
+      serdes: 10g
+    - speed_group: 7
+      serdes: 10g
+    - speed_group: 8
+      serdes: 10g
+    - speed_group: 9
+      serdes: 10g
+    - speed_group: 10
+      serdes: 10g
+    - speed_group: 11
+      serdes: 10g
+    - speed_group: 12
+      serdes: 10g

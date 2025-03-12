@@ -1,0 +1,168 @@
+# ---
+# custom_host_configuration_route_maps:
+#   - name: RO_UNTRUST_BGP_POLICY_IN
+#     sequence_numbers:
+#     - sequence: 70
+#       type: permit
+#       match:
+#         - "community PE1"
+#       set:
+#         - "local-preference 120"
+#   - name: DENY_ALL
+#     sequence_numbers:
+#     - sequence: 10
+#       type: deny
+#   - name: PASS_ALL
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#   - name: PASS_DEFAULT_ONLY
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       match:
+#         - "ip address prefix-list PL_DEFAULT"
+#   - name: PREF_DEFAULT_IMPORT_MAP
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       description: "Standard import map to allow DC21 Default"
+#       match:
+#         - "community DC21_DEFAULT_COMM"
+#       set:
+#         - "local-preference 150"
+#     - sequence: 20
+#       type: permit
+#       description: "Standard import map to allow DA2 Default"
+#       match:
+#         - "community DA2_DEFAULT_COMM"
+#       set:
+#         - "local-preference 120"
+#     - sequence: 900
+#       type: permit
+#       description: "Standard import map to allow All routes"
+#   - name: RM_CE_OB1_IN
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#   - name: RM_CE_OB1_OUT
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#   - name: RM_CE_UNTRUST_IN
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#   - name: RM_CE_UNTRUST_OUT
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#   - name: RM_FILTERED_TRUST_OUT
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       match:
+#         - "ip address prefix-list PL_DEFAULT"
+#     - sequence: 20
+#       type: permit
+#       match:
+#         - "ip address prefix-list PL_RFC1918"
+#   - name: RM_RO_TRUST_IN
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       match:
+#         - "community POLICY_LP190_OVERRIDE"
+#       set:
+#         - "local-preference 190"
+#     - sequence: 20
+#       type: permit
+#       match:
+#         - "community POLICY_LP120"
+#       set:
+#         - "local-preference 120"
+#     - sequence: 30
+#       type: permit
+#       match:
+#         - "community POLICY_LP150"
+#       set:
+#         - "local-preference 150"
+#     - sequence: 40
+#       type: permit
+#       match:
+#         - "community POLICY_LP170"
+#       set:
+#         - "local-preference 170"
+#     - sequence: 50
+#       type: permit
+#       match:
+#         - "community POLICY_LP180"
+#       set:
+#         - "local-preference 180"
+#     - sequence: 60
+#       type: permit
+#       match:
+#         - "community PE1"
+#       set:
+#         - "local-preference 120"
+#     - sequence: 80
+#       type: permit
+#   - name: RM_RO_TRUST_OUT
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       match:
+#         - "ip address prefix-list PL_DEFAULT"
+#       set:
+#         - "community 64800:1 additive"
+#     - sequence: 20
+#       type: permit
+#       match:
+#         - "ip address prefix-list PL_RFC1918"
+#       set:
+#         - "community 64800:1 additive"
+#   - name: STANDARD_1NET_BGP_POLICY_IN
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit
+#       match:
+#         - "community POLICY_LP20_BLEED"
+#       set:
+#         - "local-preference 20"
+#     - sequence: 20
+#       type: permit
+#       match:
+#         - "community POLICY_LP190_OVERRIDE"
+#       set:
+#         - "local-preference 190"
+#     - sequence: 30
+#       type: permit
+#       match:
+#         - "community POLICY_LP120"
+#       set:
+#         - "local-preference 120"
+#     - sequence: 40
+#       type: permit
+#       match:
+#         - "community POLICY_LP150"
+#       set:
+#         - "local-preference 150"
+#     - sequence: 50
+#       type: permit
+#       match:
+#         - "community POLICY_LP170"
+#       set:
+#         - "local-preference 170"
+#     - sequence: 60
+#       type: permit
+#       match:
+#         - "community POLICY_LP180"
+#       set:
+#         - "local-preference 180"
+#     - sequence: 500
+#       type: permit
+#       description: "PERMIT_ALL_ROUTES"
+#   - name: STANDARD_1NET_BGP_POLICY_OUT
+#     sequence_numbers:
+#     - sequence: 10
+#       type: permit

@@ -1,0 +1,4 @@
+Node Type,Node,Node Interface,Peer Type,Peer Node,Peer Interface,Node Interface Enabled
+pe,atl_trx_dc1_pe1,Ethernet2/1,other,ATL-SI1-DC1-N1,Ethernet3/49/1,True
+pe,atl_trx_dc1_pe1,Port-Channel110,l3_interface,,,True
+pe,atl_trx_dc1_pe1,Port-Channel110.100,l3_interface,,,True

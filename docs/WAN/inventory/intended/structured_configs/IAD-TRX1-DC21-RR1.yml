@@ -1,0 +1,428 @@
+hostname: IAD-TRX1-DC21-RR1
+is_deployed: false
+router_bgp:
+  as: '64800'
+  router_id: 10.199.0.39
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  updates:
+    wait_install: true
+  bgp_cluster_id: 10.199.0.39
+  peer_groups:
+  - name: RR_PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    password: iKTQwhTMWkGv8NnVBwWL8w==
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+    route_reflector_client: true
+  - name: RR-OVERLAY-PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+  address_family_evpn:
+    peer_groups:
+    - name: RR-OVERLAY-PEERS
+      activate: true
+  address_family_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: false
+    - name: RR-OVERLAY-PEERS
+      activate: false
+  address_family_vpn_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: true
+    - name: RR-OVERLAY-PEERS
+      activate: true
+  neighbors:
+  - ip_address: 10.199.0.28
+    peer_group: RR_PEERS
+    peer: atl-trx1-dc1-pe1
+    description: atl-trx1-dc1-pe1
+  - ip_address: 10.199.0.29
+    peer_group: RR_PEERS
+    peer: atl-trx1-dc1-pe2
+    description: atl-trx1-dc1-pe2
+  - ip_address: 10.199.0.156
+    peer_group: RR_PEERS
+    peer: cvg-trx1-concentrix-pe1
+    description: cvg-trx1-concentrix-pe1
+  - ip_address: 10.199.0.157
+    peer_group: RR_PEERS
+    peer: cvg-trx1-concentrix-pe2
+    description: cvg-trx1-concentrix-pe2
+  - ip_address: 10.199.0.152
+    peer_group: RR_PEERS
+    peer: den-trx1-qualfon-pe1
+    description: den-trx1-qualfon-pe1
+  - ip_address: 10.199.0.153
+    peer_group: RR_PEERS
+    peer: den-trx1-qualfon-pe2
+    description: den-trx1-qualfon-pe2
+  - ip_address: 10.199.0.132
+    peer_group: RR_PEERS
+    peer: den-trx1-ttcnt-pe1
+    description: den-trx1-ttcnt-pe1
+  - ip_address: 10.199.0.133
+    peer_group: RR_PEERS
+    peer: den-trx1-ttcnt-pe2
+    description: den-trx1-ttcnt-pe2
+  - ip_address: 10.199.0.34
+    peer_group: RR_PEERS
+    peer: dfw-trx1-ptxb1-pe1
+    description: dfw-trx1-ptxb1-pe1
+  - ip_address: 10.199.0.35
+    peer_group: RR_PEERS
+    peer: dfw-trx1-ptxb1-pe2
+    description: dfw-trx1-ptxb1-pe2
+  - ip_address: 10.199.0.150
+    peer_group: RR_PEERS
+    peer: dfw-trx1-sitel-pe1
+    description: dfw-trx1-sitel-pe1
+  - ip_address: 10.199.0.150
+    peer_group: RR_PEERS
+    peer: dfw-trx1-sitel-pe2
+    description: dfw-trx1-sitel-pe2
+  - ip_address: 10.199.0.134
+    peer_group: RR_PEERS
+    peer: dfw-trx1-telepf-pe1
+    description: dfw-trx1-telepf-pe1
+  - ip_address: 10.199.0.135
+    peer_group: RR_PEERS
+    peer: dfw-trx1-telepf-pe2
+    description: dfw-trx1-telepf-pe2
+  - ip_address: 10.199.0.150
+    peer_group: RR_PEERS
+    peer: dtw-trx1-qualfon-pe1
+    description: dtw-trx1-qualfon-pe1
+  - ip_address: 10.199.0.151
+    peer_group: RR_PEERS
+    peer: dtw-trx1-qualfon-pe2
+    description: dtw-trx1-qualfon-pe2
+  - ip_address: 10.199.0.146
+    peer_group: RR_PEERS
+    peer: iad-trx1-teletech-pe1
+    description: iad-trx1-teletech-pe1
+  - ip_address: 10.199.0.147
+    peer_group: RR_PEERS
+    peer: iad-trx1-teletech-pe2
+    description: iad-trx1-teletech-pe2
+  - ip_address: 14.14.14.1
+    peer_group: RR_PEERS
+    peer: lax-trx1-test3pcc-pe1
+    description: lax-trx1-test3pcc-pe1
+  - ip_address: 7.7.7.10
+    peer_group: RR_PEERS
+    peer: lax-trx1-test3pcc-pe2
+    description: lax-trx1-test3pcc-pe2
+  - ip_address: 10.199.0.154
+    peer_group: RR_PEERS
+    peer: mco-trx1-concentrix-pe1
+    description: mco-trx1-concentrix-pe1
+  - ip_address: 10.199.0.155
+    peer_group: RR_PEERS
+    peer: mco-trx1-concentrix-pe2
+    description: mco-trx1-concentrix-pe2
+  - ip_address: 10.199.0.150
+    peer_group: RR_PEERS
+    peer: oma-trx1-sitel-pe1
+    description: oma-trx1-sitel-pe1
+  - ip_address: 10.199.0.150
+    peer_group: RR_PEERS
+    peer: oma-trx1-sitel-pe2
+    description: oma-trx1-sitel-pe2
+  - ip_address: 10.199.0.20
+    peer_group: RR_PEERS
+    peer: phx-trx1-a2e-pe1
+    description: phx-trx1-a2e-pe1
+  - ip_address: 10.199.0.21
+    peer_group: RR_PEERS
+    peer: phx-trx1-dsvc-pe2
+    description: phx-trx1-dsvc-pe2
+  - ip_address: 10.199.0.142
+    peer_group: RR_PEERS
+    peer: slc-trx1-telepf-pe1
+    description: slc-trx1-telepf-pe1
+  - ip_address: 10.199.0.143
+    peer_group: RR_PEERS
+    peer: slc-trx1-telepf-pe2
+    description: slc-trx1-telepf-pe2
+  - ip_address: 10.199.0.42
+    peer_group: RR_PEERS
+    peer: tpa-trx1-comb2n-pe1
+    description: tpa-trx1-comb2n-pe1
+  - ip_address: 10.199.0.43
+    peer_group: RR_PEERS
+    peer: tpa-trx1-comb2n-pe2
+    description: tpa-trx1-comb2n-pe2
+  - ip_address: 10.199.0.44
+    peer_group: RR_PEERS
+    peer: tpa-trx1-cra2s-pe1
+    description: tpa-trx1-cra2s-pe1
+  - ip_address: 10.199.0.45
+    peer_group: RR_PEERS
+    peer: tpa-trx1-cra2s-pe2
+    description: tpa-trx1-cra2s-pe2
+  - ip_address: 10.199.0.38
+    peer_group: RR-OVERLAY-PEERS
+    peer: DFW-TRX1-DALEQ-RR1
+    description: DFW-TRX1-DALEQ-RR1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: none
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: MGMT
+  ip_routing: false
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: MGMT
+  ip_address: 10.9.181.16/24
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: MGMT
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+snmp_server:
+  engine_ids:
+    local: ee45846c429dbc7db9303e8078f5721cc96d9d49
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: ee45846c429dbc7db9303e8078f5721cc96d9d49
+    auth: sha
+    auth_passphrase: 11b6ffbebf9f73e9002da7e9f25d9f280b53690e
+    priv: aes
+    priv_passphrase: 976ccf92c4917074fdb208854afe212b
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: ee45846c429dbc7db9303e8078f5721cc96d9d49
+    auth: sha
+    auth_passphrase: 6a1730250c15c6250ea06c530bb0584a1db7e969
+    priv: aes
+    priv_passphrase: eabeb49a6542353007a262ba07d7b3cd
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: ee45846c429dbc7db9303e8078f5721cc96d9d49
+    auth: sha
+    auth_passphrase: 777904697d40d031f4d29b2352cdb6fbd15edcea
+    priv: aes
+    priv_passphrase: b140439af84a29361c3c7d1f440cd908
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: ee45846c429dbc7db9303e8078f5721cc96d9d49
+    auth: sha
+    auth_passphrase: 3c8c83468c4a4adb1487ab44dd69ba8a9e022307
+    priv: aes
+    priv_passphrase: fd5bd1b47b04ffabd5c46ea293cc6cc9
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: IAD
+  local_interfaces:
+  - name: Management1
+    vrf: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: MPLS_Overlay_peering
+  shutdown: false
+  ip_address: 10.199.0.39/32
+  ospf_area: 0.0.0.0
+  mpls:
+    ldp:
+      interface: true
+router_ospf:
+  process_ids:
+  - id: 64800
+    passive_interface_default: false
+    router_id: 10.199.0.39
+    max_lsa: 0
+    no_passive_interfaces: null
+    bfd_enable: true
+    auto_cost_reference_bandwidth: 1000000
+mpls:
+  ip: true
+  ldp:
+    interface_disabled_default: false
+    router_id: interface Loopback0
+    shutdown: false
+    transport_address_interface: null
+router_bfd:
+  multihop:
+    interval: 1000
+    min_rx: 1000
+    multiplier: 3
+metadata:
+  platform: 7280R3
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
+ip_community_lists:
+- name: DA2_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64811:11233
+- name: DC21_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64813:13233
+- name: PE1
+  entries:
+  - action: permit
+    regexp: (.*):1_
+- name: PE2
+  entries:
+  - action: permit
+    regexp: (.*):2_
+- name: POLICY_LP120
+  entries:
+  - action: permit
+    regexp: (.*):412
+- name: POLICY_LP150
+  entries:
+  - action: permit
+    regexp: (.*):415
+- name: POLICY_LP170
+  entries:
+  - action: permit
+    regexp: (.*):417
+- name: POLICY_LP180
+  entries:
+  - action: permit
+    regexp: (.*):418
+- name: POLICY_LP190_OVERRIDE
+  entries:
+  - action: permit
+    regexp: (.*):419
+- name: POLICY_LP20_BLEED
+  entries:
+  - action: permit
+    regexp: (.*):410

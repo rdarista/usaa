@@ -1,0 +1,75 @@
+---
+eos_cli: |-
+  !
+  {{MAC_SEC}}
+  !
+  {{VRF_DEFINITION}}
+  !
+  vrf instance IDTN
+  !
+  ip routing vrf IDTN
+  !
+  {{INTERFACE_CONFIG}}
+  !
+  route-map RO_IDTN_BGP_POLICY_IN permit 20
+    match community POLICY_LP190_OVERRIDE
+    set local-preference 190
+  route-map RO_IDTN_BGP_POLICY_IN permit 30
+    match community POLICY_LP120
+    set local-preference 120
+  route-map RO_IDTN_BGP_POLICY_IN permit 40
+    match community POLICY_LP150
+    set local-preference 150
+  route-map RO_IDTN_BGP_POLICY_IN permit 50
+    match community POLICY_LP170
+    set local-preference 170
+  route-map RO_IDTN_BGP_POLICY_IN permit 60
+    match community POLICY_LP180
+    set local-preference 180
+  route-map RO_IDTN_BGP_POLICY_IN permit 70
+    match community PE1
+    set local-preference 120
+  route-map RO_IDTN_BGP_POLICY_IN permit 80
+  !
+  route-map RO_IDTN_BGP_POLICY_OUT permit 10
+    set community 64800:{% if 'pe1' in inventory_hostname %}1{% elif 'pe2' in inventory_hostname %}2{% else %}{% endif %} additive
+  !
+  {{ROUTER_BGP_DEFAULTS}}
+    neighbor PE_CE_IDTN peer group
+    neighbor PE_CE_IDTN remote-as {{vrf_idtn.remote_as}}
+    neighbor PE_CE_IDTN bfd
+    neighbor PE_CE_IDTN route-map RO_IDTN_BGP_POLICY_IN in
+    neighbor PE_CE_IDTN route-map RO_IDTN_BGP_POLICY_OUT out
+    neighbor PE_CE_IDTN password 7 M6Lwa/sjANTxFGoc6AZyvA==
+    neighbor PE_CE_IDTN send-community
+    {{ROUTER_BGP_OB1_PG}}
+    {{ROUTER_BGP_USUNT1_PG}}
+    {{ROUTER_BGP_USX1_PG}}
+    {{ROUTER_BGP_RR_PG}}
+    !
+    {{ROUTER_BGP_ADR_FAMILY}}
+    address-family ipv4
+    neighbor PE_CE_IDTN activate
+    !
+    vrf IDTN
+    rd {{Loopback0}}:990
+    route-target import vpn-ipv4 64526:990
+    route-target import vpn-ipv4 64689:990
+    route-target import vpn-ipv4 64753:990
+    route-target import vpn-ipv4 64800:990
+    route-target import vpn-ipv4 64811:990
+    route-target import vpn-ipv4 65425:990
+    route-target export vpn-ipv4 64800:990
+    router-id {{Loopback0}}
+    neighbor {{vrf_idtn.pe_ce_n1}} peer group PE_CE_IDTN
+    neighbor {{vrf_idtn.pe_ce_n1}} description TPA-TSC1H01-CRA02S-N1:IDTN
+    neighbor {{vrf_idtn.pe_ce_n2}} peer group PE_CE_IDTN
+    neighbor {{vrf_idtn.pe_ce_n2}} description TPA-TSC1H01-CRA02S-N2:IDTN
+    !
+    {{ROUTER_BGP_OB1_VRF}}
+    !
+    {{ROUTER_BGP_USUNT1_VRF}}
+    !
+    {{ROUTER_BGP_USX1_VRF}}
+  !
+  {{MGMT_DEFAULTS}}

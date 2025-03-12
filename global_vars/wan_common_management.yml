@@ -1,0 +1,590 @@
+############################################################
+# BASIC
+############################################################
+
+custom_structured_configuration_hostname: "{{ inventory_hostname | upper }}"
+# hostname: "{{ inventory_hostname | upper }}"
+
+service_routing_protocols_model: multi-agent
+
+# TODO: Do we want Ethernet ports shutdown by default?
+interface_defaults:
+  ethernet:
+    shutdown: true
+  mtu: 9214
+
+# Timezone per datacenter
+timezone: CST6CDT
+
+# Legal Banners
+banners:
+  login: |
+    ******************************WARNING************************************
+    This system is for authorized users only. This, and any other sessions,
+    can and will be monitored to determine whether or not it is being used
+    by an authorized user.
+
+    By logging into this system, you are consenting to such monitoring, and
+    are advised that the system administrators retain the right to use any
+    recorded session as evidence of criminal activity, if such activity is
+    monitored.
+    ******************************WARNING************************************
+    EOF
+
+  motd:
+
+# Standard managed prompt
+#prompt: "%H%v[%D{%H:%M:%S}]%P"
+
+# Custom Aliases
+aliases: |
+  alias c bash clear
+
+############################################################
+# MANAGEMENT SERVICES
+############################################################
+
+ip_domain_lookup:
+  source_interfaces:
+    - name: "{{ mgmt_interface }}"
+      vrf: "{{ mgmt_interface_vrf }}"
+
+dns_domain: usaa.com
+
+name_server:
+  source:
+    vrf: "{{ mgmt_interface_vrf }}"
+  nodes:
+  - 10.136.128.100 # COLO Test Primary
+  - 10.231.108.100 # COLO Test Secondary
+  - 10.0.255.100
+
+ntp:
+  servers:
+  - name: 10.136.128.253 # COLO Test 1
+    vrf: "{{ mgmt_interface_vrf }}"
+    local_interface: "{{ mgmt_interface }}"
+    key: 10
+  - name: 10.136.128.254 # COLO Test 2
+    vrf: "{{ mgmt_interface_vrf }}"
+    local_interface: "{{ mgmt_interface }}"
+    key: 10
+  - name: 10.0.16.254 # COLO Test 3
+    vrf: "{{ mgmt_interface_vrf }}"
+    local_interface: "{{ mgmt_interface }}"
+    key: 10
+  # - name: 10.0.0.253
+  #   vrf: "{{ mgmt_interface_vrf }}"
+  #   local_interface: "{{ mgmt_interface }}"
+  #   key: 10
+  #   # preferred: true
+  # - name: 10.0.0.254
+  #   vrf: "{{ mgmt_interface_vrf }}"
+  #   local_interface: "{{ mgmt_interface }}"
+  #   key: 10
+  # - name: 10.0.0.255
+  #   vrf: "{{ mgmt_interface_vrf }}"
+  #   local_interface: "{{ mgmt_interface }}"
+  #   key: 10
+  authenticate: true
+  authentication_keys:
+  - id: 10
+    hash_algorithm: md5
+    key: 0721350D7E4F32560E
+    key_type: 7
+  trusted_keys: "10"
+
+############################################################
+# AUTHENTICATION
+############################################################
+
+
+# # Aboot password
+# boot:
+#   secret:
+#     hash_algorithm: sha512
+#     key: "$6$xzFzRipPR/MYRbHt$wCzKHAkC2GNaNUnzGVv2T3V/8Hbi2vmCLn.IJl8F6JS2k753FSUVHqPKGDX3lRTHlfo0s1iJvKtu9weY23zzs1"
+
+# AAA Root
+# aaa_root:
+#   secret:
+#     sha512_password: "$6$V48GnSGw9xSecXh6$usRtZW/pZWxmsN3DAg8niqiwnzMDwmHrT26UTkKcpYQHv3f2wqWHP5r11wTfrOAwj1V7AN59tQ0Z3QKyCYADk0"
+
+# Local users
+custom_structured_configuration_local_users:
+  - name: admin
+    disabled: True
+    privilege: 1
+    sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+  - name: netsupport
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+
+aaa_authentication:
+  login:
+    default: group tacacs+ local
+    # console: none
+  enable:
+    default: group tacacs+ local
+
+aaa_authorization:
+  exec:
+    default: group tacacs+ local
+  config_commands: true
+  serial_console: true
+  commands:
+    # all_default: group tacacs+ local
+    privilege:
+      - level: 15
+        default: group tacacs+ local
+
+aaa_accounting:
+  exec:
+    default:
+      type: start-stop
+      group: tacacs+
+  commands:
+    default:
+      - commands: 15
+        type: stop-only
+        group: tacacs+
+
+# TODO: Validate key type 7 and single connection
+tacacs_servers:
+  hosts:
+    - host: prodauth.usaa.com
+      vrf: "{{ mgmt_interface_vrf }}"
+      key: 06033519661C5F3A530F251F3C
+
+
+ip_tacacs_source_interfaces:
+  - name: "{{ mgmt_interface }}"
+    vrf: "{{ mgmt_interface_vrf }}"
+
+############################################################
+# MANAGEMENT ACCESS
+############################################################
+
+# management_ssh:
+#   access_groups:
+#     - name: SSH_ACCESS
+#       vrf: "{{ mgmt_interface_vrf }}"
+#   idle_timeout: 10
+#   vrfs:
+#     - name: "{{ mgmt_interface_vrf }}"
+#       enable: true
+
+ip_ssh_client_source_interfaces:
+  - name: "{{ mgmt_interface }}"
+    vrf: "{{ mgmt_interface_vrf }}"
+
+management_security:
+  entropy_sources:
+    hardware: true
+  ssl_profiles:
+    - name: SSL_TLS_1_2
+      tls_versions: 1.2
+      cipher_list: HIGH:!NULL:!MD5:!ADH:!ANULL:!AECDH
+      certificate:
+        file: SSL_TLS_1_2.crt
+        key: SSL_TLS_1_2.key
+      trust_certificate:
+        certificates:
+         - SSL_TLS_1_2.crt
+
+management_api_gnmi:
+  provider: "eos-native"
+  transport:
+    grpc:
+      - name: default
+        ssl_profile: SSL_TLS_1_2
+        vrf: "{{ mgmt_interface_vrf }}"
+# management api http-commands
+#  protocol https ssl profile SSL_TLS_1_2
+
+custom_structured_configuration_management_api_http:
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+  enable_vrfs:
+    - name: "{{ mgmt_interface_vrf }}"
+
+############################################################
+# MONITORING
+############################################################
+
+daemon_terminattr:
+
+  # Address of the gRPC server on CloudVision, TCP 9910 is used on on-prem, TCP 443 is used on CV as a Service
+  cvaddrs: # For single cluster
+    - 10.139.16.173:9910  # CHANGEFORPROD
+    - 10.139.16.174:9910  # CHANGEFORPROD
+    - 10.139.16.175:9910  # CHANGEFORPROD
+    # - 10.158.11.41:9910
+
+  # Authentication scheme used to connect to CloudVision
+  cvauth:
+    method: token
+    token_file: "tmp/token"
+
+  # The default compression scheme when streaming to CloudVision is gzip since TerminAttr 1.6.1 and CVP 2019.1.0. There is no need to change the compression scheme.
+  # Name of the VRF to use to connect to CloudVision
+  cvvrf: "{{ mgmt_interface_vrf }}"
+
+  # Exclude paths from Sysdb on the ingest side
+  ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"  # CHANGEFORPROD
+
+  # Exclude paths from the shared memory table
+  smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
+
+  # Enable log file collection; /var/log/messages is streamed by default if no path is set.
+  taillogs: "/var/log/messages"  # CHANGEFORPROD
+
+########## prometheus ##########
+# daemons:
+#   - name: ocprometheus
+#     exec: exec /sbin/ip netns exec ns-MGMT /mnt/flash/ocprometheus -config /mnt/flash/ocprometheus.yml -addr localhost:6030 -listenaddr :8081 -url /metrics -certfile /persist/secure/ssl/certs/SSL_TLS_1_2.crt -keyfile /persist/secure/ssl/keys/SSL_TLS_1_2.key
+#     enabled: true
+
+########## prometheus #########
+
+
+event_monitor:
+  enabled: true
+
+load_interval:
+  default: 30
+
+queue_monitor_length:
+  # "enabled: true" will be required in AVD4.0. In AVD3.x default is true as long as queue_monitor_length is defined and not None
+  enabled: true
+
+queue_monitor_streaming:
+  enable: true
+
+logging:
+  console: "disabled"
+  buffered:
+    size: 10000
+  trap: "debugging"
+  format:
+    timestamp: high-resolution
+  vrfs:
+    - name: MGMT
+      source_interface: "{{ mgmt_interface }}"
+      hosts:
+        # Splunk - supposed to retire by 12/31/23
+        # - name: 10.0.249.172
+        #   protocol: udp
+        #   ports:
+        #     - 9107
+        # ELK
+        # - name: log.usaa.com
+        #   protocol: udp
+        #   ports:
+        #     - 7036
+        - name: routingelk-ingest.usaa.com
+          protocol: udp
+          ports:
+            - 8012
+
+sflow:
+  sample: 65536
+  polling_interval: 5
+  vrfs:
+    - name: MGMT
+      source_interface: "{{ mgmt_interface }}"
+  # Stream sflow to CloudVision
+  # destinations:
+  #   - destination: 127.0.0.1
+  # source_interface: Loopback0
+  run: true
+
+
+
+snmp_settings:
+  compute_local_engineid: true
+  compute_local_engineid_source: hostname_and_ip
+#  compute_local_engineid_source: system_mac
+  compute_v3_user_localized_key: true
+  contact: nsho_provider_networks
+  # contact: http://go/acc-lan
+  views:
+    - name: READALL
+      MIB_family_name: ISO
+      included: true
+  groups:
+#  - name: CAPC
+#    version: v3
+#    authentication: auth
+#    read: READALL
+    # write: < write_view >
+    # notify: < notify_view >
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  hosts:
+    - host: 10.139.4.41
+      vrf: "{{ mgmt_interface_vrf }}"
+      version: 3
+      users:
+        - username: NETSVC_SPECTRUM
+          authentication_level: priv 
+    - host: 10.139.4.44
+      vrf: "{{ mgmt_interface_vrf }}"
+      version: 3
+      users:
+        - username: NETSVC_SPECTRUM
+          authentication_level: priv
+## TODO investigate whether these SNMP servers are required or not
+#    - host: proddxnspv1lsat.usaa.com
+#      vrf: "{{ mgmt_interface_vrf }}"
+#      version: 3
+#      users:
+#        - username: sdadmin
+#          authentication_level: auth
+#    - host: proddxnspv2lsat.usaa.com
+#      vrf: "{{ mgmt_interface_vrf }}"
+#      version: 3
+#      # community: < community_name >÷
+#      users:
+#        - username: sdadmin
+#          authentication_level: auth
+  traps:
+    # Enable or disable all snmp-traps
+    enable: true
+    # Enable or disable specific snmp-traps and their sub_traps
+    snmp_traps:
+    # TODO: Backward transtion only on spines
+      - name: bgp backward-transition
+        enabled: false
+      - name: bridge
+        enabled: false
+  vrfs:
+    - name: default
+      enable: false
+    - name: MGMT
+      enable: true
+  users:
+    - name: NETSVC_NETBRAIN_TEST
+      group: READONLY
+      version: v3
+      auth: sha
+      auth_passphrase: "{{ netbrain_snmp_auth_test }}"
+      priv: aes
+      priv_passphrase: "{{ netbrain_snmp_priv_test }}"
+    - name: NETSVC_NETBRAIN
+      group: READONLY
+      version: v3
+      auth: sha
+      auth_passphrase: "{{ netbrain_snmp_auth_prod }}"
+      priv: aes
+      priv_passphrase: "{{ netbrain_snmp_priv_prod }}"
+    - name: SERVICENOW
+      group: READONLY
+      version: v3
+      auth: sha
+      auth_passphrase: "{{ snow_snmp_auth_prod }}"
+      priv: aes
+      priv_passphrase: "{{ snow_snmp_priv_prod }}"
+    - name: NETSVC_SPECTRUM
+      group: READONLY
+      version: v3
+      auth: sha
+      auth_passphrase: "{{ spectrum_snmp_auth_prod }}"
+      priv: aes
+      priv_passphrase: "{{ spectrum_snmp_priv_prod }}"
+    # - name: sdadmin
+    #   group: CAPC
+    #   version: v3
+    #   auth: md5
+    #   auth_passphrase: "{{ sdadmin_snmp_auth_prod }}"
+
+
+# TODO: Different configs on leaf versus spine
+custom_structured_configuration_snmp_server:
+  # TODO: Need a strategy to set location
+  location: "{{ (inventory_hostname)[:3] | upper }}"
+  local_interfaces:
+    - name: "{{ mgmt_interface }}"
+      vrf: "{{ mgmt_interface_vrf }}"
+
+custom_structured_configuration_vlans:
+- id: 1
+  name: Default
+  state: suspend
+
+#router_bfd:
+#  interval: 1000
+#  multihop:
+#    interval: 1000
+#    minrx: 1000
+#    multiplier: 3
+
+arp:
+  # persistent:
+  aging:
+    timeout_default: 900
+
+# eos_cli: |
+#   management ssh
+#     authentication mode password
+#   !
+#   arp aging timeout default 900
+
+custom_structured_configuration_ip_access_lists:
+  - name: SSH_ACCESS
+    entries:
+      - sequence: 10
+        action: permit
+        protocol: tcp
+        source: 10.0.0.0/8
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 20
+        action: permit
+        protocol: tcp
+        source: 172.16.0.0/12
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 30
+        action: permit
+        protocol: tcp
+        source: 167.24.0.0/16
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 40
+        action: permit
+        protocol: tcp
+        source: 192.168.0.0/16
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 50
+        action: permit
+        protocol: tcp
+        source: 198.148.150.0/24
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+  # - name: ACL_RO_TRAFFIC_INBOUND
+  #   entries:
+  #     - sequence: 10
+  #       action: permit
+  #       protocol: ip
+  #       source: 10.0.0.0/8
+  #       destination: any
+  #     - sequence: 20
+  #       action: deny
+  #       protocol: ip
+  #       source: any
+  #       destination: any
+
+custom_structured_configuration_prefix_lists:
+  - name: PL_DEFAULT
+    sequence_numbers:
+      - sequence: 10
+        action: permit 0.0.0.0/0
+  - name: PL_RFC1918
+    sequence_numbers:
+      - sequence: 20
+        action: permit 10.0.0.0/8
+      - sequence: 30
+        action: permit 172.16.0.0/12
+      - sequence: 40
+        action: permit 192.168.0.0/16
+
+vlans:
+  - id: 1
+    name: Default
+    state: suspend
+
+# management_ssh:
+#   access_groups:
+#     - name: SSH_ACCESS
+#       vrf: MGMT
+#   idle_timeout: 10
+#   authentication:
+#     protocols:
+#       - password
+# ip tacacs vrf MGMT source-interface Management1
+
+custom_structured_configuration_ip_community_lists:
+  - name:  DA2_DEFAULT_COMM
+    entries:
+      - action: permit
+        communities: [64811:11233]
+  - name:  DC21_DEFAULT_COMM
+    entries:
+      - action: permit
+        communities: [64813:13233]
+  - name: PE1
+    entries:
+      - action: permit
+        regexp: (.*):1_
+  - name: PE2
+    entries:
+      - action: permit
+        regexp: (.*):2_
+  - name: POLICY_LP120
+    entries:
+      - action: permit
+        regexp: (.*):412
+  - name: POLICY_LP150
+    entries:
+      - action: permit
+        regexp: (.*):415
+  - name: POLICY_LP170
+    entries:
+      - action: permit
+        regexp: (.*):417
+  - name: POLICY_LP180
+    entries:
+      - action: permit
+        regexp: (.*):418
+  - name: POLICY_LP190_OVERRIDE
+    entries:
+      - action: permit
+        regexp: (.*):419
+  - name: POLICY_LP20_BLEED
+    entries:
+      - action: permit
+        regexp: (.*):410
+
+
+# mac_security:
+#   profiles:
+#     - name: MKA_AES_256
+#       cipher: aes256-gcm
+#       connection_keys:
+#         - id: 0100000000000000000000000000000000000000000000000000000000000000
+#           key: 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+#       mka:
+#         key_server_priority: 255
+#       sci: true    
+
+router_ospf:
+  process_ids:
+    - id: 64800
+      router_id: "{{ Loopback0 }}"
+      auto_cost_reference_bandwidth: 1000000
+      bfd_enable: true
+      max_lsa: 0
+
+# ip route vrf MGMT 0.0.0.0/0 {{management_gateway}}
+static_routes:
+  - vrf: MGMT
+    destination_address_prefix: 0.0.0.0/0
+    gateway: "{{ management_gateway }}"
+  
+custom_structured_configuration_mpls:
+    ip: true
+    ldp:
+      interface_disabled_default: false
+      router_id: interface Loopback0
+      shutdown: false
+      transport_address_interface: null

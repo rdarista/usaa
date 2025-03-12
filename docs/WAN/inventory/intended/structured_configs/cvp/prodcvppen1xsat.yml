@@ -1,0 +1,101 @@
+---
+cvp_devices:
+  - fqdn: den-trx1-ttcnt-pe1
+    serialNumber: "HBG241300U2"
+    parentContainerName: VEN0106_DEN_PE_ROUTERS
+    configlets:
+      - AVD_den-trx1-ttcnt-pe1
+  - fqdn: den-trx1-ttcnt-pe2
+    serialNumber: "HBG241300TZ"
+    parentContainerName: VEN0106_DEN_PE_ROUTERS
+    configlets:
+      - AVD_den-trx1-ttcnt-pe2
+  - fqdn: dfw-trx1-telepf-pe1
+    serialNumber: "HBG243702EA"
+    parentContainerName: VEN0105_DFW_PE_ROUTERS
+    configlets:
+      - AVD_dfw-trx1-telepf-pe1
+  - fqdn: dfw-trx1-telepf-pe2
+    serialNumber: "JPA2340P4YX"
+    parentContainerName: VEN0105_DFW_PE_ROUTERS
+    configlets:
+      - AVD_dfw-trx1-telepf-pe2
+  - fqdn: mco-trx1-concentrix-pe1
+    serialNumber: "JPA2410P26A"
+    parentContainerName: VEN0192_MCO_PE_ROUTERS
+    configlets:
+      - AVD_mco-trx1-concentrix-pe1
+  - fqdn: mco-trx1-concentrix-pe2
+    serialNumber: "JPA2410P25D"
+    parentContainerName: VEN0192_MCO_PE_ROUTERS
+    configlets:
+      - AVD_mco-trx1-concentrix-pe2
+  - fqdn: oma-trx1-sitel-pe1
+    serialNumber: "JPA2410P26V"
+    parentContainerName: VEN0103_OMA_PE_ROUTERS
+    configlets:
+      - AVD_oma-trx1-sitel-pe1
+  - fqdn: oma-trx1-sitel-pe2
+    serialNumber: "JPA2410P26Y"
+    parentContainerName: VEN0103_OMA_PE_ROUTERS
+    configlets:
+      - AVD_oma-trx1-sitel-pe2
+cvp_containers:
+  3PCC:
+    parentContainerName: Tenant
+  CONCENTRIX:
+    parentContainerName: 3PCC
+  LAX:
+    parentContainerName: TEST_3PCC
+  LAX_PE_ROUTERS:
+    parentContainerName: LAX
+  QUALFON:
+    parentContainerName: 3PCC
+  SITEL:
+    parentContainerName: 3PCC
+  TELEPERFORMANCE:
+    parentContainerName: 3PCC
+  TELETECH:
+    parentContainerName: 3PCC
+  TEST_3PCC:
+    parentContainerName: 3PCC
+  VEN0103_DFW:
+    parentContainerName: SITEL
+  VEN0103_DFW_PE_ROUTERS:
+    parentContainerName: VEN0103_DFW
+  VEN0103_OMA:
+    parentContainerName: SITEL
+  VEN0103_OMA_PE_ROUTERS:
+    parentContainerName: VEN0103_OMA
+  VEN0105_DFW:
+    parentContainerName: TELEPERFORMANCE
+  VEN0105_DFW_PE_ROUTERS:
+    parentContainerName: VEN0105_DFW
+  VEN0105_SLC:
+    parentContainerName: TELEPERFORMANCE
+  VEN0105_SLC_PE_ROUTERS:
+    parentContainerName: VEN0105_SLC
+  VEN0106_DEN:
+    parentContainerName: TELETECH
+  VEN0106_DEN_PE_ROUTERS:
+    parentContainerName: VEN0106_DEN
+  VEN0106_IAD:
+    parentContainerName: TELETECH
+  VEN0106_IAD_PE_ROUTERS:
+    parentContainerName: VEN0106_IAD
+  VEN0189_DEN:
+    parentContainerName: QUALFON
+  VEN0189_DEN_PE_ROUTERS:
+    parentContainerName: VEN0189_DEN
+  VEN0189_DTW:
+    parentContainerName: QUALFON
+  VEN0189_DTW_PE_ROUTERS:
+    parentContainerName: VEN0189_DTW
+  VEN0192_CVG:
+    parentContainerName: CONCENTRIX
+  VEN0192_CVG_PE_ROUTERS:
+    parentContainerName: VEN0192_CVG
+  VEN0192_MCO:
+    parentContainerName: CONCENTRIX
+  VEN0192_MCO_PE_ROUTERS:
+    parentContainerName: VEN0192_MCO

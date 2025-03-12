@@ -1,0 +1,84 @@
+---
+fabric_name: MPLS_FABRIC
+
+node_type_keys:
+  - key: p
+    type: p
+    mpls_lsr: true
+    connected_endpoints: true
+    default_mpls_overlay_role: none
+    default_overlay_routing_protocol: ibgp
+    default_underlay_routing_protocol: ospf-ldp
+    ip_addressing:
+      router_id: router_id.j2
+
+  - key: pe
+    type: pe
+    mpls_lsr: true
+    # mpls_ldp: false
+    connected_endpoints: true
+    default_mpls_overlay_role: client
+    network_services:
+      l1: true
+      l2: true
+      l3: true
+    default_overlay_routing_protocol: ibgp
+    default_underlay_routing_protocol: ospf-ldp
+    default_overlay_address_families:
+      - vpn-ipv4
+    ip_addressing:
+      router_id: router_id.j2
+
+  - key: rr
+    type: rr
+    mpls_lsr: true
+    default_mpls_overlay_role: server
+    default_evpn_role: none
+    default_overlay_routing_protocol: ibgp
+    default_underlay_routing_protocol: ospf-ldp
+    default_overlay_address_families:
+      - vpn-ipv4
+    # ip_addressing:
+    #   router_id: router_id.j2
+
+underlay_routing_protocol: ospf-ldp
+overlay_routing_protocol: ibgp
+
+underlay_ospf_process_id: 64800
+underlay_ospf_bfd_enable: true
+underlay_ospf_max_lsa: 0
+underlay_ospf_authentication: #TODO DEBUG this
+  enabled: true
+  message_digest_keys:
+    - id: 1
+      hash_algorithm: "md5"
+      key: "test"
+custom_structured_configuration_router_ospf:
+  process_ids:
+  - id:  64800
+    auto_cost_reference_bandwidth: 1000000
+    passive_interface_default: false
+    no_passive_interfaces: null
+
+bfd_multihop:
+  interval: 1000
+  min_rx: 1000
+  multiplier: 3
+
+bgp_as: 64800
+bgp_peer_groups:
+  mpls_overlay_peers:
+    name: RR_PEERS
+    password: "{{vault.bgp_peerings.mpls_overlay_peers.password}}"
+  rr_overlay_peers:
+    remote-as: null
+    update-source: null
+#    # password: "{{vault.bgp_peerings.rr_overlay_peers.password}}"
+
+switchport_default:
+  mode: routed
+
+custom_structured_configuration_vlans:
+- id: 1
+  name: Default
+  state: suspend

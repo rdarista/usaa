@@ -1,0 +1,54 @@
+# ROUTER_BGP_ADR_FAMILY: |-
+#   address-family ipv4
+#     neighbor PE_CE_OB1 activate
+#     neighbor PE_CE_USUNT1 activate
+#     neighbor PE_CE_USX1 activate
+#     !
+#     address-family vpn-ipv4
+#     neighbor RR_PEERS activate
+#     no neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+
+# ROUTER_BGP_DEFAULTS: |-
+#   router bgp 64800
+#     router-id {{Loopback0}}
+#     update wait-install
+#     no bgp default ipv4-unicast
+#     distance bgp 20 200 200
+#     maximum-paths 2 ecmp 2
+#     bgp bestpath tie-break router-id
+
+# ROUTER_BGP_OB1_PG: |-
+#   neighbor PE_CE_OB1 peer group
+#     neighbor PE_CE_OB1 remote-as {{vrf_ob1.remote_as}}
+#     neighbor PE_CE_OB1 bfd
+#     neighbor PE_CE_OB1 route-map RM_CE_OB1_IN in
+#     neighbor PE_CE_OB1 route-map RM_CE_OB1_OUT out
+#     neighbor PE_CE_OB1 password 7 LrxdPchq0LiOI2Jz39Pe5Q==
+#     neighbor PE_CE_OB1 send-community
+
+# ROUTER_BGP_OB1_VRF: |-
+#   vrf OB1
+#     rd {{Loopback0}}:900
+#     route-target import vpn-ipv4 64800:900
+#     route-target import vpn-ipv4 64801:900101
+#     route-target export vpn-ipv4 64800:900
+#     router-id {{Loopback0}}
+#     maximum-paths 2 ecmp 2
+#     neighbor {{vrf_ob1.pe_ce_n1}} peer group PE_CE_OB1
+#     neighbor {{vrf_ob1.pe_ce_n1}} description OB1-N1:OB1
+#     neighbor {{vrf_ob1.pe_ce_n2}} peer group PE_CE_OB1
+#     neighbor {{vrf_ob1.pe_ce_n2}} description OB1-N2:OB1
+
+# ROUTER_BGP_RR_PG: |-
+#   neighbor RR_PEERS peer group
+#     neighbor RR_PEERS remote-as 64800
+#     neighbor RR_PEERS transport pmtud
+#     neighbor RR_PEERS update-source Loopback0
+#     neighbor RR_PEERS bfd
+#     neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==
+#     neighbor RR_PEERS send-community standard extended
+#     neighbor RR_PEERS maximum-routes 0
+#     neighbor 10.199.0.38 peer group RR_PEERS
+#     neighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1
+#     neighbor 10.199.0.39 peer group RR_PEERS
+#     neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1

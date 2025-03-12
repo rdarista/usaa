@@ -1,0 +1,17 @@
+---
+custom_group_configuration_prefix_lists:
+  - name: VENDOR_PFX
+    sequence_numbers:
+      - sequence: 10
+        action: permit 155.90.249.0/24 le 32
+      - sequence: 20
+        action: permit 155.90.251.0/25 le 32
+      - sequence: 30
+        action: permit 155.90.251.128/27 le 32
+
+# This is so we can have a staging local user so we don't have to break glass on the netsupport if we need to console to troubleshoot. Remove this once we have verified TACACS is working.
+custom_group_configuration_local_users:
+  - name: staging
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$899R9c8bEgauDegR$r6qvl1zV7tYJDSwyqgcCebwewDwB4osHpXyO99V3P4M.rzVeQX9YvJfMVtlU5JlYW19rnP4liIF5uWGx.xq9c1

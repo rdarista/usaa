@@ -1,0 +1,487 @@
+---
+
+ROUTER_BGP_PE_CE_DC_OB_SOB_DCX1_PG: |-
+   neighbor PE_CE_DC_OB_SOB_DCX1 peer group
+   neighbor PE_CE_DC_OB_SOB_DCX1 remote-as 65140
+   neighbor PE_CE_DC_OB_SOB_DCX1 bfd
+   neighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_OB_SOB_DCX1 password 7 kKXxGiEu6TVyilumLqEW/A==
+   neighbor PE_CE_DC_OB_SOB_DCX1 send-community
+
+ROUTER_BGP_PE_CE_DC_PCI_SE_CCHYBRID_PG: |-
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID peer group
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID bfd
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID password 7 6eausfeHuNQGCcxKUsAFPw==
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID send-community
+
+ROUTER_BGP_PE_CE_DC_PCI_SE_CCISSUE_PG: |-
+   neighbor PE_CE_DC_PCI_SE_CCISSUE peer group
+   neighbor PE_CE_DC_PCI_SE_CCISSUE remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCISSUE bfd
+   neighbor PE_CE_DC_PCI_SE_CCISSUE route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCISSUE route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCISSUE password 7 qtf3UzE4xZNeuFGd+3xb4g==
+   neighbor PE_CE_DC_PCI_SE_CCISSUE send-community
+
+ROUTER_BGP_PE_CE_DC_PCI_SE_CCMERCH_PG: |-
+   neighbor PE_CE_DC_PCI_SE_CCMERCH peer group
+   neighbor PE_CE_DC_PCI_SE_CCMERCH remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCMERCH bfd
+   neighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCMERCH password 7 6MpbKgmZazHWDDoj3OyS6g==
+   neighbor PE_CE_DC_PCI_SE_CCMERCH send-community
+
+ROUTER_BGP_PE_CE_DC_PCI_SE_DCX1_PG: |-
+   neighbor PE_CE_DC_PCI_SE_DCX1 peer group
+   neighbor PE_CE_DC_PCI_SE_DCX1 remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_DCX1 bfd
+   neighbor PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_DCX1 password 7 GFznB+vHUnXO8PBEZxEMaw==
+   neighbor PE_CE_DC_PCI_SE_DCX1 send-community
+
+ROUTER_BGP_PE_CE_DC_PCI_SE_PEN1_PG: |-
+   neighbor PE_CE_DC_PCI_SE_PEN1 peer group
+   neighbor PE_CE_DC_PCI_SE_PEN1 remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_PEN1 bfd
+   neighbor PE_CE_DC_PCI_SE_PEN1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_PEN1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_PEN1 password 7 RNV9B6iVlRDUJlS1ePw3NA==
+   neighbor PE_CE_DC_PCI_SE_PEN1 send-community
+
+ROUTER_BGP_PE_CE_DC_PROD_SI_BUSINTEL_PG: |-
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL peer group
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL bfd
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL route-map RM_FILTERED_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL password 7 yUMUcnzcG+Z38KepecqVPg==
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL send-community
+
+ROUTER_BGP_PE_CE_DC_PROD_SI_DCX1_PG: |-
+   neighbor PE_CE_DC_PROD_SI_DCX1 peer group
+   neighbor PE_CE_DC_PROD_SI_DCX1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_DCX1 bfd
+   neighbor PE_CE_DC_PROD_SI_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_DCX1 password 7 1jAa9l2kLUpHINa0qKoB4Q==
+   neighbor PE_CE_DC_PROD_SI_DCX1 send-community
+
+ROUTER_BGP_PE_CE_DC_PROD_SI_DMZMEM1_PG: |-
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 peer group
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 bfd
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 password 7 TOwcrcsHO2k2BL+WS6y2gw==
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 send-community
+
+ROUTER_BGP_PE_CE_DC_PROD_SI_NCFDMZ_PG: |-
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ peer group
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ bfd
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ password 7 nDL2RDMDmbVlVbVI4SuueQ==
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ send-community
+
+ROUTER_BGP_PE_CE_DC_PROD_SI_USX1_PG: |-
+   neighbor PE_CE_DC_PROD_SI_USX1 peer group
+   neighbor PE_CE_DC_PROD_SI_USX1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_USX1 bfd
+   neighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_USX1 password 7 dN/55dGE6CJYDkJQAFCa7A==
+   neighbor PE_CE_DC_PROD_SI_USX1 send-community
+
+ROUTER_BGP_PE_CE_DC_TEST_ST_DCX1_PG: |-
+   neighbor PE_CE_DC_TEST_ST_DCX1 peer group
+   neighbor PE_CE_DC_TEST_ST_DCX1 remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_DCX1 bfd
+   neighbor PE_CE_DC_TEST_ST_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_DCX1 password 7 QOH18HsEBuGBmAPWI1fdJA==
+   neighbor PE_CE_DC_TEST_ST_DCX1 send-community
+
+ROUTER_BGP_PE_CE_DC_TEST_ST_IDTN_PG: |-
+   neighbor PE_CE_DC_TEST_ST_IDTN peer group
+   neighbor PE_CE_DC_TEST_ST_IDTN remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTN bfd
+   neighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTN password 7 1jIoYXF6cWpAQoBcqwbNtA==
+   neighbor PE_CE_DC_TEST_ST_IDTN send-community
+
+ROUTER_BGP_PE_CE_DC_TEST_ST_IDTNB2B_PG: |-
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B peer group
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B bfd
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B password 7 pugQyDfR4vWDCNsCFm/KgA==
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B send-community
+
+ROUTER_BGP_PE_CE_DC_TEST_ST_IDTNDX_PG: |-
+   neighbor PE_CE_DC_TEST_ST_IDTNDX peer group
+   neighbor PE_CE_DC_TEST_ST_IDTNDX remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTNDX bfd
+   neighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTNDX password 7 AIP6ztnNcrut2cZWEI7nlA==
+   neighbor PE_CE_DC_TEST_ST_IDTNDX send-community
+
+ROUTER_BGP_PE_CE_DC_USUNT1_PG: |-
+   neighbor PE_CE_DC_USUNT1 peer group
+   neighbor PE_CE_DC_USUNT1 remote-as 64754
+   neighbor PE_CE_DC_USUNT1 bfd
+   neighbor PE_CE_DC_USUNT1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_USUNT1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_USUNT1 password 7 MjQUte/1TRYAVx9cuhE6cw==
+   neighbor PE_CE_DC_USUNT1 send-community
+
+ROUTER_BGP_PE_CE_DC_USX1_PG: |-
+   neighbor PE_CE_DC_USX1 peer group
+   neighbor PE_CE_DC_USX1 remote-as 64754
+   neighbor PE_CE_DC_USX1 bfd
+   neighbor PE_CE_DC_USX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_USX1 route-map RM_FILTERED_TRUST_OUT out
+   neighbor PE_CE_DC_USX1 password 7 MqxgRjOvSJ/M0R7hEVqyrA==
+   neighbor PE_CE_DC_USX1 send-community
+
+ROUTER_RR_PEERS_PG: |-
+   neighbor RR_PEERS peer group
+   neighbor RR_PEERS remote-as 64800
+   neighbor RR_PEERS transport pmtud
+   neighbor RR_PEERS update-source Loopback0
+   neighbor RR_PEERS bfd
+   neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==
+   neighbor RR_PEERS send-community standard extended
+   neighbor RR_PEERS maximum-routes 0
+   neighbor 10.199.0.38 peer group RR_PEERS
+   neighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1
+   neighbor 10.199.0.39 peer group RR_PEERS
+   neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1
+   !
+
+ROUTER_BGP_ADR_FAMILY: |-
+   address-family ipv4
+      neighbor PE_CE_DC_OB_SOB_DCX1 activate
+      neighbor PE_CE_DC_PCI_SE_CCHYBRID activate
+      neighbor PE_CE_DC_PCI_SE_CCISSUE activate
+      neighbor PE_CE_DC_PCI_SE_CCMERCH activate
+      neighbor PE_CE_DC_PCI_SE_DCX1 activate
+      neighbor PE_CE_DC_PCI_SE_PEN1 activate
+      neighbor PE_CE_DC_PROD_SI_BUSINTEL activate
+      neighbor PE_CE_DC_PROD_SI_DCX1 activate
+      neighbor PE_CE_DC_PROD_SI_DMZMEM1 activate
+      neighbor PE_CE_DC_PROD_SI_NCFDMZ activate
+      neighbor PE_CE_DC_PROD_SI_USX1 activate
+      neighbor PE_CE_DC_TEST_ST_DCX1 activate
+      neighbor PE_CE_DC_TEST_ST_IDTN activate
+      neighbor PE_CE_DC_TEST_ST_IDTNB2B activate
+      neighbor PE_CE_DC_TEST_ST_IDTNDX activate
+      neighbor PE_CE_DC_USUNT1 activate
+      neighbor PE_CE_DC_USX1 activate
+   !
+   address-family vpn-ipv4
+      neighbor RR_PEERS activate
+   !
+
+ROUTER_BGP_BUSINTEL_VRF: |-
+   vrf BUSINTEL
+      rd 10.199.0.29:949
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:950
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:950
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:950
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90133
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:949
+      router-id 10.199.0.29
+      neighbor 10.64.0.15 peer group PE_CE_DC_PROD_SI_BUSINTEL
+      neighbor 10.64.0.15 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.35 peer group PE_CE_DC_PROD_SI_BUSINTEL
+      neighbor 10.64.0.35 description ATL-SI1-DC1-N2
+   !
+
+ROUTER_BGP_CCHYBRID_VRF: |-
+   vrf CCHYBRID
+      rd 10.199.0.29:453
+      route-target import vpn-ipv4 64692:453
+      route-target import vpn-ipv4 64800:453
+      route-target export vpn-ipv4 64800:453
+      router-id 10.199.0.29
+      neighbor 10.77.0.19 peer group PE_CE_DC_PCI_SE_CCHYBRID
+      neighbor 10.77.0.19 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.39 peer group PE_CE_DC_PCI_SE_CCHYBRID
+      neighbor 10.77.0.39 description ATL-SE1-DC1-N2
+   !
+
+ROUTER_BGP_CCISSUE_VRF: |-
+   vrf CCISSUE
+      rd 10.199.0.29:452
+      route-target import vpn-ipv4 64692:452
+      route-target import vpn-ipv4 64800:452
+      route-target export vpn-ipv4 64800:452
+      router-id 10.199.0.29
+      neighbor 10.77.0.15 peer group PE_CE_DC_PCI_SE_CCISSUE
+      neighbor 10.77.0.15 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.35 peer group PE_CE_DC_PCI_SE_CCISSUE
+      neighbor 10.77.0.35 description ATL-SE1-DC1-N2
+   !
+
+ROUTER_BGP_CCMERCH_VRF: |-
+   vrf CCMERCH
+      rd 10.199.0.29:451
+      route-target import vpn-ipv4 64692:451
+      route-target import vpn-ipv4 64800:451
+      route-target export vpn-ipv4 64800:451
+      router-id 10.199.0.29
+      neighbor 10.77.0.17 peer group PE_CE_DC_PCI_SE_CCMERCH
+      neighbor 10.77.0.17 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.37 peer group PE_CE_DC_PCI_SE_CCMERCH
+      neighbor 10.77.0.37 description ATL-SE1-DC1-N2
+   !
+
+ROUTER_BGP_DCX1_VRF: |-
+   vrf DCX1
+      rd 10.199.0.29:910
+      route-target import vpn-ipv4 64534:916
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64540:916
+      route-target import vpn-ipv4 64653:949
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64755:910
+      route-target import vpn-ipv4 64758:910
+      route-target import vpn-ipv4 64780:914
+      route-target import vpn-ipv4 64782:91401
+      route-target import vpn-ipv4 64782:91402
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90113
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:910
+      route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.64.0.11 peer group PE_CE_DC_PROD_SI_DCX1
+      neighbor 10.64.0.11 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.31 peer group PE_CE_DC_PROD_SI_DCX1
+      neighbor 10.64.0.31 description ATL-SI1-DC1-N2
+      neighbor 10.72.0.9 peer group PE_CE_DC_TEST_ST_DCX1
+      neighbor 10.72.0.9 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.25 peer group PE_CE_DC_TEST_ST_DCX1
+      neighbor 10.72.0.25 description ATL-ST1-DC1-N2
+      neighbor 10.76.0.135 peer group PE_CE_DC_OB_SOB_DCX1
+      neighbor 10.76.0.135 description ATL-SOB1-DC1-N1
+      neighbor 10.76.0.143 peer group PE_CE_DC_OB_SOB_DCX1
+      neighbor 10.76.0.143 description ATL-SOB1-DC1-N2
+      neighbor 10.77.0.11 peer group PE_CE_DC_PCI_SE_DCX1
+      neighbor 10.77.0.11 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.31 peer group PE_CE_DC_PCI_SE_DCX1
+      neighbor 10.77.0.31 description ATL-SE1-DC1-N2
+   !
+  
+ROUTER_BGP_DMZMEM1_VRF: |-
+   vrf DMZMEM1
+      rd 10.199.0.29:909
+      route-target import vpn-ipv4 64800:909
+      route-target import vpn-ipv4 64811:909
+      route-target import vpn-ipv4 64813:909
+      route-target export vpn-ipv4 64800:909
+      router-id 10.199.0.29
+      neighbor 10.64.0.13 peer group PE_CE_DC_PROD_SI_DMZMEM1
+      neighbor 10.64.0.13 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.33 peer group PE_CE_DC_PROD_SI_DMZMEM1
+      neighbor 10.64.0.33 description ATL-SI1-DC1-N2
+   !
+
+ROUTER_BGP_IDTN_VRF: |-
+   vrf IDTN
+      rd 10.199.0.29:990
+      route-target import vpn-ipv4 64526:990
+      route-target import vpn-ipv4 64689:990
+      route-target import vpn-ipv4 64753:990
+      route-target import vpn-ipv4 64800:990
+      route-target import vpn-ipv4 64811:990
+      route-target import vpn-ipv4 64813:990
+      route-target import vpn-ipv4 65425:990
+      route-target export vpn-ipv4 64800:990
+      router-id 10.199.0.29
+      neighbor 10.72.0.11 peer group PE_CE_DC_TEST_ST_IDTN
+      neighbor 10.72.0.11 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.27 peer group PE_CE_DC_TEST_ST_IDTN
+      neighbor 10.72.0.27 description ATL-ST1-DC1-N2
+   !
+
+ROUTER_BGP_IDTNB2B_VRF: |-
+   vrf IDTNB2B
+      rd 10.199.0.29:489
+      route-target import vpn-ipv4 64697:489
+      route-target import vpn-ipv4 64800:489
+      route-target export vpn-ipv4 64800:489
+      router-id 10.199.0.29
+      neighbor 10.72.0.15 peer group PE_CE_DC_TEST_ST_IDTNB2B
+      neighbor 10.72.0.15 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.31 peer group PE_CE_DC_TEST_ST_IDTNB2B
+      neighbor 10.72.0.31 description ATL-ST1-DC1-N2
+   !
+
+ROUTER_BGP_IDTNDX_VRF: |-
+   vrf IDTNDX
+      rd 10.199.0.29:987
+      route-target import vpn-ipv4 64526:987
+      route-target import vpn-ipv4 64697:987
+      route-target import vpn-ipv4 64697:49099
+      route-target import vpn-ipv4 64800:987
+      route-target import vpn-ipv4 64800:98799
+      route-target import vpn-ipv4 64894:987
+      route-target import vpn-ipv4 64898:987
+      route-target export vpn-ipv4 64800:987
+      router-id 10.199.0.29
+      neighbor 10.72.0.13 peer group PE_CE_DC_TEST_ST_IDTNDX
+      neighbor 10.72.0.13 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.29 peer group PE_CE_DC_TEST_ST_IDTNDX
+      neighbor 10.72.0.29 description ATL-ST1-DC1-N2
+   !
+
+ROUTER_BGP_NCFDMZ_VRF: |-
+   vrf NCFDMZ
+      rd 10.199.0.29:494
+      route-target import vpn-ipv4 64693:490
+      route-target import vpn-ipv4 64800:494
+      route-target export vpn-ipv4 64800:494
+      route-target import vpn-ipv4 route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.64.0.17 peer group PE_CE_DC_PROD_SI_NCFDMZ
+      neighbor 10.64.0.17 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.37 peer group PE_CE_DC_PROD_SI_NCFDMZ
+      neighbor 10.64.0.37 description ATL-SI1-DC1-N2
+   !
+
+ROUTER_BGP_OB1_VRF: |-
+   vrf OB1
+      route-target import vpn-ipv4 64800:900
+      route-target import vpn-ipv4 64801:900101
+      route-target export vpn-ipv4 64800:900
+      maximum-paths 2 ecmp 2
+   !
+
+ROUTER_BGP_PEN1_VRF: |-
+   vrf PEN1
+      rd 10.199.0.29:992
+      route-target import vpn-ipv4 64800:992
+      route-target import vpn-ipv4 64811:992
+      route-target import vpn-ipv4 64813:992
+      route-target import vpn-ipv4 65315:992
+      route-target import vpn-ipv4 65508:99201
+      route-target import vpn-ipv4 65508:99202
+      route-target export vpn-ipv4 64800:992
+      router-id 10.199.0.29
+      neighbor 10.77.0.13 peer group PE_CE_DC_PCI_SE_PEN1
+      neighbor 10.77.0.13 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.33 peer group PE_CE_DC_PCI_SE_PEN1
+      neighbor 10.77.0.33 description ATL-SE1-DC1-N2
+   !
+
+ROUTER_BGP_UNUNT1_VRF: |-
+   vrf USUNT1
+      rd 10.199.0.29:911
+      route-target import vpn-ipv4 64535:91102
+      route-target import vpn-ipv4 64800:911
+      route-target import vpn-ipv4 64811:911
+      route-target import vpn-ipv4 64812:911
+      route-target import vpn-ipv4 64813:911
+      route-target import vpn-ipv4 65420:91111
+      route-target import vpn-ipv4 65500:911
+      route-target export vpn-ipv4 64800:912
+      router-id 10.199.0.29
+      neighbor 10.111.125.37 peer group PE_CE_DC_USUNT1
+      neighbor 10.111.125.37 description ATL-UI1-DC1-N1:USUNT1
+      neighbor 10.111.125.39 peer group PE_CE_DC_USUNT1
+      neighbor 10.111.125.39 description ATL-UI1-DC1-N2:USUNT1
+   !
+
+ROUTER_BGP_USX1_VRF: |-
+   vrf USX1
+      rd 10.199.0.29:914
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64653:949
+      route-target import vpn-ipv4 64659:910
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64755:910
+      route-target import vpn-ipv4 64756:910
+      route-target import vpn-ipv4 64758:910
+      route-target import vpn-ipv4 64782:91401
+      route-target import vpn-ipv4 64782:91402
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90113
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:914
+      route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.48.139.5 peer group PE_CE_DC_USX1
+      neighbor 10.48.139.5 description ATL-UI1-DC1-N1:DEFAULT
+      neighbor 10.48.139.7 peer group PE_CE_DC_USX1
+      neighbor 10.48.139.7 description ATL-UI1-DC1-N2:DEFAULT
+      neighbor 10.64.0.19 peer group PE_CE_DC_PROD_SI_USX1
+      neighbor 10.64.0.19 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.39 peer group PE_CE_DC_PROD_SI_USX1
+      neighbor 10.64.0.39 description ATL-SI1-DC1-N2
+    !

@@ -1,0 +1,13 @@
+---
+- name: Convert some yaml to json
+  hosts: localhost
+  connection: local
+  tasks:
+    - include_vars:
+        file: ../environment/local/NWLAB_WAN/ONENET_TEST/group_vars/ONENET_FABRIC/00_host_meta.yml
+        name: yml_data
+    - ansible.builtin.set_fact:
+        json_data: "{{ yml_data | to_nice_json }}"
+    - ansible.builtin.copy:
+        content: "{{ json_data }}"
+        dest: ../json_metadata.json

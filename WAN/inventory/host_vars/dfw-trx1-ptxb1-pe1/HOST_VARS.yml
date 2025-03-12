@@ -1,0 +1,58 @@
+---
+# Populate the below vars with your unique information for this device. This file was copied from 3PCC and needs to be tuned for RO's.
+Loopback0: 10.199.0.34
+VRF_OB1:
+  REMOTE_AS: 64905
+  PE_CE_N1_PEER: 10.9.183.17
+  PE_CE_N1_SELF: 10.9.183.16
+  PE_CE_N2_PEER: 10.9.183.19
+  PE_CE_N2_SELF: 10.9.183.18
+VRF_USX1:
+  REMOTE_AS: 64756
+  PE_CE_N1_PEER: 10.48.30.1
+  PE_CE_N1_SELF: 10.48.30.0
+  PE_CE_N2_PEER: 10.48.30.3
+  PE_CE_N2_SELF: 10.48.30.2
+VRF_USUNT1:
+  REMOTE_AS: 64756
+  PE_CE_N1_PEER: 10.107.128.1
+  PE_CE_N1_SELF: 10.107.128.0
+  PE_CE_N2_PEER: 10.107.128.3
+  PE_CE_N2_SELF: 10.107.128.2
+
+# This is the PE to P (Ethernet37) IP address.
+PE_TO_P_IP: 10.199.1.39/31
+
+# This is the the PE to PE (Port-Channel100) IP address.
+PE_TO_PE_IP: 10.199.1.28/31
+
+# Campus User Border. Do NOT include the -N1 or -N2. The automation will add where appropriate.
+U_BORDER_NAME: DFW-UI1-PTXB1
+
+# Campus OB Border. Do NOT include the -N1 or -N2. The automation will add where appropriate.
+OB_BORDER_NAME: DFW-OB1-PTXB1
+
+## See wiki for Interface Description Standard https://wiki.usaa.com/display/NETSVC/NETSVC+-+ER0092:+Deriving+Interface+Descriptions
+
+SERVICE: P-PE # P-PE, VENDOR, P-P, etc.
+PROVIDER: Level3 # ISP short name
+PROVIDER_CN: # short for Common Name. This is for vendors like VISA, MCARD, etc. Add this where applicable.
+CID: 440351836 # short for Circuit IDentifier
+XCON_ID: #short for cross (X) CONnect IDentifier. Not used if the device is at a remote site. Add this where applicable.
+LOGCON_ID: # LOGical CONnection IDentifier. Typically for ECX or dedicated cloud connections like AWS DX. Add this where applicable.
+A_PORT: Et37 # Local host port
+Z_CON_ID: X # Remote CONnection IDentifier. Every 3PCC device needs to have this filled out.
+Z_DEV: DFW-TRX1-DALEQ-P3 # Remote DEVice
+Z_PORT: Te0/0/0/9 # Remote host port
+
+# # # # # # # # # # # # # # # # # # # 
+#  _    _   ____    _____  _______  #
+# | |  | | / __ \  / ____| __   __| #
+# | |__| || |  | | | (___    | |    #
+# |  __  || |  | | \___  \   | |    #
+# | |  | || |__| |  ____) |  | |    #
+# |_|  |_| \____/  |_____/   |_|    #
+# # # # # # # # # # # # # # # # # # #
+
+# Any one off config goes below. If you are adding any code below this comment, you MUST provide evidence why this config can not go anywhere else or it will not be approved.
+# Changes below should be true host level config that can not be added in to a higher level.

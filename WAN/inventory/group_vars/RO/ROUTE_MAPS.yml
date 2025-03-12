@@ -1,0 +1,88 @@
+---
+custom_structured_configuration_route_maps:
+  - name: RM_RO_TRUST_IN
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "community POLICY_LP190_OVERRIDE"
+      set:
+        - "local-preference 190"
+    - sequence: 20
+      type: permit
+      match:
+        - "community POLICY_LP120"
+      set:
+        - "local-preference 120"
+    - sequence: 30
+      type: permit
+      match:
+        - "community POLICY_LP150"
+      set:
+        - "local-preference 150"
+    - sequence: 40
+      type: permit
+      match:
+        - "community POLICY_LP170"
+      set:
+        - "local-preference 170"
+    - sequence: 50
+      type: permit
+      match:
+        - "community POLICY_LP180"
+      set:
+        - "local-preference 180"
+    - sequence: 60
+      type: permit
+      match:
+        - "community PE1"
+      set:
+        - "local-preference 120"
+    - sequence: 80
+      type: permit
+  - name: RM_RO_TRUST_OUT
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "ip address prefix-list PL_DEFAULT"
+      set:
+        - "community 64800:{% if 'pe1' in inventory_hostname %}1{% elif 'pe2' in inventory_hostname %}2{% else %}{% endif %} additive"
+    - sequence: 20
+      type: permit
+      match:
+        - "ip address prefix-list PL_RFC1918"
+      set:
+        - "community 64800:{% if 'pe1' in inventory_hostname %}1{% elif 'pe2' in inventory_hostname %}2{% else %}{% endif %} additive"
+  - name: RM_FILTERED_TRUST_OUT
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "ip address prefix-list PL_DEFAULT"
+    - sequence: 20
+      type: permit
+      match:
+        - "ip address prefix-list PL_RFC1918"
+  - name: RM_CE_UNTRUST_IN
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+  - name: RM_CE_UNTRUST_OUT
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+
+custom_group_configuration_ip_access_lists:
+  - name: ACL_RO_TRAFFIC_INBOUND
+    entries:
+      - sequence: 10
+        action: permit
+        protocol: ip
+        source: 10.0.0.0/8
+        destination: any
+      - sequence: 20
+        action: deny
+        protocol: ip
+        source: any
+        destination: any

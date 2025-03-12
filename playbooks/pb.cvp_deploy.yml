@@ -1,0 +1,27 @@
+---
+- name: Deploy to CVP.
+  hosts: CVP
+  gather_facts: false
+  # vars:
+  # Comment out password to run locally
+  # ansible_password: "{{ vault_nsauto_pwd }}"
+  # Comment out vars_files to run locally
+  # vars_files:
+  #   - /var/lib/ansible/project/vault.yml
+  # vars_files:
+  #   - ../local_vault.yml
+  collections:
+    - arista.avd
+  tasks:
+  - name: Deploy Configurations to CVP
+    ansible.builtin.import_role:
+      name: eos_config_deploy_cvp
+    # tags: [ deploy, never ]
+    vars:
+      cv_collection: v3
+      device_search_key: serialNumber
+      container_root:  "{{ target_hosts }}"
+      configlets_prefix: 'AVD'
+      # device_filter: "{{ host_filter }}"
+      state: present
+      execute_tasks: false

@@ -1,0 +1,162 @@
+INTERFACE_CONFIG: |-
+    interface Port-Channel100
+    description PE-PE:PHX-TRX1-DSVC-PE2:Po100
+    no switchport
+    ip address 10.199.1.28/31
+    mpls ldp interface
+    ip ospf network point-to-point
+    ip ospf authentication message-digest
+    ip ospf area 0.0.0.0
+    ip ospf message-digest-key 1 md5 7 IZHin6R1FrKg2GaolowV8Q==
+    !
+    interface Ethernet37
+      description P-PE:DFW-TRX1-DALEQ-P3:Te0/0/0/9:Level3:CID#440351836
+      no shutdown
+      mtu 9170
+      no switchport
+      ip address 10.199.1.39/31
+      mpls ldp interface
+      mac security profile MKA_AES_256
+      ip ospf network point-to-point
+      ip ospf authentication message-digest
+      ip ospf area 0.0.0.0
+      ip ospf message-digest-key 1 md5 7 LWjQhAwDgK8PAURxrj2omA==
+    !
+    interface Ethernet47
+      description PE-PE:DFW-TRX1-PTXB1-PE2:Eth47/1
+      no shutdown
+      no switchport
+      channel-group 100 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet48
+      description PE-PE:DFW-TRX1-PTXB1-PE2:Eth48/1
+      no shutdown
+      no switchport
+      channel-group 100 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet49/1
+      description PE-CE:DFW-UI1-PTXB1-N1:Eth55/1
+      no shutdown
+      no switchport
+    !
+    interface Ethernet49/1.2020
+      description PE-CE:DFW-UI1-PTXB1-N1:Eth55/1.2020
+      encapsulation dot1q vlan 2020
+      vrf USX1
+      ip address 10.48.30.0/31
+      ip access-group ACL_RO_TRAFFIC_INBOUND in
+    !
+    interface Ethernet49/1.2820
+      description PE-CE:DFW-UI1-PTXB1-N1:Eth55/1.2820
+      encapsulation dot1q vlan 2820
+      vrf USUNT1
+      ip address 10.107.128.0/31
+    !
+    interface Ethernet50/1
+      description PE-CE:DFW-UI1-PTXB1-N2:Eth55/1
+      no shutdown
+      no switchport
+    !
+    interface Ethernet50/1.2020
+      description PE-CE:DFW-UI1-PTXB1-N2:Eth55/1.2020
+      encapsulation dot1q vlan 2020
+      vrf USX1
+      ip address 10.48.30.2/31
+      ip access-group ACL_RO_TRAFFIC_INBOUND in
+    !
+    interface Ethernet50/1.2820
+      description PE-CE:DFW-UI1-PTXB1-N2:Eth55/1.2820
+      encapsulation dot1q vlan 2820
+      vrf USUNT1
+      ip address 10.107.128.2/31
+    !
+    interface Ethernet51/1
+      description PE-CE:DFW-OB1-PTXB1-N1:Eth53/1
+      no shutdown
+      no switchport
+      vrf OB1
+      ip address 10.9.183.16/31
+    !
+    interface Ethernet51/2
+      no shutdown
+      no switchport
+    ! 
+    interface Ethernet51/3
+      no shutdown
+      no switchport
+    ! 
+    interface Ethernet51/4
+      no shutdown
+      no switchport
+    !
+    interface Ethernet52/1
+      description PE-CE:DFW-OB1-PTXB1-N2:Eth53/1
+      no shutdown
+      no switchport
+      vrf OB1
+      ip address 10.9.183.18/31
+    !
+    interface Ethernet52/2
+      no shutdown
+      no switchport
+    ! 
+    interface Ethernet52/3
+      no shutdown
+      no switchport
+    ! 
+    interface Ethernet52/4
+      no shutdown
+      no switchport
+    !
+    interface Loopback0
+      description MPLS_Overlay_peering
+      ip address 10.199.0.34/32
+      ip ospf area 0.0.0.0
+    !
+    interface Management1
+      description oob_management
+      no shutdown
+      vrf MGMT
+      ip address 10.9.182.132/28
+    !
+
+network_ports:
+  - switches:
+    - phx-trx1-a2e-pe1
+    switch_ports:
+    - Ethernet1-36
+    - Ethernet38-46
+    - Ethernet49/2
+    - Ethernet49/3
+    - Ethernet49/4
+    - Ethernet50/2
+    - Ethernet50/3
+    - Ethernet50/4
+    - Ethernet51/2
+    - Ethernet51/3
+    - Ethernet51/4
+    - Ethernet52/2
+    - Ethernet52/3
+    - Ethernet52/4
+    - Ethernet53/1
+    - Ethernet54/1
+    - Ethernet55/1
+    - Ethernet56/1
+    - Ethernet53/2
+    - Ethernet54/2
+    - Ethernet55/2
+    - Ethernet56/2
+    - Ethernet53/3
+    - Ethernet54/3
+    - Ethernet55/3
+    - Ethernet56/3
+    - Ethernet53/4
+    - Ethernet54/4
+    - Ethernet55/4
+    - Ethernet56/4
+
+    raw_eos_cli: |-
+      no switchport
+      shutdown

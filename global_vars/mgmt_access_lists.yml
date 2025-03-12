@@ -1,0 +1,42 @@
+############################################################
+# ACCESS LISTS
+############################################################
+
+ip_access_lists:
+  - name: SSH_ACCESS
+    entries:
+      - sequence: 10
+        action: permit
+        protocol: tcp
+        source: 10.0.0.0/8
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 20
+        action: permit
+        protocol: tcp
+        source: 172.16.0.0/12
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 30
+        action: permit
+        protocol: tcp
+        source: 167.24.0.0/16
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 40
+        action: permit
+        protocol: tcp
+        source: 192.168.0.0/16
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]
+      - sequence: 50
+        action: permit
+        protocol: tcp
+        source: 198.148.150.0/24
+        destination: any
+        destination_ports_match: eq
+        destination_ports: [ssh]

@@ -1,0 +1,5 @@
+Type,Node,Node Interface,Leaf IP Address,Peer Type,Peer Node,Peer Interface,Peer IP Address
+p,atl_trx_dc1_p1,Ethernet25/1,10.199.2.42/31,pe,atl_trx_dc1_pe1,Ethernet25/1,10.199.2.43/31
+p,atl_trx_dc1_p1,Ethernet26/1,10.199.2.42/31,pe,atl_trx_dc1_pe2,Ethernet25/1,10.199.2.43/31
+p,atl_trx_dc1_p2,Ethernet25/1,10.199.2.46/31,pe,atl_trx_dc1_pe1,Ethernet26/1,10.199.2.45/31
+p,atl_trx_dc1_p2,Ethernet26/1,10.199.2.46/31,pe,atl_trx_dc1_pe2,Ethernet26/1,10.199.2.45/31

@@ -1,0 +1,12 @@
+---
+eos_cli: |-
+  !
+  {{MAC_SEC}}
+  !
+  {{VRF_DEFINITION}}
+  !
+  {{INTERFACE_CONFIG}}
+  !
+  {{MPLS_DEFAULTS}}
+  !
+  {{MGMT_DEFAULTS}}

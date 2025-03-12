@@ -1,0 +1,454 @@
+hostname: CVG-TRX1-CONCENTRIX-PE2
+is_deployed: false
+serial_number: JPA2340P4W6
+router_bgp:
+  as: '64800'
+  router_id: 10.199.0.157
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: RR_PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    password: iKTQwhTMWkGv8NnVBwWL8w==
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+  address_family_evpn:
+    peer_groups: []
+  address_family_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: false
+  address_family_vpn_ipv4:
+    neighbor_default_encapsulation_mpls_next_hop_self:
+      source_interface: Loopback0
+    peer_groups:
+    - name: RR_PEERS
+      activate: true
+  neighbors:
+  - ip_address: 10.199.0.39
+    peer_group: RR_PEERS
+    peer: IAD-TRX1-DC21-RR1
+    description: IAD-TRX1-DC21-RR1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: none
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: MGMT
+  ip_routing: false
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: MGMT
+  ip_address: 10.9.181.179/28
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: MGMT
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+snmp_server:
+  engine_ids:
+    local: 3c67e0c0629586f180a8be2a97b52f39ad35a8d6
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 3c67e0c0629586f180a8be2a97b52f39ad35a8d6
+    auth: sha
+    auth_passphrase: 74e49f2e76ded19bf8ac02550abfd063c78b3718
+    priv: aes
+    priv_passphrase: 788c63d869cf9cd3337e363f5394ba46
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 3c67e0c0629586f180a8be2a97b52f39ad35a8d6
+    auth: sha
+    auth_passphrase: 3e077cef4db56eb1365d09db4b7e8587d7d65829
+    priv: aes
+    priv_passphrase: b379c19fd5c93ca42ef42f55b5c29141
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 3c67e0c0629586f180a8be2a97b52f39ad35a8d6
+    auth: sha
+    auth_passphrase: 065203318c86b43de567a60a08fd20ae3dcdde2c
+    priv: aes
+    priv_passphrase: 4ce69837582d15a9fea4b40b13f2da52
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 3c67e0c0629586f180a8be2a97b52f39ad35a8d6
+    auth: sha
+    auth_passphrase: 80724de8c8423a31b50b5955bba53533cf650625
+    priv: aes
+    priv_passphrase: 46055255c108a86b1d516d744ca04032
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: CVG
+  local_interfaces:
+  - name: Management1
+    vrf: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: MPLS_Overlay_peering
+  shutdown: false
+  ip_address: 10.199.0.157/32
+  ospf_area: 0.0.0.0
+  mpls:
+    ldp:
+      interface: true
+router_ospf:
+  process_ids:
+  - id: 64800
+    passive_interface_default: false
+    router_id: 10.199.0.157
+    max_lsa: 0
+    no_passive_interfaces: null
+    bfd_enable: true
+    auto_cost_reference_bandwidth: 1000000
+mpls:
+  ip: true
+  ldp:
+    interface_disabled_default: false
+    router_id: interface Loopback0
+    shutdown: false
+    transport_address_interface: null
+router_bfd:
+  multihop:
+    interval: 1000
+    min_rx: 1000
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+eos_cli: "!\nmac security\n    profile MKA_AES_256\n        cipher aes256-gcm\n        key 0100000000000000000000000000000000000000000000000000000000000000
+  7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863\n
+  \       mka key-server priority 255\n        sci\n  !\n!\n!\nvrf instance MGMT\n!\nvrf instance OB1\n!\nvrf instance VNX1\n!\nip routing\nno
+  ip routing vrf MGMT\nip routing vrf OB1\nip routing vrf VNX1\n!\n!\ninterface Port-Channel10\ndescription PE-PE:Po10:CVG-TRX1-CONCENTRIX-PE1:Po10\nno
+  switchport\nip address 10.199.1.169/31\nmpls ldp interface\nip ospf network point-to-point\nip ospf authentication message-digest\nip
+  ospf area 0.0.0.0\nip ospf message-digest-key 1 md5 usaaospfpass\n!\ninterface Port-Channel12 \ndescription PE-CE:Po12:CVG-OB1-CONCENTRIX-N1:Et14\nvrf
+  OB1\nip address 10.9.177.238/31\n!\ninterface Port-Channel13\ndescription VENDOR:Po13:CONCENTRIX:Po13\nno switchport\nvrf VNX1\nip
+  address 172.27.200.3/31\nmtu 9214\n!\ninterface Ethernet2\n  description VENDOR:Et2:CDCDSCCE4:Et1 \n    no shutdown\n    no switchport\n
+  \   channel-group 13 mode active\n!\ninterface Ethernet3\n  description VENDOR:Et3:CDCDSCCE4:Et2 \n    no shutdown\n    no switchport\n
+  \   channel-group 13 mode active\n!\ninterface Ethernet4\n  description PE-CE:Et4:CVG-OB1-CONCENTRIX-N1:Et14\n  no shutdown\n  no
+  switchport\n  channel-group 12 mode active\n!\ninterface Ethernet5\n  description PE-PE:Et5:CVG-TRX1-CONCENTRIX-PE1:Et5\n  no shutdown\n
+  \ no switchport\n  channel-group 10 mode active\n  mac security profile MKA_AES_256\n!\ninterface Ethernet6\n  description PE-PE:Et6:CVG-TRX1-CONCENTRIX-PE1:Et6\n
+  \ no shutdown\n  no switchport\n  channel-group 10 mode active\n  mac security profile MKA_AES_256\n!\ninterface Ethernet37\n  description
+  P-PE:SPECTRUM:70.WCXX.000144..CHTR:Et37:WS/KGUS/088142/WXN:IAD-TRX1-DC21-P3:Et30\n  no shutdown\n  mtu 9170\n  no switchport\n  ip
+  address 10.199.3.20/31\n  mpls ldp interface\n  mac security profile MKA_AES_256\n  ip ospf network point-to-point\n  ip ospf authentication
+  message-digest\n  ip ospf area 0.0.0.0\n  ip ospf message-digest-key 1 md5 usaaospfpass\n!\ninterface Loopback0\n  description MPLS_Overlay_peering\n
+  \ ip address 10.199.0.157/32\n  ip ospf area 0.0.0.0\n!\ninterface Management1\n  description oob_management\n  no shutdown\n  vrf
+  MGMT\n  ip address 10.9.181.179/28\n!\n!\nmpls ip\n!\nmpls ldp\n  router-id interface Loopback0\n  no shutdown\n!\n!\nrouter bgp 64800\n
+  \ router-id 10.199.0.157\n  update wait-install\n  no bgp default ipv4-unicast\n  distance bgp 20 200 200\n  maximum-paths 2 ecmp
+  2\n  bgp bestpath tie-break router-id\n  neighbor PE_CE_OB1 peer group\n  neighbor PE_CE_OB1 remote-as 64801\n  neighbor PE_CE_OB1
+  bfd\n  neighbor PE_CE_OB1 route-map RM_CE_OB1_IN in\n  neighbor PE_CE_OB1 route-map RM_CE_OB1_OUT out\n  neighbor PE_CE_OB1 password
+  7 LrxdPchq0LiOI2Jz39Pe5Q==\n  neighbor PE_CE_OB1 send-community\n  neighbor PE_CE_3PCC peer group\n  neighbor PE_CE_3PCC local-as
+  7838 no-prepend replace-as\n  neighbor PE_CE_3PCC timers 2 5\n  neighbor PE_CE_3PCC bfd\n  neighbor PE_CE_3PCC send-community\n  neighbor
+  PE_CE_3PCC remove-private-as\n  neighbor PE_CE_3PCC route-map 3PCC_VENDOR_PRIORITY-1_IN in\n  neighbor PE_CE_3PCC route-map 3PCC_VENDOR_PRIORITY-1_OUT
+  out\n  neighbor RR_PEERS peer group\n  neighbor RR_PEERS remote-as 64800\n  neighbor RR_PEERS transport pmtud\n  neighbor RR_PEERS
+  update-source Loopback0\n  neighbor RR_PEERS bfd\n  neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==\n  neighbor RR_PEERS send-community
+  standard extended\n  neighbor RR_PEERS maximum-routes 0\n  neighbor 10.199.0.38 peer group RR_PEERS\n  neighbor 10.199.0.38 description
+  BGP-RR:DFW-TRX1-DALEQ-RR1\n  neighbor 10.199.0.39 peer group RR_PEERS\n  neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1\n
+  \ !\n  address-family ipv4\n  neighbor PE_CE_OB1 activate\n  neighbor PE_CE_3PCC activate\n  !\n  address-family vpn-ipv4\n  neighbor
+  RR_PEERS activate\n  no neighbor default encapsulation mpls next-hop-self source-interface Loopback0\n  !\n  vrf OB1\n  rd 10.199.0.157:900\n
+  \ route-target import vpn-ipv4 64800:900\n  route-target import vpn-ipv4 64801:900101\n  route-target export vpn-ipv4 64800:900\n
+  \ router-id 10.199.0.157\n  maximum-paths 2 ecmp 2\n  neighbor 10.9.177.238 peer group PE_CE_OB1\n  neighbor 10.9.177.238 description
+  OB1-N1:OB1\n  vrf VNX1\n  rd 10.199.0.157:920\n  route-target import vpn-ipv4 65420:90311\n  route-target import vpn-ipv4 65526:90312\n
+  \ route-target import vpn-ipv4 65500:903\n  route-target import vpn-ipv4 64840:90301\n  route-target import vpn-ipv4 64840:90302\n
+  \ route-target import vpn-ipv4 64840:90303\n  route-target import vpn-ipv4 64800:903\n  route-target export vpn-ipv4 64800:903\n  router-id
+  10.199.0.157\n  maximum-paths 2 ecmp 2\n  neighbor 172.27.200.2 remote-as 15084\n  neighbor 172.27.200.2 peer group PE_CE_3PCC\n  neighbor
+  172.27.200.2 description CONCENTRIX:VENDOR_DEVICE\n  neighbor 172.27.200.2 password 7 $1c$O/K5nO7RsL6PAxl7mDsL0Q==\n!\nmanagement
+  ssh\nip access-group SSH_ACCESS vrf MGMT in\nidle-timeout 10\nauthentication mode password\n!\nvrf MGMT\n  no shutdown\n!"
+metadata:
+  platform: 7280R3
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+- name: staging
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$899R9c8bEgauDegR$r6qvl1zV7tYJDSwyqgcCebwewDwB4osHpXyO99V3P4M.rzVeQX9YvJfMVtlU5JlYW19rnP4liIF5uWGx.xq9c1
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
+- name: VENDOR_PFX
+  sequence_numbers:
+  - sequence: 10
+    action: permit 155.90.249.0/24 le 32
+  - sequence: 20
+    action: permit 155.90.251.0/25 le 32
+  - sequence: 30
+    action: permit 155.90.251.128/27 le 32
+ip_community_lists:
+- name: DA2_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64811:11233
+- name: DC21_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64813:13233
+- name: PE1
+  entries:
+  - action: permit
+    regexp: (.*):1_
+- name: PE2
+  entries:
+  - action: permit
+    regexp: (.*):2_
+- name: POLICY_LP120
+  entries:
+  - action: permit
+    regexp: (.*):412
+- name: POLICY_LP150
+  entries:
+  - action: permit
+    regexp: (.*):415
+- name: POLICY_LP170
+  entries:
+  - action: permit
+    regexp: (.*):417
+- name: POLICY_LP180
+  entries:
+  - action: permit
+    regexp: (.*):418
+- name: POLICY_LP190_OVERRIDE
+  entries:
+  - action: permit
+    regexp: (.*):419
+- name: POLICY_LP20_BLEED
+  entries:
+  - action: permit
+    regexp: (.*):410
+- name: 3PCC
+  entries:
+  - action: permit
+    regexp: (.*):920
+- name: OB1
+  entries:
+  - action: permit
+    regexp: 64801:1[1-3]7[0-9][0-9]
+route_maps:
+- name: 3PCC_VENDOR_PRIORITY-1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list VENDOR_PFX
+    set:
+    - local-preference 120
+    - community 64800:920 64800:11713 additive
+- name: 3PCC_VENDOR_PRIORITY-1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community 3PCC
+    set:
+    - as-path prepend 64800 64800 64800 64800
+- name: RM_CE_OB1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community OB1
+- name: DENY_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+- name: PASS_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: PASS_DEFAULT_ONLY
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+- name: PREF_DEFAULT_IMPORT_MAP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Standard import map to allow DC21 Default
+    match:
+    - community DC21_DEFAULT_COMM
+    set:
+    - local-preference 150
+  - sequence: 20
+    type: permit
+    description: Standard import map to allow DA2 Default
+    match:
+    - community DA2_DEFAULT_COMM
+    set:
+    - local-preference 120
+  - sequence: 900
+    type: permit
+    description: Standard import map to allow All routes
+- name: RM_CE_OB1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: STANDARD_1NET_BGP_POLICY_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community POLICY_LP20_BLEED
+    set:
+    - local-preference 20
+  - sequence: 20
+    type: permit
+    match:
+    - community POLICY_LP190_OVERRIDE
+    set:
+    - local-preference 190
+  - sequence: 30
+    type: permit
+    match:
+    - community POLICY_LP120
+    set:
+    - local-preference 120
+  - sequence: 40
+    type: permit
+    match:
+    - community POLICY_LP150
+    set:
+    - local-preference 150
+  - sequence: 50
+    type: permit
+    match:
+    - community POLICY_LP170
+    set:
+    - local-preference 170
+  - sequence: 60
+    type: permit
+    match:
+    - community POLICY_LP180
+    set:
+    - local-preference 180
+  - sequence: 500
+    type: permit
+    description: PERMIT_ALL_ROUTES
+- name: STANDARD_1NET_BGP_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit

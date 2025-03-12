@@ -1,0 +1,18 @@
+---
+- name: Copy ocprometheus binary to switch
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+  vars:
+    ansible_user: nsauto
+    ansible_connection: ansible.netcommon.network_cli
+
+# requires pip3 install ansible-pylibssh
+  tasks:
+    - name: Copy binary from ansible controller to network devices
+      ansible.netcommon.net_put:
+        src: ../ocprometheus/ocprometheus
+        dest: /mnt/flash/ocprometheus
+    - name: Copy config from ansible controller to network devices
+      ansible.netcommon.net_put:
+        src: ../ocprometheus/ocprometheus.yml
+        dest: /mnt/flash/ocprometheus.yml

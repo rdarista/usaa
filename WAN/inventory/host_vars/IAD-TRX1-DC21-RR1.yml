@@ -1,0 +1,107 @@
+eos_cli: |
+  management ssh
+    authentication mode password
+  !
+  arp aging timeout default 900
+  !
+  router bgp 64800
+    neighbor 10.199.0.20 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.20 description RR-CLIENT:PHX-TRX1-A2E-PE1
+    neighbor 10.199.0.21 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.21 description RR-CLIENT:PHX-TRX1-DSVC-PE2
+    neighbor 10.199.0.22 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.22 description RR-CLIENT:COS-TRX1-A1N-PE1
+    neighbor 10.199.0.23 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.23 description RR-CLIENT:COS-TRX1-A1N-PE2
+    neighbor 10.199.0.24 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.24 description RR-CLIENT:TPA-TRX1-TFLRO-PE1
+    neighbor 10.199.0.25 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.25 description RR-CLIENT:TPA-TRX1-TFLRO-PE2
+    neighbor 10.199.0.26 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.26 description RR-CLIENT:TPA-TRX1-CRA02S-PE1
+    neighbor 10.199.0.27 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.27 description RR-CLIENT:TPA-TRX1-CRA02S-PE2
+    neighbor 10.199.0.28 peer group RR_CLIENTS
+    neighbor 10.199.0.28 description RR-CLIENT:ATL-TRX1-DC1-PE1
+    neighbor 10.199.0.29 peer group RR_CLIENTS
+    neighbor 10.199.0.29 description RR-CLIENT:ATL-TRX1-DC1-PE2
+    neighbor 10.199.0.30 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.30 description RR-CLIENT:CPK-TRX1-B444-PE1
+    neighbor 10.199.0.31 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.31 description RR-CLIENT:CPK-TRX1-B444-PE2
+    neighbor 10.199.0.34 peer group RR_CLIENTS
+    neighbor 10.199.0.34 description RR-CLIENT:DFW-TRX1-PTXB1-PE1
+    neighbor 10.199.0.35 peer group RR_CLIENTS
+    neighbor 10.199.0.35 description RR-CLIENT:DFW-TRX1-PTXB1-PE2
+    neighbor 10.199.0.36 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.36 description RR-CLIENT:CLT-TRX1-CENTS8-PE1
+    neighbor 10.199.0.37 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.37 description RR-CLIENT:CLT-TRX1-CENTS8-PE2
+    neighbor 10.199.0.53 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.53 description RR-CLIENT:IAD-TRX1-ABVEQ-PE1
+    neighbor 10.199.0.54 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.54 description RR-CLIENT:IAD-TRX1-ABVEQ-PE2
+    neighbor 10.199.0.60 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.60 description RR-CLIENT:DFW-TRX1-DALEQ-PE1
+    neighbor 10.199.0.61 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.61 description RR-CLIENT:DFW-TRX1-DALEQ-PE2
+    neighbor 10.199.0.74 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.74 description RR-CLIENT:DFW-TRX1-CRLUNO1-PE1
+    neighbor 10.199.0.75 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.75 description RR-CLIENT:DFW-TRX1-CRLUNO1-PE2
+    neighbor 10.199.0.80 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.80 description RR-CLIENT:SAT-TRX1-CU1-PE1
+    neighbor 10.199.0.81 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.81 description RR-CLIENT:SAT-TRX1-CU1-PE2
+    neighbor 10.199.0.85 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.85 description RR-CLIENT:SAT-TRX1-ITC2-PE3
+    neighbor 10.199.0.86 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.86 description RR-CLIENT:SAT-TRX1-ITC2-PE4
+    neighbor 10.199.0.87 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.87 description RR-CLIENT:DFW-TRX1-CRLUNO1-PE3
+    neighbor 10.199.0.88 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.88 description RR-CLIENT:DFW-TRX1-CRLUNO1-PE4
+    neighbor 10.199.0.100 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.100 description RR-CLIENT:SAT-TRX1-ITC2-PE1
+    neighbor 10.199.0.101 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.101 description RR-CLIENT:SAT-TRX1-ITC2-PE2
+    neighbor 10.199.0.102 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.102 description RR-CLIENT:SAT-TRX1-BSVC-PE1
+    neighbor 10.199.0.103 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.103 description RR-CLIENT:SAT-TRX1-BSVC-PE2
+    neighbor 10.199.0.128 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.128 description BGP-RR:OMA-TRX1-SITEL-PE1
+    neighbor 10.199.0.129 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.129 description BGP-RR:OMA-TRX1-SITEL-PE2
+    neighbor 10.199.0.130 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.130 description BGP-RR:DFW-TRX1-SITEL-PE1
+    neighbor 10.199.0.131 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.131 description BGP-RR:DFW-TRX1-SITEL-PE2
+    neighbor 10.199.0.132 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.132 description BGP-RR:DEN-TRX1-TTCNT-PE1
+    neighbor 10.199.0.133 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.133 description BGP-RR:DEN-TRX1-TTCNT-PE2
+    neighbor 10.199.0.134 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.134 description BGP-RR:DFW-TRX1-TELEPF-PE1
+    neighbor 10.199.0.135 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.135 description BGP-RR:DFW-TRX1-TELEPF-PE2
+    neighbor 10.199.0.142 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.142 description BGP-RR:SLC-TRX1-TELEPF-PE1
+    neighbor 10.199.0.143 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.143 description BGP-RR:SLC-TRX1-TELEPF-PE2
+    neighbor 10.199.0.146 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.146 description BGP-RR:IAD-TRX1-TELETECH-PE1
+    neighbor 10.199.0.147 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.147 description BGP-RR:IAD-TRX1-TELETECH-PE2
+    neighbor 10.199.0.148 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.148 description BGP-RR:SAT-TRX1-DMI-PE1
+    neighbor 10.199.0.149 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.149 description BGP-RR:SAT-TRX1-DMI-PE2
+    neighbor 10.199.0.150 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.150 description BGP-RR:DTW-TRX1-QUALFON-PE1
+    neighbor 10.199.0.151 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.151 description BGP-RR:DTW-TRX1-QUALFON-PE2
+    neighbor 10.199.0.152 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.152 description BGP-RR:DEN-TRX1-QUALFON-PE2
+    neighbor 10.199.0.153 peer group LEGACY_RR_CLIENTS
+    neighbor 10.199.0.153 description BGP-RR:DEN-TRX1-QUALFON-PE1

@@ -1,0 +1,65 @@
+---
+# Populate the below vars with your unique information for this device.
+Loopback0: 10.199.0.42
+vrf_ob1:
+  remote_as: 64906
+  pe_ce_n1: 10.9.183.45
+vrf_usx1:
+  remote_as: 64752
+  pe_ce_n1: 10.49.158.1
+  pe_ce_n2: 10.49.158.3
+vrf_usunt1:
+  remote_as: 64752
+  pe_ce_n1: 10.111.124.65
+  pe_ce_n2: 10.111.124.67
+
+## ALL THE BELOW INFORMATION IS WRONG AND NEEDS TO BE UPDATED
+# This is the PE to P (Ethernet37) IP address.
+PE_TO_P_IP: 10.199.1.13/31
+
+# This is the the PE to PE (Port-Channel100) IP address.
+PE_TO_PE_IP: 10.199.1.40/31
+
+OB1_CE1:
+  HOSTNAME: TPA-OB1-COMB2N-N1
+  CE_PORT: Eth53/1
+
+# This is the PE to OB1 CE (Ethernet51/1) IP address.
+PE_TO_OB1_CE_IP: 10.9.183.44/31
+
+## See wiki for Interface Description Standard https://wiki.usaa.com/display/NETSVC/NETSVC+-+ER0092:+Deriving+Interface+Descriptions
+
+SERVICE: P-PE # P-PE, VENDOR, P-P, etc.
+PROVIDER: VZE # ISP short name
+PROVIDER_CN: # short for Common Name. This is for vendors like VISA, MCARD, etc. Add this where applicable.
+CID: W1E27681 # short for Circuit IDentifier
+XCON_ID: #short for cross (X) CONnect IDentifier. Not used if the device is at a remote site. Add this where applicable.
+LOGCON_ID: # LOGical CONnection IDentifier. Typically for ECX or dedicated cloud connections like AWS DX. Add this where applicable.
+A_PORT: Et37 # Local host port
+Z_CON_ID: X # Remote CONnection IDentifier. Every 3PCC device needs to have this filled out.
+Z_DEV: IAD-TRX1-DC21-P3 # Remote DEVice
+Z_PORT: Et3 # Remote host port
+
+# # # # # # # # # # # # # # # # # # # 
+#  _    _   ____    _____  _______  #
+# | |  | | / __ \  / ____| __   __| #
+# | |__| || |  | | | (___    | |    #
+# |  __  || |  | | \___  \   | |    #
+# | |  | || |__| |  ____) |  | |    #
+# |_|  |_| \____/  |_____/   |_|    #
+# # # # # # # # # # # # # # # # # # #
+
+# Any one off config goes below. If you are adding any code below this comment, you MUST provide evidence why this config can not go anywhere else or it will not be approved.
+# Changes below should be true host level config that can not be added in to a higher level.
+
+# Commerce Park only peers to 1 OB device.
+ROUTER_BGP_OB1_VRF: |-
+  vrf OB1
+    rd {{Loopback0}}:900
+    route-target import vpn-ipv4 64800:900
+    route-target import vpn-ipv4 64801:900101
+    route-target export vpn-ipv4 64800:900
+    router-id {{Loopback0}}
+    maximum-paths 2 ecmp 2
+    neighbor {{vrf_ob1.pe_ce_n1}} peer group PE_CE_OB1
+    neighbor {{vrf_ob1.pe_ce_n1}} description OB1-N1:OB1

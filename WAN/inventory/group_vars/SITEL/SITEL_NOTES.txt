@@ -1,0 +1,16 @@
+PE1
+Et2 & 3 to CE1
+Et7 to CE1
+Et8 to CE2
+
+PE2
+Et2 & 3 to CE2
+Et7 to CE1
+Et8 to CE2
+
+
+Port-Channels
+Et2 & 3 into Po13
+
+PtP's
+Et7 & 8 are PtP /31's

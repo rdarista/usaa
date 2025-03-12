@@ -1,0 +1,2 @@
+grp-python-innersource-conjur==4.1.0
+grp-python-innersource-service-accounts==0.4.0

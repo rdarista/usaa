@@ -1,0 +1,410 @@
+hostname: DFW-TRX1-SITEL-PE2
+is_deployed: false
+serial_number: JPA2410P262
+router_bgp:
+  as: '64800'
+  router_id: 10.199.0.150
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: RR_PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    password: iKTQwhTMWkGv8NnVBwWL8w==
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+  address_family_evpn:
+    peer_groups: []
+  address_family_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: false
+  address_family_vpn_ipv4:
+    neighbor_default_encapsulation_mpls_next_hop_self:
+      source_interface: Loopback0
+    peer_groups:
+    - name: RR_PEERS
+      activate: true
+  neighbors:
+  - ip_address: 10.199.0.39
+    peer_group: RR_PEERS
+    peer: IAD-TRX1-DC21-RR1
+    description: IAD-TRX1-DC21-RR1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: none
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: MGMT
+  ip_routing: false
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: MGMT
+  ip_address: 10.9.184.3/28
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: MGMT
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+snmp_server:
+  engine_ids:
+    local: 3bd6083edb0857d4b4e163d5db65b456994b4402
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 3bd6083edb0857d4b4e163d5db65b456994b4402
+    auth: sha
+    auth_passphrase: 9856816ff95ac59cf4866055bc3476e7393b3333
+    priv: aes
+    priv_passphrase: 65f54678e8d42d2327cbb8e400fb584a
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 3bd6083edb0857d4b4e163d5db65b456994b4402
+    auth: sha
+    auth_passphrase: b48543adedb45f1a738cad77239b6a7eb3d62f5f
+    priv: aes
+    priv_passphrase: 9dc485c98cb07aaafe75b5d85deb9b16
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 3bd6083edb0857d4b4e163d5db65b456994b4402
+    auth: sha
+    auth_passphrase: 77b8d36bde71e9633eeddd53c11c3697b29a54a3
+    priv: aes
+    priv_passphrase: ac687f5a209f1cfb2172e5459fab377e
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 3bd6083edb0857d4b4e163d5db65b456994b4402
+    auth: sha
+    auth_passphrase: b90f0dd87cd4b8cdae2fcd2f3a08e6189720a8ec
+    priv: aes
+    priv_passphrase: 9d1a703d33a33556697e6884e32a0aac
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: DFW
+  local_interfaces:
+  - name: Management1
+    vrf: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: MPLS_Overlay_peering
+  shutdown: false
+  ip_address: 10.199.0.150/32
+  ospf_area: 0.0.0.0
+  mpls:
+    ldp:
+      interface: true
+router_ospf:
+  process_ids:
+  - id: 64800
+    passive_interface_default: false
+    router_id: 10.199.0.150
+    max_lsa: 0
+    no_passive_interfaces: null
+    bfd_enable: true
+    auto_cost_reference_bandwidth: 1000000
+mpls:
+  ip: true
+  ldp:
+    interface_disabled_default: false
+    router_id: interface Loopback0
+    shutdown: false
+    transport_address_interface: null
+router_bfd:
+  multihop:
+    interval: 1000
+    min_rx: 1000
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+eos_cli: "!\n{{MAC_SEC}}\n!\n{{VRF_DEFINITION}}\n!\n{{INTERFACE_CONFIG}}\n!\n{{MPLS_DEFAULTS}}\n!\n{{ROUTER_BGP_DEFAULTS}}\n  {{ROUTER_BGP_OB1_PG}}\n
+  \ {{ROUTER_BGP_3PCC_PG}}\n  {{ROUTER_BGP_RR_PG}}\n  !\n  {{ROUTER_BGP_ADR_FAMILY}}\n  !\n  {{ROUTER_BGP_OB1_VRF}}\n  {{ROUTER_BGP_VNX1_VRF}}\n!\n{{MGMT_DEFAULTS}}\n!"
+metadata:
+  platform: 7280R3
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+- name: staging
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$899R9c8bEgauDegR$r6qvl1zV7tYJDSwyqgcCebwewDwB4osHpXyO99V3P4M.rzVeQX9YvJfMVtlU5JlYW19rnP4liIF5uWGx.xq9c1
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
+ip_community_lists:
+- name: DA2_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64811:11233
+- name: DC21_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64813:13233
+- name: PE1
+  entries:
+  - action: permit
+    regexp: (.*):1_
+- name: PE2
+  entries:
+  - action: permit
+    regexp: (.*):2_
+- name: POLICY_LP120
+  entries:
+  - action: permit
+    regexp: (.*):412
+- name: POLICY_LP150
+  entries:
+  - action: permit
+    regexp: (.*):415
+- name: POLICY_LP170
+  entries:
+  - action: permit
+    regexp: (.*):417
+- name: POLICY_LP180
+  entries:
+  - action: permit
+    regexp: (.*):418
+- name: POLICY_LP190_OVERRIDE
+  entries:
+  - action: permit
+    regexp: (.*):419
+- name: POLICY_LP20_BLEED
+  entries:
+  - action: permit
+    regexp: (.*):410
+- name: 3PCC
+  entries:
+  - action: permit
+    regexp: (.*):920
+- name: OB1
+  entries:
+  - action: permit
+    regexp: 64801:1[1-3]7[0-9][0-9]
+route_maps:
+- name: 3PCC_VENDOR_PRIORITY-1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list VENDOR_PFX
+    set:
+    - local-preference 120
+    - community 64800:920 64800:11703 additive
+- name: 3PCC_VENDOR_PRIORITY-1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community 3PCC
+    set:
+    - as-path prepend 64800 64800 64800 64800
+- name: RM_CE_OB1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community OB1
+- name: DENY_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+- name: PASS_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: PASS_DEFAULT_ONLY
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+- name: PREF_DEFAULT_IMPORT_MAP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Standard import map to allow DC21 Default
+    match:
+    - community DC21_DEFAULT_COMM
+    set:
+    - local-preference 150
+  - sequence: 20
+    type: permit
+    description: Standard import map to allow DA2 Default
+    match:
+    - community DA2_DEFAULT_COMM
+    set:
+    - local-preference 120
+  - sequence: 900
+    type: permit
+    description: Standard import map to allow All routes
+- name: RM_CE_OB1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: STANDARD_1NET_BGP_POLICY_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community POLICY_LP20_BLEED
+    set:
+    - local-preference 20
+  - sequence: 20
+    type: permit
+    match:
+    - community POLICY_LP190_OVERRIDE
+    set:
+    - local-preference 190
+  - sequence: 30
+    type: permit
+    match:
+    - community POLICY_LP120
+    set:
+    - local-preference 120
+  - sequence: 40
+    type: permit
+    match:
+    - community POLICY_LP150
+    set:
+    - local-preference 150
+  - sequence: 50
+    type: permit
+    match:
+    - community POLICY_LP170
+    set:
+    - local-preference 170
+  - sequence: 60
+    type: permit
+    match:
+    - community POLICY_LP180
+    set:
+    - local-preference 180
+  - sequence: 500
+    type: permit
+    description: PERMIT_ALL_ROUTES
+- name: STANDARD_1NET_BGP_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit

@@ -1,0 +1,36 @@
+---
+- name: Build Switch configuration
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+  vars_files:
+    # Vault pass is a credential configured in AWX
+    - ../local_vault.yml
+  collections:
+    - arista.avd
+  tasks:
+    - name: Generate Structured Variables per Device
+      ansible.builtin.import_role:
+        name: arista.avd.eos_designs
+
+    - name: Generate Intended Config and Documentation
+      ansible.builtin.import_role:
+        name: arista.avd.eos_cli_config_gen
+
+- name: Deploy to CVP
+  hosts: CVP
+  gather_facts: false
+  collections:
+    - arista.avd
+  tasks:
+  - name: Deploy Configurations to CVP
+    ansible.builtin.import_role:
+      name: eos_config_deploy_cvp
+    # tags: [ deploy, never ]
+    vars:
+      cv_collection: v3
+      device_search_key: serialNumber
+      container_root: "{{ target_hosts }}"
+      configlets_prefix: 'AWX_AVD'
+      device_filter: "{{ host_filter }}"
+      state: present
+      execute_tasks: false

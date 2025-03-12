@@ -1,0 +1,860 @@
+hostname: ATL-TRX1-DC1-PE1
+is_deployed: false
+router_bgp:
+  as: '64800'
+  router_id: 10.199.0.28
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: RR_PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    password: iKTQwhTMWkGv8NnVBwWL8w==
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+  address_family_evpn:
+    peer_groups: []
+  address_family_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: false
+  address_family_vpn_ipv4:
+    neighbor_default_encapsulation_mpls_next_hop_self:
+      source_interface: Loopback0
+    peer_groups:
+    - name: RR_PEERS
+      activate: true
+  neighbors:
+  - ip_address: 10.199.0.39
+    peer_group: RR_PEERS
+    peer: IAD-TRX1-DC21-RR1
+    description: IAD-TRX1-DC21-RR1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: none
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: MGMT
+  ip_routing: false
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: MGMT
+  ip_address: 10.13.80.232/24
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: MGMT
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+snmp_server:
+  engine_ids:
+    local: 3fafc73104b12cee7cc26d96cc624e3d2f75377f
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 3fafc73104b12cee7cc26d96cc624e3d2f75377f
+    auth: sha
+    auth_passphrase: 9dff7e2c5fc949941e141bc4ae77e1c74fd8a61f
+    priv: aes
+    priv_passphrase: 4f8fe2c0639bce44876b8b27b8d95b85
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 3fafc73104b12cee7cc26d96cc624e3d2f75377f
+    auth: sha
+    auth_passphrase: c82e75ec8cd4131bcf6df1c6e5495df120a94067
+    priv: aes
+    priv_passphrase: 17a8ec678465796e6a65274873f12053
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 3fafc73104b12cee7cc26d96cc624e3d2f75377f
+    auth: sha
+    auth_passphrase: a469fe805be25e2040830df7b111ecf841278574
+    priv: aes
+    priv_passphrase: b8faf27b88020b6f209f92b102d45100
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 3fafc73104b12cee7cc26d96cc624e3d2f75377f
+    auth: sha
+    auth_passphrase: f16c1d30769f3a9791050f6a57899248c2c04fc9
+    priv: aes
+    priv_passphrase: 128bdc5368e66680918722727fb83d13
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: ATL
+  local_interfaces:
+  - name: Management1
+    vrf: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: MPLS_Overlay_peering
+  shutdown: false
+  ip_address: 10.199.0.28/32
+  ospf_area: 0.0.0.0
+  mpls:
+    ldp:
+      interface: true
+router_ospf:
+  process_ids:
+  - id: 64800
+    passive_interface_default: false
+    router_id: 10.199.0.28
+    max_lsa: 0
+    no_passive_interfaces: null
+    bfd_enable: true
+    auto_cost_reference_bandwidth: 1000000
+mpls:
+  ip: true
+  ldp:
+    interface_disabled_default: false
+    router_id: interface Loopback0
+    shutdown: false
+    transport_address_interface: null
+router_bfd:
+  multihop:
+    interval: 1000
+    min_rx: 1000
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+eos_cli: "!\nmac security\n    profile MKA_AES_256\n        cipher aes256-gcm\n        key 0100000000000000000000000000000000000000000000000000000000000000
+  7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863\n
+  \       mka key-server priority 255\n        sci\n  !\n!\nvrf instance BUSINTEL\n!\nvrf instance CCHYBRID\n!\nvrf instance CCISSUE\n!\nvrf
+  instance CCMERCH\n!\nvrf instance DCX1\n!\nvrf instance DMZMEM1\n!\nvrf instance IDTN\n!\nvrf instance IDTNB2B\n!\nvrf instance IDTNDX\n!\nvrf
+  instance MGMT\n!\nvrf instance NCFDMZ\n!\nvrf instance OB1\n!\nvrf instance PEN1\n!\nvrf instance USUNT1\n!\nvrf instance USX1\n!\nip
+  routing\nip routing vrf BUSINTEL\nip routing vrf CCHYBRID\nip routing vrf CCISSUE\nip routing vrf CCMERCH\nip routing vrf DCX1\nip
+  routing vrf DMZMEM1\nip routing vrf IDTN\nip routing vrf IDTNB2B\nip routing vrf IDTNDX\nno ip routing vrf MGMT\nip routing vrf NCFDMZ\nip
+  routing vrf OB1\nip routing vrf PEN1\nip routing vrf USUNT1\nip routing vrf USX1\n!\n!\n!\ninterface Port-Channel110\n  description
+  PE-CE:ATL-SI1-DC1-N1:Po101\n  no switchport\n!\ninterface Port-Channel110.2001\n  description PE-CE:ATL-SI1-DC1-N1:Po101.2001\n  encapsulation
+  dot1q vlan 2001\n  vrf DCX1\n  ip address 10.64.0.0/31\n!\ninterface Port-Channel110.2002\n  description PE-CE:ATL-SI1-DC1-N1:Po101.2002\n
+  \ encapsulation dot1q vlan 2002\n  vrf DMZMEM1\n  ip address 10.64.0.2/31\n!\ninterface Port-Channel110.2004\n  description PE-CE:ATL-SI1-DC1-N1:Po101.2004\n
+  \ encapsulation dot1q vlan 2004\n  vrf BUSINTEL\n  ip address 10.64.0.4/31\n!\ninterface Port-Channel110.2006\n  description PE-CE:ATL-SI1-DC1-N1:Po101.2006\n
+  \ encapsulation dot1q vlan 2006\n  vrf NCFDMZ\n  ip address 10.64.0.6/31\n!\ninterface Port-Channel110.2008\n  description PE-CE:ATL-SI1-DC1-N1:Po101.2008\n
+  \ encapsulation dot1q vlan 2008\n  vrf USX1\n  ip address 10.64.0.8/31\n!\ninterface Port-Channel111\n  description PE-CE:ATL-SI1-DC1-N2:Po101\n
+  \ no switchport\n!\ninterface Port-Channel111.2001\n  description PE-CE:ATL-SI1-DC1-N2:Po101.2001\n  encapsulation dot1q vlan 2001\n
+  \ vrf DCX1\n  ip address 10.64.0.20/31\n!\ninterface Port-Channel111.2002\n  description PE-CE:ATL-SI1-DC1-N2:Po101.2002\n  encapsulation
+  dot1q vlan 2002\n  vrf DMZMEM1\n  ip address 10.64.0.22/31\n!\ninterface Port-Channel111.2004\n  description PE-CE:ATL-SI1-DC1-N2:Po101.2004\n
+  \ encapsulation dot1q vlan 2004\n  vrf BUSINTEL\n  ip address 10.64.0.24/31\n!\ninterface Port-Channel111.2006\n  description PE-CE:ATL-SI1-DC1-N2:Po101.2006\n
+  \ encapsulation dot1q vlan 2006\n  vrf NCFDMZ\n  ip address 10.64.0.26/31\n!\ninterface Port-Channel111.2008\n  description PE-CE:ATL-SI1-DC1-N2:Po101.2008\n
+  \ encapsulation dot1q vlan 2008\n  vrf USX1\n  ip address 10.64.0.28/31\n!\ninterface Port-Channel114\n  description PE-CE:ATL-ST1-DC1-N1:Po101\n
+  \ no switchport\n!\ninterface Port-Channel114.2001\n  description PE-CE:ATL-ST1-DC1-N1:Po101.2001\n  encapsulation dot1q vlan 2001\n
+  \ vrf DCX1\n  ip address 10.72.0.0/31\n!\ninterface Port-Channel114.3001\n  description PE-CE:ATL-ST1-DC1-N1:Po101.3001\n  encapsulation
+  dot1q vlan 3001\n  vrf IDTN\n  ip address 10.72.0.2/31\n!\ninterface Port-Channel114.3002\n  description PE-CE:ATL-ST1-DC1-N1:Po101.3002\n
+  \ encapsulation dot1q vlan 3002\n  vrf IDTNDX\n  ip address 10.72.0.4/31\n!\ninterface Port-Channel114.3003\n  description PE-CE:ATL-ST1-DC1-N1:Po101.3003\n
+  \ encapsulation dot1q vlan 3003\n  vrf IDTNB2B\n  ip address 10.72.0.6/31\n!\ninterface Port-Channel115\n  description PE-CE:ATL-ST1-DC1-N2:Po101\n
+  \ no switchport\n!\ninterface Port-Channel115.2001\n  description PE-CE:ATL-ST1-DC1-N2:Po101.2001\n  encapsulation dot1q vlan 2001\n
+  \ vrf DCX1\n  ip address 10.72.0.16/31\n!\ninterface Port-Channel115.3001\n  description PE-CE:ATL-ST1-DC1-N2:Po101.3001\n  encapsulation
+  dot1q vlan 3001\n  vrf IDTN\n  ip address 10.72.0.18/31\n!\ninterface Port-Channel115.3002\n  description PE-CE:ATL-ST1-DC1-N2:Po101.3002\n
+  \ encapsulation dot1q vlan 3002\n  vrf IDTNDX\n  ip address 10.72.0.20/31\n!\ninterface Port-Channel115.3003\n  description PE-CE:ATL-ST1-DC1-N2:Po101.3003\n
+  \ encapsulation dot1q vlan 3003\n  vrf IDTNB2B\n  ip address 10.72.0.22/31\n!\ninterface Port-Channel116\n  description PE-CE:ATL-SOB1-DC1-N1:Po101\n
+  \ no switchport\n!\ninterface Port-Channel116.2001\n  description PE-CE:ATL-SOB1-DC1-N1:Po101.2001\n  encapsulation dot1q vlan 2001\n
+  \ vrf DCX1\n  ip address 10.76.0.130/31\n!\ninterface Port-Channel117\n  description PE-CE:ATL-SOB1-DC1-N2:Po101\n  no switchport\n!\ninterface
+  Port-Channel117.2001\n  description PE-CE:ATL-SOB1-DC1-N2:Po101.2001\n  encapsulation dot1q vlan 2001\n  vrf DCX1\n  ip address 10.76.0.138/31\n!\ninterface
+  Port-Channel211\n  description PE-CE:ATL-SE1-DC1-N1:Po101\n  no switchport\n!\ninterface Port-Channel211.2001\n  description PE-CE:ATL-SE1-DC1-N1:Po101.2001\n
+  \ encapsulation dot1q vlan 2001\n  vrf DCX1\n  ip address 10.77.0.0/31\n!\ninterface Port-Channel211.2002\n  description PE-CE:ATL-SE1-DC1-N1:Po101.2002\n
+  \ encapsulation dot1q vlan 2002\n  vrf PEN1\n  ip address 10.77.0.2/31\n!\ninterface Port-Channel211.2004\n  description PE-CE:ATL-SE1-DC1-N1:Po101.2004\n
+  \ encapsulation dot1q vlan 2004\n  vrf CCISSUE\n  ip address 10.77.0.4/31\n!\ninterface Port-Channel211.2005\n  description PE-CE:ATL-SE1-DC1-N1:Po101.2005\n
+  \ encapsulation dot1q vlan 2005\n  vrf CCMERCH\n  ip address 10.77.0.6/31\n!\ninterface Port-Channel211.2006\n  description PE-CE:ATL-SE1-DC1-N1:Po101.2006\n
+  \ encapsulation dot1q vlan 2006\n  vrf CCHYBRID\n  ip address 10.77.0.8/31\n!\ninterface Port-Channel212\n  description PE-CE:ATL-SE1-DC1-N2:Po101\n
+  \ no switchport\n!\ninterface Port-Channel212.2001\n  description PE-CE:ATL-SE1-DC1-N2:Po101.2001\n  encapsulation dot1q vlan 2001\n
+  \ vrf DCX1\n  ip address 10.77.0.20/31\n!\ninterface Port-Channel212.2002\n  description PE-CE:ATL-SE1-DC1-N2:Po101.2002\n  encapsulation
+  dot1q vlan 2002\n  vrf PEN1\n  ip address 10.77.0.22/31\n!\ninterface Port-Channel212.2004\n  description PE-CE:ATL-SE1-DC1-N2:Po101.2004\n
+  \ encapsulation dot1q vlan 2004\n  vrf CCISSUE\n  ip address 10.77.0.24/31\n!\ninterface Port-Channel212.2005\n  description PE-CE:ATL-SE1-DC1-N2:Po101.2005\n
+  \ encapsulation dot1q vlan 2005\n  vrf CCMERCH\n  ip address 10.77.0.26/31\n!\ninterface Port-Channel212.2006\n  description PE-CE:ATL-SE1-DC1-N2:Po101.2006\n
+  \ encapsulation dot1q vlan 2006\n  vrf CCHYBRID\n  ip address 10.77.0.28/31\n!\ninterface Ethernet1/1\n  description PE-CE:ATL-SI1-DC1-N1:Eth3/49/1\n
+  \ no shutdown\n  no switchport\n  channel-group 110 mode active\n!\ninterface Ethernet2/1\n  description PE-CE:ATL-SI1-DC1-N2:Eth3/49/1\n
+  \ no shutdown\n  no switchport\n  channel-group 111 mode active\n!\ninterface Ethernet2/3\n  shutdown\n  no switchport\n!\ninterface
+  Ethernet3/1\n  description PE-CE:ATL-ST1-DC1-N1:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 114 mode active\n!\ninterface
+  Ethernet4/1\n  description PE-CE:ATL-ST1-DC1-N2:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 115 mode active\n!\ninterface
+  Ethernet15/1\n  no shutdown\n  no switchport\n!\ninterface Ethernet15/1.2020\n  description PE-CE:ATL-UI1-DC1-N1:Eth49/1.2020\n  encapsulation
+  dot1q vlan 2020\n  vrf USX1\n  ip address 10.48.139.0/31\n  ip access-group ACL_RO_TRAFFIC_INBOUND in\n!\ninterface Ethernet15/1.2820\n
+  \ description PE-CE:ATL-UI1-DC1-N1:Eth49/1.2820\n  encapsulation dot1q vlan 2820\n  vrf USUNT1\n  ip address 10.111.125.32/31\n!\ninterface
+  Ethernet16/1\n  no shutdown\n  no switchport\n!\ninterface Ethernet16/1.2020\n  description PE-CE:ATL-UI1-DC1-N2:Eth49/1.2020\n  encapsulation
+  dot1q vlan 2020\n  vrf USX1\n  ip address 10.48.139.2/31\n  ip access-group ACL_RO_TRAFFIC_INBOUND in\n!\ninterface Ethernet16/1.2820\n
+  \ description PE-CE:ATL-UI1-DC1-N2:Eth49/1.2820\n  encapsulation dot1q vlan 2820\n  vrf USUNT1\n  ip address 10.111.125.34/31\n!\ninterface
+  Ethernet21/1\n  description PE-CE:ATL-SE1-DC1-N1:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 211 mode active\n!\ninterface
+  Ethernet22/1\n  description PE-CE:ATL-SE1-DC1-N2:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 212 mode active\n!\ninterface
+  Ethernet23/1\n  description PE-CE:ATL-SOB1-DC1-N1:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 116 mode active\n!\ninterface
+  Ethernet24/1\n  description PE-CE:ATL-SOB1-DC1-N2:Eth3/49/1\n  no shutdown\n  no switchport\n  channel-group 117 mode active\n!\ninterface
+  Ethernet25/1\n  description P-PE:ATL-TRX1-DC1-P1:Eth25/1\n  no shutdown\n  no switchport\n  ip address 10.199.2.43/31\n  mpls ldp
+  interface\n  mac security profile MKA_AES_256\n  ip ospf network point-to-point\n  ip ospf authentication message-digest\n  ip ospf
+  area 0.0.0.0\n  ip ospf message-digest-key 1 md5 7 gI+W5b1R4lDpehCmYzyW2w==\n!\ninterface Ethernet26/1\n  description P-PE:ATL-TRX1-DC1-P2:Eth25/1\n
+  \ no shutdown\n  no switchport\n  ip address 10.199.2.45/31\n  mpls ldp interface\n  mac security profile MKA_AES_256\n  ip ospf network
+  point-to-point\n  ip ospf authentication message-digest\n  ip ospf area 0.0.0.0\n  ip ospf message-digest-key 1 md5 7 2N0AcrEZMpyItTIpN+dU7Q==\n!\ninterface
+  Loopback0\n  description MPLS_Overlay_peering\n  ip address 10.199.0.28/32\n  ip ospf area 0.0.0.0\n!\ninterface Management1\n  description
+  oob_management\n  no shutdown\n  vrf MGMT\n  ip address 10.9.182.151/28\n!\n!\nmpls ip\n!\nmpls ldp\n  router-id interface Loopback0\n
+  \ no shutdown\n!\n!\nrouter bgp 64800\n  router-id 10.199.0.28\n  update wait-install\n  no bgp default ipv4-unicast\n  distance bgp
+  20 200 200\n  maximum-paths 2 ecmp 2\n  bgp bestpath tie-break router-id\n  \n  neighbor PE_CE_DC_OB_SOB_DCX1 peer group\nneighbor
+  PE_CE_DC_OB_SOB_DCX1 remote-as 65140\nneighbor PE_CE_DC_OB_SOB_DCX1 bfd\nneighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN
+  in\nneighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_OB_SOB_DCX1 password 7 kKXxGiEu6TVyilumLqEW/A==\nneighbor
+  PE_CE_DC_OB_SOB_DCX1 send-community\n  !\n  neighbor PE_CE_DC_PCI_SE_CCHYBRID peer group\nneighbor PE_CE_DC_PCI_SE_CCHYBRID remote-as
+  65120\nneighbor PE_CE_DC_PCI_SE_CCHYBRID bfd\nneighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor
+  PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PCI_SE_CCHYBRID password 7 6eausfeHuNQGCcxKUsAFPw==\nneighbor
+  PE_CE_DC_PCI_SE_CCHYBRID send-community\n  !\n  neighbor PE_CE_DC_PCI_SE_CCISSUE peer group\nneighbor PE_CE_DC_PCI_SE_CCISSUE remote-as
+  65120\nneighbor PE_CE_DC_PCI_SE_CCISSUE bfd\nneighbor PE_CE_DC_PCI_SE_CCISSUE route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PCI_SE_CCISSUE
+  route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PCI_SE_CCISSUE password 7 qtf3UzE4xZNeuFGd+3xb4g==\nneighbor PE_CE_DC_PCI_SE_CCISSUE
+  send-community\n  !\n  neighbor PE_CE_DC_PCI_SE_CCMERCH peer group\nneighbor PE_CE_DC_PCI_SE_CCMERCH remote-as 65120\nneighbor PE_CE_DC_PCI_SE_CCMERCH
+  bfd\nneighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_OUT
+  out\nneighbor PE_CE_DC_PCI_SE_CCMERCH password 7 6MpbKgmZazHWDDoj3OyS6g==\nneighbor PE_CE_DC_PCI_SE_CCMERCH send-community\n  !\n
+  \ neighbor PE_CE_DC_PCI_SE_DCX1 peer group\nneighbor PE_CE_DC_PCI_SE_DCX1 remote-as 65120\nneighbor PE_CE_DC_PCI_SE_DCX1 bfd\nneighbor
+  PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT
+  out\nneighbor PE_CE_DC_PCI_SE_DCX1 password 7 GFznB+vHUnXO8PBEZxEMaw==\nneighbor PE_CE_DC_PCI_SE_DCX1 send-community\n  !\n  neighbor
+  PE_CE_DC_PCI_SE_PEN1 peer group\nneighbor PE_CE_DC_PCI_SE_PEN1 remote-as 65120\nneighbor PE_CE_DC_PCI_SE_PEN1 bfd\nneighbor PE_CE_DC_PCI_SE_PEN1
+  route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PCI_SE_PEN1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PCI_SE_PEN1
+  password 7 RNV9B6iVlRDUJlS1ePw3NA==\nneighbor PE_CE_DC_PCI_SE_PEN1 send-community\n  !\n  neighbor PE_CE_DC_PROD_SI_BUSINTEL peer
+  group\nneighbor PE_CE_DC_PROD_SI_BUSINTEL remote-as 65100\nneighbor PE_CE_DC_PROD_SI_BUSINTEL bfd\nneighbor PE_CE_DC_PROD_SI_BUSINTEL
+  route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PROD_SI_BUSINTEL route-map RM_FILTERED_1NET_BGP_POLICY_OUT out\nneighbor
+  PE_CE_DC_PROD_SI_BUSINTEL password 7 yUMUcnzcG+Z38KepecqVPg==\nneighbor PE_CE_DC_PROD_SI_BUSINTEL send-community\n  !\n  neighbor
+  PE_CE_DC_PROD_SI_DCX1 peer group\nneighbor PE_CE_DC_PROD_SI_DCX1 remote-as 65100\nneighbor PE_CE_DC_PROD_SI_DCX1 bfd\nneighbor PE_CE_DC_PROD_SI_DCX1
+  route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PROD_SI_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PROD_SI_DCX1
+  password 7 1jAa9l2kLUpHINa0qKoB4Q==\nneighbor PE_CE_DC_PROD_SI_DCX1 send-community\n  !\n  neighbor PE_CE_DC_PROD_SI_DMZMEM1 peer
+  group\nneighbor PE_CE_DC_PROD_SI_DMZMEM1 remote-as 65100\nneighbor PE_CE_DC_PROD_SI_DMZMEM1 bfd\nneighbor PE_CE_DC_PROD_SI_DMZMEM1
+  route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PROD_SI_DMZMEM1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PROD_SI_DMZMEM1
+  password 7 TOwcrcsHO2k2BL+WS6y2gw==\nneighbor PE_CE_DC_PROD_SI_DMZMEM1 send-community\n  !\n  neighbor PE_CE_DC_PROD_SI_NCFDMZ peer
+  group\nneighbor PE_CE_DC_PROD_SI_NCFDMZ remote-as 65100\nneighbor PE_CE_DC_PROD_SI_NCFDMZ bfd\nneighbor PE_CE_DC_PROD_SI_NCFDMZ route-map
+  STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_PROD_SI_NCFDMZ route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PROD_SI_NCFDMZ
+  password 7 nDL2RDMDmbVlVbVI4SuueQ==\nneighbor PE_CE_DC_PROD_SI_NCFDMZ send-community\n  !\n  neighbor PE_CE_DC_PROD_SI_USX1 peer group\nneighbor
+  PE_CE_DC_PROD_SI_USX1 remote-as 65100\nneighbor PE_CE_DC_PROD_SI_USX1 bfd\nneighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_IN
+  in\nneighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PROD_SI_USX1 password 7 dN/55dGE6CJYDkJQAFCa7A==\nneighbor
+  PE_CE_DC_PROD_SI_USX1 send-community\n  !\n  neighbor PE_CE_DC_TEST_ST_DCX1 peer group\nneighbor PE_CE_DC_TEST_ST_DCX1 remote-as 65110\nneighbor
+  PE_CE_DC_TEST_ST_DCX1 bfd\nneighbor PE_CE_DC_TEST_ST_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_TEST_ST_DCX1
+  route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_TEST_ST_DCX1 password 7 QOH18HsEBuGBmAPWI1fdJA==\nneighbor PE_CE_DC_TEST_ST_DCX1
+  send-community\n  !\n  neighbor PE_CE_DC_TEST_ST_IDTN peer group\nneighbor PE_CE_DC_TEST_ST_IDTN remote-as 65110\nneighbor PE_CE_DC_TEST_ST_IDTN
+  bfd\nneighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_OUT
+  out\nneighbor PE_CE_DC_TEST_ST_IDTN password 7 1jIoYXF6cWpAQoBcqwbNtA==\nneighbor PE_CE_DC_TEST_ST_IDTN send-community\n  !\n  neighbor
+  PE_CE_DC_TEST_ST_IDTNB2B peer group\nneighbor PE_CE_DC_TEST_ST_IDTNB2B remote-as 65110\nneighbor PE_CE_DC_TEST_ST_IDTNB2B bfd\nneighbor
+  PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_OUT
+  out\nneighbor PE_CE_DC_TEST_ST_IDTNB2B password 7 pugQyDfR4vWDCNsCFm/KgA==\nneighbor PE_CE_DC_TEST_ST_IDTNB2B send-community\n  !\n
+  \ neighbor PE_CE_DC_TEST_ST_IDTNDX peer group\nneighbor PE_CE_DC_TEST_ST_IDTNDX remote-as 65110\nneighbor PE_CE_DC_TEST_ST_IDTNDX
+  bfd\nneighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_OUT
+  out\nneighbor PE_CE_DC_TEST_ST_IDTNDX password 7 AIP6ztnNcrut2cZWEI7nlA==\nneighbor PE_CE_DC_TEST_ST_IDTNDX send-community\n  !\n
+  \ neighbor PE_CE_DC_USUNT1 peer group\nneighbor PE_CE_DC_USUNT1 remote-as 64754\nneighbor PE_CE_DC_USUNT1 bfd\nneighbor PE_CE_DC_USUNT1
+  route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_USUNT1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_USUNT1
+  password 7 MjQUte/1TRYAVx9cuhE6cw==\nneighbor PE_CE_DC_USUNT1 send-community\n  !\n  neighbor PE_CE_DC_USX1 peer group\nneighbor PE_CE_DC_USX1
+  remote-as 64754\nneighbor PE_CE_DC_USX1 bfd\nneighbor PE_CE_DC_USX1 route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor PE_CE_DC_USX1
+  route-map RM_FILTERED_TRUST_OUT out\nneighbor PE_CE_DC_USX1 password 7 MqxgRjOvSJ/M0R7hEVqyrA==\nneighbor PE_CE_DC_USX1 send-community\n
+  \ !\n  neighbor RR_PEERS peer group\nneighbor RR_PEERS remote-as 64800\nneighbor RR_PEERS transport pmtud\nneighbor RR_PEERS update-source
+  Loopback0\nneighbor RR_PEERS bfd\nneighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==\nneighbor RR_PEERS send-community standard
+  extended\nneighbor RR_PEERS maximum-routes 0\nneighbor 10.199.0.38 peer group RR_PEERS\nneighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1\nneighbor
+  10.199.0.39 peer group RR_PEERS\nneighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1\n!\n  !!\n  address-family ipv4\n   neighbor
+  PE_CE_DC_OB_SOB_DCX1 activate\n   neighbor PE_CE_DC_PCI_SE_CCHYBRID activate\n   neighbor PE_CE_DC_PCI_SE_CCISSUE activate\n   neighbor
+  PE_CE_DC_PCI_SE_CCMERCH activate\n   neighbor PE_CE_DC_PCI_SE_DCX1 activate\n   neighbor PE_CE_DC_PCI_SE_PEN1 activate\n   neighbor
+  PE_CE_DC_PROD_SI_BUSINTEL activate\n   neighbor PE_CE_DC_PROD_SI_DCX1 activate\n   neighbor PE_CE_DC_PROD_SI_DMZMEM1 activate\n   neighbor
+  PE_CE_DC_PROD_SI_NCFDMZ activate\n   neighbor PE_CE_DC_PROD_SI_USX1 activate\n   neighbor PE_CE_DC_TEST_ST_DCX1 activate\n   neighbor
+  PE_CE_DC_TEST_ST_IDTN activate\n   neighbor PE_CE_DC_TEST_ST_IDTNB2B activate\n   neighbor PE_CE_DC_TEST_ST_IDTNDX activate\n   neighbor
+  PE_CE_DC_USUNT1 activate\n   neighbor PE_CE_DC_USX1 activate\n!\naddress-family vpn-ipv4\n   neighbor RR_PEERS activate\n!\n  !\n
+  \ vrf BUSINTEL\n   rd 10.199.0.28:949\n   route-target import vpn-ipv4 64536:910\n   route-target import vpn-ipv4 64698:949\n   route-target
+  import vpn-ipv4 64750:910\n   route-target import vpn-ipv4 64751:910\n   route-target import vpn-ipv4 64752:910\n   route-target import
+  vpn-ipv4 64753:910\n   route-target import vpn-ipv4 64800:910\n   route-target import vpn-ipv4 64800:914\n   route-target import vpn-ipv4
+  64800:949\n   route-target import vpn-ipv4 64800:950\n   route-target import vpn-ipv4 64800:91098\n   route-target import vpn-ipv4
+  64800:91099\n   route-target import vpn-ipv4 64811:910\n   route-target import vpn-ipv4 64811:950\n   route-target import vpn-ipv4
+  64811:91099\n   route-target import vpn-ipv4 64813:910\n   route-target import vpn-ipv4 64813:950\n   route-target import vpn-ipv4
+  64813:91099\n   route-target import vpn-ipv4 64820:90101\n   route-target import vpn-ipv4 64820:90103\n   route-target import vpn-ipv4
+  65010:91099\n   route-target import vpn-ipv4 65011:90201\n   route-target import vpn-ipv4 65210:90111\n   route-target import vpn-ipv4
+  65215:90133\n   route-target import vpn-ipv4 65354:949\n   route-target export vpn-ipv4 64800:949\n   router-id 10.199.0.28\n   neighbor
+  10.64.0.5 peer group PE_CE_DC_PROD_SI_BUSINTEL\n   neighbor 10.64.0.5 description ATL-SI1-DC1-N1\n   neighbor 10.64.0.25 peer group
+  PE_CE_DC_PROD_SI_BUSINTEL\n   neighbor 10.64.0.25 description ATL-SI1-DC1-N2\n!\n  !\n  vrf CCHYBRID\n   rd 10.199.0.28:453\n   route-target
+  import vpn-ipv4 64692:453\n   route-target import vpn-ipv4 64800:453\n   route-target export vpn-ipv4 64800:453\n   router-id 10.199.0.28\n
+  \  neighbor 10.77.0.9 peer group PE_CE_DC_PCI_SE_CCHYBRID\n   neighbor 10.77.0.9 description ATL-SE1-DC1-N1\n   neighbor 10.77.0.29
+  peer group PE_CE_DC_PCI_SE_CCHYBRID\n   neighbor 10.77.0.29 description ATL-SE1-DC1-N2\n!\n  !\n  vrf CCISSUE\n   rd 10.199.0.28:452\n
+  \  route-target import vpn-ipv4 64692:452\n   route-target import vpn-ipv4 64800:452\n   route-target export vpn-ipv4 64800:452\n
+  \  router-id 10.199.0.28\n   neighbor 10.77.0.5 peer group PE_CE_DC_PCI_SE_CCISSUE\n   neighbor 10.77.0.5 description ATL-SE1-DC1-N1\n
+  \  neighbor 10.77.0.25 peer group PE_CE_DC_PCI_SE_CCISSUE\n   neighbor 10.77.0.25 description ATL-SE1-DC1-N2\n!\n  !\n  vrf CCMERCH\n
+  \  rd 10.199.0.28:451\n   route-target import vpn-ipv4 64692:451\n   route-target import vpn-ipv4 64800:451\n   route-target export
+  vpn-ipv4 64800:451\n   router-id 10.199.0.28\n   neighbor 10.77.0.7 peer group PE_CE_DC_PCI_SE_CCMERCH\n   neighbor 10.77.0.7 description
+  ATL-SE1-DC1-N1\n   neighbor 10.77.0.27 peer group PE_CE_DC_PCI_SE_CCMERCH\n   neighbor 10.77.0.27 description ATL-SE1-DC1-N2\n!\n
+  \ !\n  vrf DCX1\n   rd 10.199.0.28:910\n   route-target import vpn-ipv4 64534:916\n   route-target import vpn-ipv4 64536:910\n   route-target
+  import vpn-ipv4 64540:916\n   route-target import vpn-ipv4 64653:949\n   route-target import vpn-ipv4 64698:949\n   route-target import
+  vpn-ipv4 64750:910\n   route-target import vpn-ipv4 64751:910\n   route-target import vpn-ipv4 64752:910\n   route-target import vpn-ipv4
+  64753:910\n   route-target import vpn-ipv4 64755:910\n   route-target import vpn-ipv4 64758:910\n   route-target import vpn-ipv4 64780:914\n
+  \  route-target import vpn-ipv4 64782:91401\n   route-target import vpn-ipv4 64782:91402\n   route-target import vpn-ipv4 64800:910\n
+  \  route-target import vpn-ipv4 64800:914\n   route-target import vpn-ipv4 64800:949\n   route-target import vpn-ipv4 64800:91098\n
+  \  route-target import vpn-ipv4 64800:91099\n   route-target import vpn-ipv4 64811:910\n   route-target import vpn-ipv4 64811:91099\n
+  \  route-target import vpn-ipv4 64813:910\n   route-target import vpn-ipv4 64813:91099\n   route-target import vpn-ipv4 64820:90101\n
+  \  route-target import vpn-ipv4 64820:90103\n   route-target import vpn-ipv4 65010:91099\n   route-target import vpn-ipv4 65011:90201\n
+  \  route-target import vpn-ipv4 65210:90111\n   route-target import vpn-ipv4 65215:90113\n   route-target import vpn-ipv4 65354:949\n
+  \  route-target export vpn-ipv4 64800:910\n   route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP\n   router-id 10.199.0.28\n
+  \  neighbor 10.64.0.1 peer group PE_CE_DC_PROD_SI_DCX1\n   neighbor 10.64.0.1 description ATL-SI1-DC1-N1\n   neighbor 10.64.0.21 peer
+  group PE_CE_DC_PROD_SI_DCX1\n   neighbor 10.64.0.21 description ATL-SI1-DC1-N2\n   neighbor 10.72.0.1 peer group PE_CE_DC_TEST_ST_DCX1\n
+  \  neighbor 10.72.0.1 description ATL-ST1-DC1-N1\n   neighbor 10.72.0.17 peer group PE_CE_DC_TEST_ST_DCX1\n   neighbor 10.72.0.17
+  description ATL-ST1-DC1-N2\n   neighbor 10.76.0.131 peer group PE_CE_DC_OB_SOB_DCX1\n   neighbor 10.76.0.131 description ATL-SOB1-DC1-N1\n
+  \  neighbor 10.76.0.139 peer group PE_CE_DC_OB_SOB_DCX1\n   neighbor 10.76.0.139 description ATL-SOB1-DC1-N2\n   neighbor 10.77.0.1
+  peer group PE_CE_DC_PCI_SE_DCX1\n   neighbor 10.77.0.1 description ATL-SE1-DC1-N1\n   neighbor 10.77.0.21 peer group PE_CE_DC_PCI_SE_DCX1\n
+  \  neighbor 10.77.0.21 description ATL-SE1-DC1-N2\n!\n  !\n  vrf DMZMEM1\n   rd 10.199.0.28:909\n   route-target import vpn-ipv4 64800:909\n
+  \  route-target import vpn-ipv4 64811:909\n   route-target import vpn-ipv4 64813:909\n   route-target export vpn-ipv4 64800:909\n
+  \  router-id 10.199.0.28\n   neighbor 10.64.0.3 peer group PE_CE_DC_PROD_SI_DMZMEM1\n   neighbor 10.64.0.3 description ATL-SI1-DC1-N1\n
+  \  neighbor 10.64.0.23 peer group PE_CE_DC_PROD_SI_DMZMEM1\n   neighbor 10.64.0.23 description ATL-SI1-DC1-N2\n!\n  !\n  vrf IDTN\n
+  \  rd 10.199.0.28:990\n   route-target import vpn-ipv4 64526:990\n   route-target import vpn-ipv4 64689:990\n   route-target import
+  vpn-ipv4 64753:990\n   route-target import vpn-ipv4 64800:990\n   route-target import vpn-ipv4 64811:990\n   route-target import vpn-ipv4
+  64813:990\n   route-target import vpn-ipv4 65425:990\n   route-target export vpn-ipv4 64800:990\n   router-id 10.199.0.28\n   neighbor
+  10.72.0.3 peer group PE_CE_DC_TEST_ST_IDTN\n   neighbor 10.72.0.3 description ATL-ST1-DC1-N1\n   neighbor 10.72.0.19 peer group PE_CE_DC_TEST_ST_IDTN\n
+  \  neighbor 10.72.0.19 description ATL-ST1-DC1-N2\n!\n  !\n  vrf IDTNB2B\n   rd 10.199.0.28:489\n   route-target import vpn-ipv4 64697:489\n
+  \  route-target import vpn-ipv4 64800:489\n   route-target export vpn-ipv4 64800:489\n   router-id 10.199.0.28\n   neighbor 10.72.0.7
+  peer group PE_CE_DC_TEST_ST_IDTNB2B\n   neighbor 10.72.0.7 description ATL-ST1-DC1-N1\n   neighbor 10.72.0.23 peer group PE_CE_DC_TEST_ST_IDTNB2B\n
+  \  neighbor 10.72.0.23 description ATL-ST1-DC1-N2\n!\n  !\n  vrf IDTNDX\n   rd 10.199.0.28:987\n   route-target import vpn-ipv4 64526:987\n
+  \  route-target import vpn-ipv4 64697:987\n   route-target import vpn-ipv4 64697:49099\n   route-target import vpn-ipv4 64800:987\n
+  \  route-target import vpn-ipv4 64800:98799\n   route-target import vpn-ipv4 64894:987\n   route-target import vpn-ipv4 64898:987\n
+  \  route-target export vpn-ipv4 64800:987\n   router-id 10.199.0.28\n   neighbor 10.72.0.5 peer group PE_CE_DC_TEST_ST_IDTNDX\n   neighbor
+  10.72.0.5 description ATL-ST1-DC1-N1\n   neighbor 10.72.0.21 peer group PE_CE_DC_TEST_ST_IDTNDX\n   neighbor 10.72.0.21 description
+  ATL-ST1-DC1-N2\n!\n  !\n  vrf NCFDMZ\n   rd 10.199.0.28:494\n   route-target import vpn-ipv4 64693:490\n   route-target import vpn-ipv4
+  64800:494\n   route-target export vpn-ipv4 64800:494\n   route-target import vpn-ipv4 route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP\n   router-id
+  10.199.0.28\n   neighbor 10.64.0.7 peer group PE_CE_DC_PROD_SI_NCFDMZ\n   neighbor 10.64.0.7 description ATL-SI1-DC1-N1\n   neighbor
+  10.64.0.27 peer group PE_CE_DC_PROD_SI_NCFDMZ\n   neighbor 10.64.0.27 description ATL-SI1-DC1-N2\n!\n  !\n  vrf OB1\n   route-target
+  import vpn-ipv4 64800:900\n   route-target import vpn-ipv4 64801:900101\n   route-target export vpn-ipv4 64800:900\n   maximum-paths
+  2 ecmp 2\n!\n  !\n  vrf PEN1\n   rd 10.199.0.28:992\n   route-target import vpn-ipv4 64800:992\n   route-target import vpn-ipv4 64811:992\n
+  \  route-target import vpn-ipv4 64813:992\n   route-target import vpn-ipv4 65315:992\n   route-target import vpn-ipv4 65508:99201\n
+  \  route-target import vpn-ipv4 65508:99202\n   route-target export vpn-ipv4 64800:992\n   router-id 10.199.0.28\n   neighbor 10.77.0.3
+  peer group PE_CE_DC_PCI_SE_PEN1\n   neighbor 10.77.0.3 description ATL-SE1-DC1-N1\n   neighbor 10.77.0.23 peer group PE_CE_DC_PCI_SE_PEN1\n
+  \  neighbor 10.77.0.23 description ATL-SE1-DC1-N2\n!\n  !\n  vrf USUNT1\n   rd 10.199.0.28:911\n   route-target import vpn-ipv4 64535:91102\n
+  \  route-target import vpn-ipv4 64800:911\n   route-target import vpn-ipv4 64811:911\n   route-target import vpn-ipv4 64812:911\n
+  \  route-target import vpn-ipv4 64813:911\n   route-target import vpn-ipv4 65420:91111\n   route-target import vpn-ipv4 65500:911\n
+  \  route-target export vpn-ipv4 64800:912\n   router-id 10.199.0.28\n   neighbor 10.111.125.33 peer group PE_CE_DC_USUNT1\n   neighbor
+  10.111.125.33 description ATL-UI1-DC1-N1:USUNT1\n   neighbor 10.111.125.35 peer group PE_CE_DC_USUNT1\n   neighbor 10.111.125.35 description
+  ATL-UI1-DC1-N2:USUNT1\n!\n  !\n  vrf USX1\n   rd 10.199.0.28:914\n   route-target import vpn-ipv4 64536:910\n   route-target import
+  vpn-ipv4 64653:949\n   route-target import vpn-ipv4 64659:910\n   route-target import vpn-ipv4 64698:949\n   route-target import vpn-ipv4
+  64750:910\n   route-target import vpn-ipv4 64751:910\n   route-target import vpn-ipv4 64752:910\n   route-target import vpn-ipv4 64753:910\n
+  \  route-target import vpn-ipv4 64755:910\n   route-target import vpn-ipv4 64756:910\n   route-target import vpn-ipv4 64758:910\n
+  \  route-target import vpn-ipv4 64782:91401\n   route-target import vpn-ipv4 64782:91402\n   route-target import vpn-ipv4 64800:910\n
+  \  route-target import vpn-ipv4 64800:914\n   route-target import vpn-ipv4 64800:949\n   route-target import vpn-ipv4 64800:91098\n
+  \  route-target import vpn-ipv4 64800:91099\n   route-target import vpn-ipv4 64811:910\n   route-target import vpn-ipv4 64811:91099\n
+  \  route-target import vpn-ipv4 64813:910\n   route-target import vpn-ipv4 64813:91099\n   route-target import vpn-ipv4 64820:90101\n
+  \  route-target import vpn-ipv4 64820:90103\n   route-target import vpn-ipv4 65010:91099\n   route-target import vpn-ipv4 65011:90201\n
+  \  route-target import vpn-ipv4 65210:90111\n   route-target import vpn-ipv4 65215:90113\n   route-target import vpn-ipv4 65354:949\n
+  \  route-target export vpn-ipv4 64800:914\n   route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP\n   router-id 10.199.0.28\n
+  \  neighbor 10.48.139.1 peer group PE_CE_DC_USX1\n   neighbor 10.48.139.1 description ATL-UI1-DC1-N1:DEFAULT\n   neighbor 10.48.139.3
+  peer group PE_CE_DC_USX1\n   neighbor 10.48.139.3 description ATL-UI1-DC1-N2:DEFAULT\n   neighbor 10.64.0.9 peer group PE_CE_DC_PROD_SI_USX1\n
+  \  neighbor 10.64.0.9 description ATL-SI1-DC1-N1\n   neighbor 10.64.0.29 peer group PE_CE_DC_PROD_SI_USX1\n   neighbor 10.64.0.29
+  description ATL-SI1-DC1-N2\n !\n  !\n!\nmanagement ssh\nip access-group SSH_ACCESS vrf MGMT in\nidle-timeout 10\nauthentication mode
+  password\n!\nvrf MGMT\n  no shutdown"
+ethernet_interfaces:
+- name: Ethernet1/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet3/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet4/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet5/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet6/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet7/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet8/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet9/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet10/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet11/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet12/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet13/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet14/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet17/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet18/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet19/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet20/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet21/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet22/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet23/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet24/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet25/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet26/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet27/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet28/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet29/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet30/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet31/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet33/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet34/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet35/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet36/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+metadata:
+  platform: 7280R3
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
+ip_community_lists:
+- name: DA2_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64811:11233
+- name: DC21_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64813:13233
+- name: PE1
+  entries:
+  - action: permit
+    regexp: (.*):1_
+- name: PE2
+  entries:
+  - action: permit
+    regexp: (.*):2_
+- name: POLICY_LP120
+  entries:
+  - action: permit
+    regexp: (.*):412
+- name: POLICY_LP150
+  entries:
+  - action: permit
+    regexp: (.*):415
+- name: POLICY_LP170
+  entries:
+  - action: permit
+    regexp: (.*):417
+- name: POLICY_LP180
+  entries:
+  - action: permit
+    regexp: (.*):418
+- name: POLICY_LP190_OVERRIDE
+  entries:
+  - action: permit
+    regexp: (.*):419
+- name: POLICY_LP20_BLEED
+  entries:
+  - action: permit
+    regexp: (.*):410
+route_maps:
+- name: DENY_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+- name: NCFDMZ_PREF_DEFAULT_IMPORT_MAP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: PRIMARY DA2 DEFAULT (LP 170)
+    match:
+    - community NCFDMZ_DA2_PREF_COMM
+    set:
+    - local-preference 170
+  - sequence: 20
+    type: permit
+    description: SECONDARY DC21 DEFAULT (LP 150)
+    match:
+    - community NCFDMZ_DC21_PREF_COMM
+    set:
+    - local-preference 150
+  - sequence: 900
+    type: permit
+    description: Standard import map to allow All routes
+- name: PASS_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: PREF_DEFAULT_IMPORT_MAP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Standard import map to allow DC21 Default
+    match:
+    - community DA2_DEFAULT_COMM
+    - community DC21_DEFAULT_COMM
+    set:
+    - local-preference 150
+  - sequence: 20
+    type: permit
+    description: Standard import map to allow DA2 Default
+    match:
+    - community DC21_DEFAULT_COMM
+    - community DA2_DEFAULT_COMM
+    set:
+    - local-preference 120
+  - sequence: 900
+    type: permit
+    description: Standard import map to allow All routes
+- name: RM_FILTERED_1NET_BGP_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_RFC1918
+  - sequence: 20
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+- name: RM_FILTERED_TRUST_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+  - sequence: 20
+    type: permit
+    match:
+    - ip address prefix-list PL_RFC1918
+- name: STANDARD_1NET_BGP_POLICY_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community POLICY_LP20_BLEED
+    set:
+    - local-preference 20
+  - sequence: 20
+    type: permit
+    match:
+    - community POLICY_LP190_OVERRIDE
+    set:
+    - local-preference 190
+  - sequence: 30
+    type: permit
+    match:
+    - community POLICY_LP120
+    set:
+    - local-preference 120
+  - sequence: 40
+    type: permit
+    match:
+    - community POLICY_LP150
+    set:
+    - local-preference 150
+  - sequence: 50
+    type: permit
+    match:
+    - community POLICY_LP170
+    set:
+    - local-preference 170
+  - sequence: 60
+    type: permit
+    match:
+    - community POLICY_LP180
+    set:
+    - local-preference 180
+  - sequence: 500
+    type: permit
+    description: PERMIT_ALL_ROUTES
+- name: STANDARD_1NET_BGP_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: TEST_DC_RM
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: THIS IS A TEST AVD ROUTE MAP FOR DC
+    match:
+    - community TEST_COMM_DC
+    set:
+    - local-preference 150
+- name: PASS_DEFAULT_ONLY
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+- name: RM_CE_OB1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: RM_CE_OB1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit

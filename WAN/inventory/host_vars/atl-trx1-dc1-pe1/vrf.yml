@@ -1,0 +1,48 @@
+VRF_DEFINITION: |-
+  vrf instance BUSINTEL
+  !
+  vrf instance CCHYBRID
+  !
+  vrf instance CCISSUE
+  !
+  vrf instance CCMERCH
+  !
+  vrf instance DCX1
+  !
+  vrf instance DMZMEM1
+  !
+  vrf instance IDTN
+  !
+  vrf instance IDTNB2B
+  !
+  vrf instance IDTNDX
+  !
+  vrf instance MGMT
+  !
+  vrf instance NCFDMZ
+  !
+  vrf instance OB1
+  !
+  vrf instance PEN1
+  !
+  vrf instance USUNT1
+  !
+  vrf instance USX1
+  !
+  ip routing
+  ip routing vrf BUSINTEL
+  ip routing vrf CCHYBRID
+  ip routing vrf CCISSUE
+  ip routing vrf CCMERCH
+  ip routing vrf DCX1
+  ip routing vrf DMZMEM1
+  ip routing vrf IDTN
+  ip routing vrf IDTNB2B
+  ip routing vrf IDTNDX
+  no ip routing vrf MGMT
+  ip routing vrf NCFDMZ
+  ip routing vrf OB1
+  ip routing vrf PEN1
+  ip routing vrf USUNT1
+  ip routing vrf USX1
+  !

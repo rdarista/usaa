@@ -1,0 +1,1477 @@
+! Command: show running-config
+! device: ATL-TRX1-DC1-PE2 (DCS-7280CR3MK-32P4S, EOS-4.31.4M)
+!
+! boot system flash:/EOS-4.31.4M.swi
+!
+aaa root secret sha512 $6$V48GnSGw9xSecXh6$usRtZW/pZWxmsN3DAg8niqiwnzMDwmHrT26UTkKcpYQHv3f2wqWHP5r11wTfrOAwj1V7AN59tQ0Z3QKyCYADk0
+no username admin
+!
+username netsupport privilege 15 role network-admin secret sha512 $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+username sdadmin privilege 15 role network-admin secret sha512 $6$3A9mEC9YnLa4nWDE$gxQQ32f2jHy0GXbIpRyjHjkAIaTs7oEH1vPGuAlv8uuEg.FYmMqDg8MCre2tbsr7cEAb7sKdIKZGGbmTXrAUO1
+!
+prompt %H%v[%D{%H:%M:%S}]%P
+alias c bash clear
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -cvaddr=10.139.16.173:9910,10.139.16.174:9910,10.139.16.175:9910 -cvauth=token,tmp/token -cvvrf=MGMT -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs=/var/log/messages
+   no shutdown
+!
+switchport default mode routed
+!
+vlan internal order ascending range 1006 1199
+!
+event-monitor
+!
+load-interval default 30
+!
+transceiver qsfp default-mode 4x10G
+!
+interface defaults
+   mtu 9214
+   !
+   ethernet
+      shutdown
+!
+service routing protocols model multi-agent
+!
+queue-monitor length
+!
+logging buffered 10000
+logging trap debugging
+no logging console
+logging vrf MGMT host 10.0.249.172 9107
+logging vrf MGMT host log.usaa.com 7036
+logging vrf MGMT host routingelk-anycast.usaa.com 8012
+logging format timestamp high-resolution
+logging vrf MGMT source-interface Management1
+!
+hostname ATL-TRX1-DC1-PE2
+ip domain lookup vrf MGMT source-interface Management1
+ip name-server vrf MGMT 10.0.255.100
+ip name-server vrf MGMT 10.136.128.100
+ip name-server vrf MGMT 10.231.108.100
+dns domain usaa.com
+!
+sflow sample 65536
+sflow polling-interval 5
+sflow vrf MGMT source-interface Management1
+sflow run
+!
+snmp-server engineID local f5717fe4787616650900
+snmp-server contact http://go/acc-lan
+snmp-server vrf MGMT local-interface Management1
+snmp-server view READALL ISO included
+snmp-server group CAPC v3 auth read READALL
+snmp-server group READONLY v3 priv read READALL
+snmp-server user NETSVC_NETBRAIN READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 4146adc42aa8853eccbc1a38e97ea00d7406dfa7 priv aes 2f731cd3968fb2e321c4ccc27f90cb8a
+snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 0c8d15369ba40f62da84953da549db15bcab247b priv aes e0a4addc4acafdbf7bbeb02816cee87a
+snmp-server user NETSVC_NETSCOUT READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 816c471fe6bc6a297c45b76c64469be74c82731e priv aes 49eec8cd3a09c6c85ea1cbbf760c9641
+snmp-server user NETSVC_SPECTRUM READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 01da6f5daa81c34645b28b3f708e28748888b65a priv aes 54976de00b43bd906f43a11eb21965d1
+snmp-server user SERVICENOW READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 90d309463546f2e726ac946040cd7156aba3ac42 priv aes 5dd748f1cb378016b5a0a535feca9d6e
+snmp-server host 10.139.4.41 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host 10.139.4.44 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host proddxnspv1lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server host proddxnspv2lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server enable traps
+no snmp-server enable traps bgp backward-transition
+no snmp-server enable traps bridge
+no snmp-server vrf default
+snmp-server vrf MGMT
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+clock timezone CST6CDT
+!
+vlan 1
+   name Default
+   state suspend
+!
+vrf instance BUSINTEL
+!
+vrf instance CCHYBRID
+!
+vrf instance CCISSUE
+!
+vrf instance CCMERCH
+!
+vrf instance DCX1
+!
+vrf instance DMZMEM1
+!
+vrf instance IDTN
+!
+vrf instance IDTNB2B
+!
+vrf instance IDTNDX
+!
+vrf instance MGMT
+!
+vrf instance NCFDMZ
+!
+vrf instance OB1
+!
+vrf instance PEN1
+!
+vrf instance USX1
+!
+queue-monitor streaming
+   no shutdown
+!
+banner login
+******************************WARNING************************************
+This system is for authorized users only. This, and any other sessions,
+can and will be monitored to determine whether or not it is being used
+by an authorized user.
+
+By logging into this system, you are consenting to such monitoring, and
+are advised that the system administrators retain the right to use any
+recorded session as evidence of criminal activity, if such activity is
+monitored.
+******************************WARNING************************************
+EOF
+!
+management api http-commands
+   protocol https ssl profile SSL_TLS_1_2
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+!
+management api gnmi
+   transport grpc default
+      ssl profile SSL_TLS_1_2
+      vrf MGMT
+   provider eos-native
+!
+management security
+   entropy source hardware
+   !
+   ssl profile SSL_TLS_1_2
+      tls versions 1.2
+      cipher-list HIGH:!NULL:!MD5:!ADH:!ANULL:!AECD
+      certificate SSL_TLS_1_2.crt key SSL_TLS_1_2.key
+      trust certificate SSL_TLS_1_2.crt
+!
+tacacs-server host prodauth.usaa.com vrf MGMT key 7 06033519661C5F3A530F251F3C
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ local
+aaa authorization serial-console
+aaa authorization exec default group tacacs+ local
+aaa authorization commands 15 default group tacacs+ local
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 15 default stop-only group tacacs+
+!
+mac security
+   profile MKA_AES_256
+      cipher aes256-gcm
+      key 0100000000000000000000000000000000000000000000000000000000000000 7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+      mka key-server priority 60
+      sci
+!
+interface Port-Channel110
+   description PE-CE:ATL-SI1-DC1-N1:Po151
+   no switchport
+!
+interface Port-Channel110.2001
+   description PE-CE:ATL-SI1-DC1-N1:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.64.0.10/31
+!
+interface Port-Channel110.2002
+   description PE-CE:ATL-SI1-DC1-N1:Po151.2002
+   encapsulation dot1q vlan 2002
+   vrf DMZMEM1
+   ip address 10.64.0.12/31
+!
+interface Port-Channel110.2004
+   description PE-CE:ATL-SI1-DC1-N1:Po151.2004
+   encapsulation dot1q vlan 2004
+   vrf BUSINTEL
+   ip address 10.64.0.14/31
+!
+interface Port-Channel110.2006
+   description PE-CE:ATL-SI1-DC1-N1:Po151.2006
+   encapsulation dot1q vlan 2006
+   vrf NCFDMZ
+   ip address 10.64.0.16/31
+!
+interface Port-Channel110.2008
+   description PE-CE:ATL-SI1-DC1-N1:Po151.2008
+   encapsulation dot1q vlan 2008
+   vrf USX1
+   ip address 10.64.0.18/31
+!
+interface Port-Channel111
+   description PE-CE:ATL-SI1-DC1-N2:Po151
+   no switchport
+!
+interface Port-Channel111.2001
+   description PE-CE:ATL-SI1-DC1-N2:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.64.0.30/31
+!
+interface Port-Channel111.2002
+   description PE-CE:ATL-SI1-DC1-N2:Po151.2002
+   encapsulation dot1q vlan 2002
+   vrf DMZMEM1
+   ip address 10.64.0.32/31
+!
+interface Port-Channel111.2004
+   description PE-CE:ATL-SI1-DC1-N2:Po151.2004
+   encapsulation dot1q vlan 2004
+   vrf BUSINTEL
+   ip address 10.64.0.34/31
+!
+interface Port-Channel111.2006
+   description PE-CE:ATL-SI1-DC1-N2:Po151.2006
+   encapsulation dot1q vlan 2006
+   vrf NCFDMZ
+   ip address 10.64.0.36/31
+!
+interface Port-Channel111.2008
+   description PE-CE:ATL-SI1-DC1-N2:Po151.2008
+   encapsulation dot1q vlan 2008
+   vrf USX1
+   ip address 10.64.0.38/31
+!
+interface Port-Channel114
+   description PE-CE:ATL-ST1-DC1-N1:Po151
+   no switchport
+!
+interface Port-Channel114.2001
+   description PE-CE:ATL-ST1-DC1-N1:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.72.0.8/31
+!
+interface Port-Channel114.3001
+   description PE-CE:ATL-ST1-DC1-N1:Po151.3001
+   encapsulation dot1q vlan 3001
+   vrf IDTN
+   ip address 10.72.0.10/31
+!
+interface Port-Channel114.3002
+   description PE-CE:ATL-ST1-DC1-N1:Po151.3002
+   encapsulation dot1q vlan 3002
+   vrf IDTNDX
+   ip address 10.72.0.12/31
+!
+interface Port-Channel114.3003
+   description PE-CE:ATL-ST1-DC1-N1:Po151.3003
+   encapsulation dot1q vlan 3003
+   vrf IDTNB2B
+   ip address 10.72.0.14/31
+!
+interface Port-Channel115
+   description PE-CE:ATL-ST1-DC1-N2:Po151
+   no switchport
+!
+interface Port-Channel115.2001
+   description PE-CE:ATL-ST1-DC1-N2:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.72.0.24/31
+!
+interface Port-Channel115.3001
+   description PE-CE:ATL-ST1-DC1-N2:Po151.3001
+   encapsulation dot1q vlan 3001
+   vrf IDTN
+   ip address 10.72.0.26/31
+!
+interface Port-Channel115.3002
+   description PE-CE:ATL-ST1-DC1-N2:Po151.3002
+   encapsulation dot1q vlan 3002
+   vrf IDTNDX
+   ip address 10.72.0.28/31
+!
+interface Port-Channel115.3003
+   description PE-CE:ATL-ST1-DC1-N2:Po151.3003
+   encapsulation dot1q vlan 3003
+   vrf IDTNB2B
+   ip address 10.72.0.30/31
+!
+interface Port-Channel116
+   description PE-CE:ATL-SOB1-DC1-N1:Po151
+   no switchport
+!
+interface Port-Channel116.2001
+   description PE-CE:ATL-SOB1-DC1-N1:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.76.0.134/31
+!
+interface Port-Channel117
+   description PE-CE:ATL-SOB1-DC1-N2:Po151
+   no switchport
+!
+interface Port-Channel117.2001
+   description PE-CE:ATL-SOB1-DC1-N2:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.76.0.142/31
+!
+interface Port-Channel211
+   description PE-CE:ATL-SE1-DC1-N1:Po151
+   no switchport
+!
+interface Port-Channel211.2001
+   description PE-CE:ATL-SE1-DC1-N1:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.77.0.10/31
+!
+interface Port-Channel211.2002
+   description PE-CE:ATL-SE1-DC1-N1:Po151.2002
+   encapsulation dot1q vlan 2002
+   vrf PEN1
+   ip address 10.77.0.12/31
+!
+interface Port-Channel211.2004
+   description PE-CE:ATL-SE1-DC1-N1:Po151.2004
+   encapsulation dot1q vlan 2004
+   vrf CCISSUE
+   ip address 10.77.0.14/31
+!
+interface Port-Channel211.2005
+   description PE-CE:ATL-SE1-DC1-N1:Po151.2005
+   encapsulation dot1q vlan 2005
+   vrf CCMERCH
+   ip address 10.77.0.16/31
+!
+interface Port-Channel211.2006
+   description PE-CE:ATL-SE1-DC1-N1:Po151.2006
+   encapsulation dot1q vlan 2006
+   vrf CCHYBRID
+   ip address 10.77.0.18/31
+!
+interface Port-Channel212
+   description PE-CE:ATL-SE1-DC1-N2:Po151
+   no switchport
+!
+interface Port-Channel212.2001
+   description PE-CE:ATL-SE1-DC1-N2:Po151.2001
+   encapsulation dot1q vlan 2001
+   vrf DCX1
+   ip address 10.77.0.30/31
+!
+interface Port-Channel212.2002
+   description PE-CE:ATL-SE1-DC1-N2:Po151.2002
+   encapsulation dot1q vlan 2002
+   vrf PEN1
+   ip address 10.77.0.32/31
+!
+interface Port-Channel212.2004
+   description PE-CE:ATL-SE1-DC1-N2:Po151.2004
+   encapsulation dot1q vlan 2004
+   vrf CCISSUE
+   ip address 10.77.0.34/31
+!
+interface Port-Channel212.2005
+   description PE-CE:ATL-SE1-DC1-N2:Po151.2005
+   encapsulation dot1q vlan 2005
+   vrf CCMERCH
+   ip address 10.77.0.36/31
+!
+interface Port-Channel212.2006
+   description PE-CE:ATL-SE1-DC1-N2:Po151.2006
+   encapsulation dot1q vlan 2006
+   vrf CCHYBRID
+   ip address 10.77.0.38/31
+!
+interface Ethernet1/1
+   description PE-CE:ATL-SI1-DC1-N1:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 110 mode active
+!
+interface Ethernet1/2
+   shutdown
+   no switchport
+!
+interface Ethernet1/3
+   shutdown
+   no switchport
+!
+interface Ethernet1/4
+   shutdown
+   no switchport
+!
+interface Ethernet2/1
+   description PE-CE:ATL-SI1-DC1-N2:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 111 mode active
+!
+interface Ethernet2/3
+   shutdown
+   no switchport
+!
+interface Ethernet3/1
+   description PE-CE:ATL-ST1-DC1-N1:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 114 mode active
+!
+interface Ethernet3/2
+   shutdown
+   no switchport
+!
+interface Ethernet3/3
+   shutdown
+   no switchport
+!
+interface Ethernet3/4
+   shutdown
+   no switchport
+!
+interface Ethernet4/1
+   description PE-CE:ATL-ST1-DC1-N2:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 115 mode active
+!
+interface Ethernet4/3
+   shutdown
+   no switchport
+!
+interface Ethernet5/1
+   shutdown
+   no switchport
+!
+interface Ethernet5/2
+   shutdown
+   no switchport
+!
+interface Ethernet5/3
+   shutdown
+   no switchport
+!
+interface Ethernet5/4
+   shutdown
+   no switchport
+!
+interface Ethernet6/1
+   shutdown
+   no switchport
+!
+interface Ethernet6/3
+   shutdown
+   no switchport
+!
+interface Ethernet7/1
+   shutdown
+   no switchport
+!
+interface Ethernet7/2
+   shutdown
+   no switchport
+!
+interface Ethernet7/3
+   shutdown
+   no switchport
+!
+interface Ethernet7/4
+   shutdown
+   no switchport
+!
+interface Ethernet8/1
+   shutdown
+   no switchport
+!
+interface Ethernet8/3
+   shutdown
+   no switchport
+!
+interface Ethernet9/1
+   shutdown
+   no switchport
+!
+interface Ethernet9/2
+   shutdown
+   no switchport
+!
+interface Ethernet9/3
+   shutdown
+   no switchport
+!
+interface Ethernet9/4
+   shutdown
+   no switchport
+!
+interface Ethernet10/1
+   shutdown
+   no switchport
+!
+interface Ethernet10/3
+   shutdown
+   no switchport
+!
+interface Ethernet11/1
+   shutdown
+   no switchport
+!
+interface Ethernet11/2
+   shutdown
+   no switchport
+!
+interface Ethernet11/3
+   shutdown
+   no switchport
+!
+interface Ethernet11/4
+   shutdown
+   no switchport
+!
+interface Ethernet12/1
+   shutdown
+   no switchport
+!
+interface Ethernet12/3
+   shutdown
+   no switchport
+!
+interface Ethernet13/1
+   shutdown
+   no switchport
+!
+interface Ethernet13/2
+   shutdown
+   no switchport
+!
+interface Ethernet13/3
+   shutdown
+   no switchport
+!
+interface Ethernet13/4
+   shutdown
+   no switchport
+!
+interface Ethernet14/1
+   shutdown
+   no switchport
+!
+interface Ethernet14/3
+   shutdown
+   no switchport
+!
+interface Ethernet15/1
+   no shutdown
+   no switchport
+!
+interface Ethernet15/2
+   shutdown
+   no switchport
+!
+interface Ethernet15/3
+   shutdown
+   no switchport
+!
+interface Ethernet15/4
+   shutdown
+   no switchport
+!
+interface Ethernet16/1
+   no shutdown
+   no switchport
+!
+interface Ethernet16/3
+   shutdown
+   no switchport
+!
+interface Ethernet17/1
+   shutdown
+   no switchport
+!
+interface Ethernet17/2
+   shutdown
+   no switchport
+!
+interface Ethernet17/3
+   shutdown
+   no switchport
+!
+interface Ethernet17/4
+   shutdown
+   no switchport
+!
+interface Ethernet18/1
+   shutdown
+   no switchport
+!
+interface Ethernet18/3
+   shutdown
+   no switchport
+!
+interface Ethernet19/1
+   shutdown
+   no switchport
+!
+interface Ethernet19/2
+   shutdown
+   no switchport
+!
+interface Ethernet19/3
+   shutdown
+   no switchport
+!
+interface Ethernet19/4
+   shutdown
+   no switchport
+!
+interface Ethernet20/1
+   shutdown
+   no switchport
+!
+interface Ethernet20/3
+   shutdown
+   no switchport
+!
+interface Ethernet21/1
+   description PE-CE:ATL-SE1-DC1-N1:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 211 mode active
+!
+interface Ethernet21/2
+   shutdown
+   no switchport
+!
+interface Ethernet21/3
+   shutdown
+   no switchport
+!
+interface Ethernet21/4
+   shutdown
+   no switchport
+!
+interface Ethernet22/1
+   description PE-CE:ATL-SE1-DC1-N2:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 212 mode active
+!
+interface Ethernet22/3
+   shutdown
+   no switchport
+!
+interface Ethernet23/1
+   description PE-CE:ATL-SOB1-DC1-N1:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 116 mode active
+!
+interface Ethernet23/2
+   shutdown
+   no switchport
+!
+interface Ethernet23/3
+   shutdown
+   no switchport
+!
+interface Ethernet23/4
+   shutdown
+   no switchport
+!
+interface Ethernet24/1
+   description PE-CE:ATL-SOB1-DC1-N2:Eth4/49/1
+   no shutdown
+   no switchport
+   channel-group 117 mode active
+!
+interface Ethernet24/3
+   shutdown
+   no switchport
+!
+interface Ethernet25/1
+   description P-PE:ATL-TRX1-DC1-P1:Eth26/1
+   no shutdown
+   no switchport
+   ip address 10.199.2.47/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 gI+W5b1R4lDpehCmYzyW2w==
+!
+interface Ethernet25/2
+   shutdown
+   no switchport
+!
+interface Ethernet25/3
+   shutdown
+   no switchport
+!
+interface Ethernet25/4
+   shutdown
+   no switchport
+!
+interface Ethernet26/1
+   description P-PE:ATL-TRX1-DC1-P2:Eth26/1
+   no shutdown
+   no switchport
+   ip address 10.199.2.55/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 2N0AcrEZMpyItTIpN+dU7Q==
+!
+interface Ethernet26/3
+   shutdown
+   no switchport
+!
+interface Ethernet27/1
+   shutdown
+   no switchport
+!
+interface Ethernet27/2
+   shutdown
+   no switchport
+!
+interface Ethernet27/3
+   shutdown
+   no switchport
+!
+interface Ethernet27/4
+   shutdown
+   no switchport
+!
+interface Ethernet28/1
+   shutdown
+   no switchport
+!
+interface Ethernet28/3
+   shutdown
+   no switchport
+!
+interface Ethernet29/1
+   shutdown
+   no switchport
+!
+interface Ethernet29/2
+   shutdown
+   no switchport
+!
+interface Ethernet29/3
+   shutdown
+   no switchport
+!
+interface Ethernet29/4
+   shutdown
+   no switchport
+!
+interface Ethernet30/1
+   shutdown
+   no switchport
+!
+interface Ethernet30/3
+   shutdown
+   no switchport
+!
+interface Ethernet31/1
+   shutdown
+   no switchport
+!
+interface Ethernet31/2
+   shutdown
+   no switchport
+!
+interface Ethernet31/3
+   shutdown
+   no switchport
+!
+interface Ethernet31/4
+   shutdown
+   no switchport
+!
+interface Ethernet32/1
+   shutdown
+   no switchport
+!
+interface Ethernet32/3
+   shutdown
+   no switchport
+!
+interface Ethernet33/1
+   shutdown
+   no switchport
+!
+interface Ethernet33/2
+   shutdown
+   no switchport
+!
+interface Ethernet33/3
+   shutdown
+   no switchport
+!
+interface Ethernet33/4
+   shutdown
+   no switchport
+!
+interface Ethernet33/5
+   shutdown
+   no switchport
+!
+interface Ethernet33/6
+   shutdown
+   no switchport
+!
+interface Ethernet33/7
+   shutdown
+   no switchport
+!
+interface Ethernet33/8
+   shutdown
+   no switchport
+!
+interface Ethernet34/1
+   shutdown
+   no switchport
+!
+interface Ethernet34/2
+   shutdown
+   no switchport
+!
+interface Ethernet34/3
+   shutdown
+   no switchport
+!
+interface Ethernet34/4
+   shutdown
+   no switchport
+!
+interface Ethernet34/5
+   shutdown
+   no switchport
+!
+interface Ethernet34/6
+   shutdown
+   no switchport
+!
+interface Ethernet34/7
+   shutdown
+   no switchport
+!
+interface Ethernet34/8
+   shutdown
+   no switchport
+!
+interface Ethernet35/1
+   shutdown
+   no switchport
+!
+interface Ethernet35/2
+   shutdown
+   no switchport
+!
+interface Ethernet35/3
+   shutdown
+   no switchport
+!
+interface Ethernet35/4
+   shutdown
+   no switchport
+!
+interface Ethernet35/5
+   shutdown
+   no switchport
+!
+interface Ethernet35/6
+   shutdown
+   no switchport
+!
+interface Ethernet35/7
+   shutdown
+   no switchport
+!
+interface Ethernet35/8
+   shutdown
+   no switchport
+!
+interface Ethernet36/1
+   shutdown
+   no switchport
+!
+interface Ethernet36/2
+   shutdown
+   no switchport
+!
+interface Ethernet36/3
+   shutdown
+   no switchport
+!
+interface Ethernet36/4
+   shutdown
+   no switchport
+!
+interface Ethernet36/5
+   shutdown
+   no switchport
+!
+interface Ethernet36/6
+   shutdown
+   no switchport
+!
+interface Ethernet36/7
+   shutdown
+   no switchport
+!
+interface Ethernet36/8
+   shutdown
+   no switchport
+!
+interface Loopback0
+   description MPLS_Overlay_peering
+   ip address 10.199.0.29/32
+   ip ospf area 0.0.0.0
+!
+interface Management1
+   description oob_management
+   no shutdown
+   vrf MGMT
+   ip address 10.9.182.149/28
+!
+ip access-list SSH_ACCESS
+   10 permit tcp 10.0.0.0/8 any eq ssh
+   20 permit tcp 172.16.0.0/12 any eq ssh
+   30 permit tcp 167.24.0.0/16 any eq ssh
+   40 permit tcp 192.168.0.0/16 any eq ssh
+   50 permit tcp 198.148.150.0/24 any eq ssh
+!
+ip routing
+ip routing vrf BUSINTEL
+ip routing vrf CCHYBRID
+ip routing vrf CCISSUE
+ip routing vrf CCMERCH
+ip routing vrf DCX1
+ip routing vrf DMZMEM1
+ip routing vrf IDTN
+ip routing vrf IDTNB2B
+ip routing vrf IDTNDX
+no ip routing vrf MGMT
+ip routing vrf NCFDMZ
+ip routing vrf OB1
+ip routing vrf PEN1
+ip routing vrf USX1
+!
+ip prefix-list PL_DEFAULT seq 10 permit 0.0.0.0/0
+ip prefix-list PL_RFC1918 seq 20 permit 10.0.0.0/8
+ip prefix-list PL_RFC1918 seq 30 permit 172.16.0.0/12
+ip prefix-list PL_RFC1918 seq 40 permit 192.168.0.0/16
+ip community-list DA2_DEFAULT_COMM permit 64811:11233
+ip community-list DC21_DEFAULT_COMM permit 64813:13233
+ip community-list NCFDMZ_DA2_PREF_COMM permit 64811:11024
+ip community-list NCFDMZ_DC21_PREF_COMM permit 64813:11025
+ip community-list regexp POLICY_LP120 permit (.*):412
+ip community-list regexp POLICY_LP150 permit (.*):415
+ip community-list regexp POLICY_LP170 permit (.*):417
+ip community-list regexp POLICY_LP180 permit (.*):418
+ip community-list regexp POLICY_LP190_OVERRIDE permit (.*):419
+ip community-list regexp POLICY_LP20_BLEED permit (.*):410
+!
+ip route vrf MGMT 0.0.0.0/0 10.9.182.145
+!
+arp aging timeout default 900
+!
+mpls ip
+!
+mpls ldp
+   router-id interface Loopback0
+   no shutdown
+!
+ip ssh client source-interface Management1 vrf MGMT
+!
+ntp authentication-key 10 md5 7 0721350D7E4F32560E
+ntp trusted-key 10
+ntp authenticate
+ntp server vrf MGMT 10.0.16.254 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.253 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.254 local-interface Management1 key 10
+!
+route-map DENY_ALL deny 10
+!
+route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP permit 10
+   description PRIMARY DA2 DEFAULT (LP 170)
+   match community NCFDMZ_DA2_PREF_COMM
+   set local-preference 170
+!
+route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP permit 20
+   description SECONDARY DC21 DEFAULT (LP 150)
+   match community NCFDMZ_DC21_PREF_COMM
+   set local-preference 150
+!
+route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP permit 900
+   description Standard import map to allow All routes
+!
+route-map PASS_ALL permit 10
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 10
+   description Standard import map to allow DA2 Default
+   match community DA2_DEFAULT_COMM
+   set local-preference 150
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 20
+   description Standard import map to allow DC21 Default
+   match community DC21_DEFAULT_COMM
+   set local-preference 120
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 900
+   description Standard import map to allow All routes
+!
+route-map RM_FILTERED_1NET_BGP_POLICY_OUT permit 10
+   match ip address prefix-list PL_RFC1918
+!
+route-map RM_FILTERED_1NET_BGP_POLICY_OUT permit 20
+   match ip address prefix-list PL_DEFAULT
+!
+route-map RM_FILTERED_TRUST_OUT permit 10
+   match ip address prefix-list PL_DEFAULT
+!
+route-map RM_FILTERED_TRUST_OUT permit 20
+   match ip address prefix-list PL_RFC1918
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 10
+   match community POLICY_LP20_BLEED
+   set local-preference 20
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 20
+   match community POLICY_LP190_OVERRIDE
+   set local-preference 190
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 30
+   match community POLICY_LP120
+   set local-preference 120
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 40
+   match community POLICY_LP150
+   set local-preference 150
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 50
+   match community POLICY_LP170
+   set local-preference 170
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 60
+   match community POLICY_LP180
+   set local-preference 180
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 500
+   description PERMIT_ALL_ROUTES
+!
+route-map STANDARD_1NET_BGP_POLICY_OUT permit 10
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+!
+router bgp 64800
+   router-id 10.199.0.29
+   update wait-install
+   no bgp default ipv4-unicast
+   distance bgp 20 200 200
+   maximum-paths 2 ecmp 2
+   bgp bestpath tie-break router-id
+   neighbor PE_CE_DC_OB_SOB_DCX1 peer group
+   neighbor PE_CE_DC_OB_SOB_DCX1 remote-as 65140
+   neighbor PE_CE_DC_OB_SOB_DCX1 bfd
+   neighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_OB_SOB_DCX1 password 7 kKXxGiEu6TVyilumLqEW/A==
+   neighbor PE_CE_DC_OB_SOB_DCX1 send-community
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID peer group
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID bfd
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID password 7 6eausfeHuNQGCcxKUsAFPw==
+   neighbor PE_CE_DC_PCI_SE_CCHYBRID send-community
+   neighbor PE_CE_DC_PCI_SE_CCISSUE peer group
+   neighbor PE_CE_DC_PCI_SE_CCISSUE remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCISSUE bfd
+   neighbor PE_CE_DC_PCI_SE_CCISSUE route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCISSUE route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCISSUE password 7 qtf3UzE4xZNeuFGd+3xb4g==
+   neighbor PE_CE_DC_PCI_SE_CCISSUE send-community
+   neighbor PE_CE_DC_PCI_SE_CCMERCH peer group
+   neighbor PE_CE_DC_PCI_SE_CCMERCH remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_CCMERCH bfd
+   neighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_CCMERCH route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_CCMERCH password 7 6MpbKgmZazHWDDoj3OyS6g==
+   neighbor PE_CE_DC_PCI_SE_CCMERCH send-community
+   neighbor PE_CE_DC_PCI_SE_DCX1 peer group
+   neighbor PE_CE_DC_PCI_SE_DCX1 remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_DCX1 bfd
+   neighbor PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_DCX1 password 7 GFznB+vHUnXO8PBEZxEMaw==
+   neighbor PE_CE_DC_PCI_SE_DCX1 send-community
+   neighbor PE_CE_DC_PCI_SE_PEN1 peer group
+   neighbor PE_CE_DC_PCI_SE_PEN1 remote-as 65120
+   neighbor PE_CE_DC_PCI_SE_PEN1 bfd
+   neighbor PE_CE_DC_PCI_SE_PEN1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PCI_SE_PEN1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PCI_SE_PEN1 password 7 RNV9B6iVlRDUJlS1ePw3NA==
+   neighbor PE_CE_DC_PCI_SE_PEN1 send-community
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL peer group
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL bfd
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL route-map RM_FILTERED_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL password 7 yUMUcnzcG+Z38KepecqVPg==
+   neighbor PE_CE_DC_PROD_SI_BUSINTEL send-community
+   neighbor PE_CE_DC_PROD_SI_DCX1 peer group
+   neighbor PE_CE_DC_PROD_SI_DCX1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_DCX1 bfd
+   neighbor PE_CE_DC_PROD_SI_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_DCX1 password 7 1jAa9l2kLUpHINa0qKoB4Q==
+   neighbor PE_CE_DC_PROD_SI_DCX1 send-community
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 peer group
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 bfd
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 password 7 TOwcrcsHO2k2BL+WS6y2gw==
+   neighbor PE_CE_DC_PROD_SI_DMZMEM1 send-community
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ peer group
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ bfd
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ password 7 nDL2RDMDmbVlVbVI4SuueQ==
+   neighbor PE_CE_DC_PROD_SI_NCFDMZ send-community
+   neighbor PE_CE_DC_PROD_SI_USX1 peer group
+   neighbor PE_CE_DC_PROD_SI_USX1 remote-as 65100
+   neighbor PE_CE_DC_PROD_SI_USX1 bfd
+   neighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_PROD_SI_USX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_PROD_SI_USX1 password 7 dN/55dGE6CJYDkJQAFCa7A==
+   neighbor PE_CE_DC_PROD_SI_USX1 send-community
+   neighbor PE_CE_DC_TEST_ST_DCX1 peer group
+   neighbor PE_CE_DC_TEST_ST_DCX1 remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_DCX1 bfd
+   neighbor PE_CE_DC_TEST_ST_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_DCX1 password 7 QOH18HsEBuGBmAPWI1fdJA==
+   neighbor PE_CE_DC_TEST_ST_DCX1 send-community
+   neighbor PE_CE_DC_TEST_ST_IDTN peer group
+   neighbor PE_CE_DC_TEST_ST_IDTN remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTN bfd
+   neighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTN route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTN password 7 1jIoYXF6cWpAQoBcqwbNtA==
+   neighbor PE_CE_DC_TEST_ST_IDTN send-community
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B peer group
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B bfd
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B password 7 pugQyDfR4vWDCNsCFm/KgA==
+   neighbor PE_CE_DC_TEST_ST_IDTNB2B send-community
+   neighbor PE_CE_DC_TEST_ST_IDTNDX peer group
+   neighbor PE_CE_DC_TEST_ST_IDTNDX remote-as 65110
+   neighbor PE_CE_DC_TEST_ST_IDTNDX bfd
+   neighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_IN in
+   neighbor PE_CE_DC_TEST_ST_IDTNDX route-map STANDARD_1NET_BGP_POLICY_OUT out
+   neighbor PE_CE_DC_TEST_ST_IDTNDX password 7 AIP6ztnNcrut2cZWEI7nlA==
+   neighbor PE_CE_DC_TEST_ST_IDTNDX send-community
+   neighbor RR_PEERS peer group
+   neighbor RR_PEERS remote-as 64800
+   neighbor RR_PEERS update-source Loopback0
+   neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==
+   neighbor RR_PEERS send-community extended
+   neighbor RR_PEERS maximum-routes 0
+   neighbor 10.199.0.38 peer group RR_PEERS
+   neighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1
+   neighbor 10.199.0.39 peer group RR_PEERS
+   neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1
+   !
+   address-family ipv4
+      neighbor PE_CE_DC_OB_SOB_DCX1 activate
+      neighbor PE_CE_DC_PCI_SE_CCHYBRID activate
+      neighbor PE_CE_DC_PCI_SE_CCISSUE activate
+      neighbor PE_CE_DC_PCI_SE_CCMERCH activate
+      neighbor PE_CE_DC_PCI_SE_DCX1 activate
+      neighbor PE_CE_DC_PCI_SE_PEN1 activate
+      neighbor PE_CE_DC_PROD_SI_BUSINTEL activate
+      neighbor PE_CE_DC_PROD_SI_DCX1 activate
+      neighbor PE_CE_DC_PROD_SI_DMZMEM1 activate
+      neighbor PE_CE_DC_PROD_SI_NCFDMZ activate
+      neighbor PE_CE_DC_PROD_SI_USX1 activate
+      neighbor PE_CE_DC_TEST_ST_DCX1 activate
+      neighbor PE_CE_DC_TEST_ST_IDTN activate
+      neighbor PE_CE_DC_TEST_ST_IDTNB2B activate
+      neighbor PE_CE_DC_TEST_ST_IDTNDX activate
+   !
+   address-family vpn-ipv4
+      neighbor RR_PEERS activate
+   !
+   vrf BUSINTEL
+      rd 10.199.0.29:949
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:950
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:950
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90133
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:949
+      router-id 10.199.0.29
+      neighbor 10.64.0.15 peer group PE_CE_DC_PROD_SI_BUSINTEL
+      neighbor 10.64.0.15 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.35 peer group PE_CE_DC_PROD_SI_BUSINTEL
+      neighbor 10.64.0.35 description ATL-SI1-DC1-N2
+   !
+   vrf CCHYBRID
+      rd 10.199.0.29:453
+      route-target import vpn-ipv4 64692:453
+      route-target import vpn-ipv4 64800:453
+      route-target export vpn-ipv4 64800:453
+      router-id 10.199.0.29
+      neighbor 10.77.0.19 peer group PE_CE_DC_PCI_SE_CCHYBRID
+      neighbor 10.77.0.19 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.39 peer group PE_CE_DC_PCI_SE_CCHYBRID
+      neighbor 10.77.0.39 description ATL-SE1-DC1-N2
+   !
+   vrf CCISSUE
+      rd 10.199.0.29:452
+      route-target import vpn-ipv4 64692:452
+      route-target import vpn-ipv4 64800:452
+      route-target export vpn-ipv4 64800:452
+      router-id 10.199.0.29
+      neighbor 10.77.0.15 peer group PE_CE_DC_PCI_SE_CCISSUE
+      neighbor 10.77.0.15 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.35 peer group PE_CE_DC_PCI_SE_CCISSUE
+      neighbor 10.77.0.35 description ATL-SE1-DC1-N2
+   !
+   vrf CCMERCH
+      rd 10.199.0.29:451
+      route-target import vpn-ipv4 64692:451
+      route-target import vpn-ipv4 64800:451
+      route-target export vpn-ipv4 64800:451
+      router-id 10.199.0.29
+      neighbor 10.77.0.17 peer group PE_CE_DC_PCI_SE_CCMERCH
+      neighbor 10.77.0.17 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.37 peer group PE_CE_DC_PCI_SE_CCMERCH
+      neighbor 10.77.0.37 description ATL-SE1-DC1-N2
+   !
+   vrf DCX1
+      rd 10.199.0.29:910
+      route-target import vpn-ipv4 64534:916
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64540:916
+      route-target import vpn-ipv4 64653:949
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64755:910
+      route-target import vpn-ipv4 64758:910
+      route-target import vpn-ipv4 64780:914
+      route-target import vpn-ipv4 64782:91401
+      route-target import vpn-ipv4 64782:91402
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90113
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:910
+      route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.64.0.11 peer group PE_CE_DC_PROD_SI_DCX1
+      neighbor 10.64.0.11 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.31 peer group PE_CE_DC_PROD_SI_DCX1
+      neighbor 10.64.0.31 description ATL-SI1-DC1-N2
+      neighbor 10.72.0.9 peer group PE_CE_DC_TEST_ST_DCX1
+      neighbor 10.72.0.9 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.25 peer group PE_CE_DC_TEST_ST_DCX1
+      neighbor 10.72.0.25 description ATL-ST1-DC1-N2
+      neighbor 10.76.0.135 peer group PE_CE_DC_OB_SOB_DCX1
+      neighbor 10.76.0.135 description ATL-SOB1-DC1-N1
+      neighbor 10.76.0.143 peer group PE_CE_DC_OB_SOB_DCX1
+      neighbor 10.76.0.143 description ATL-SOB1-DC1-N2
+      neighbor 10.77.0.11 peer group PE_CE_DC_PCI_SE_DCX1
+      neighbor 10.77.0.11 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.31 peer group PE_CE_DC_PCI_SE_DCX1
+      neighbor 10.77.0.31 description ATL-SE1-DC1-N2
+   !
+   vrf DMZMEM1
+      rd 10.199.0.29:909
+      route-target import vpn-ipv4 64800:909
+      route-target import vpn-ipv4 64811:909
+      route-target import vpn-ipv4 64813:909
+      route-target export vpn-ipv4 64800:909
+      router-id 10.199.0.29
+      neighbor 10.64.0.13 peer group PE_CE_DC_PROD_SI_DMZMEM1
+      neighbor 10.64.0.13 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.33 peer group PE_CE_DC_PROD_SI_DMZMEM1
+      neighbor 10.64.0.33 description ATL-SI1-DC1-N2
+   !
+   vrf IDTN
+      rd 10.199.0.29:990
+      route-target import vpn-ipv4 64526:990
+      route-target import vpn-ipv4 64753:990
+      route-target import vpn-ipv4 64800:990
+      route-target import vpn-ipv4 64811:990
+      route-target import vpn-ipv4 64813:990
+      route-target import vpn-ipv4 65425:990
+      route-target export vpn-ipv4 64800:990
+      router-id 10.199.0.29
+      neighbor 10.72.0.11 peer group PE_CE_DC_TEST_ST_IDTN
+      neighbor 10.72.0.11 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.27 peer group PE_CE_DC_TEST_ST_IDTN
+      neighbor 10.72.0.27 description ATL-ST1-DC1-N2
+   !
+   vrf IDTNB2B
+      rd 10.199.0.29:489
+      route-target import vpn-ipv4 64697:489
+      route-target import vpn-ipv4 64800:489
+      route-target export vpn-ipv4 64800:489
+      router-id 10.199.0.29
+      neighbor 10.72.0.15 peer group PE_CE_DC_TEST_ST_IDTNB2B
+      neighbor 10.72.0.15 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.31 peer group PE_CE_DC_TEST_ST_IDTNB2B
+      neighbor 10.72.0.31 description ATL-ST1-DC1-N2
+   !
+   vrf IDTNDX
+      rd 10.199.0.29:987
+      route-target import vpn-ipv4 64526:987
+      route-target import vpn-ipv4 64697:987
+      route-target import vpn-ipv4 64697:49099
+      route-target import vpn-ipv4 64800:987
+      route-target import vpn-ipv4 64800:98799
+      route-target import vpn-ipv4 64894:987
+      route-target import vpn-ipv4 64898:987
+      route-target export vpn-ipv4 64800:987
+      router-id 10.199.0.29
+      neighbor 10.72.0.13 peer group PE_CE_DC_TEST_ST_IDTNDX
+      neighbor 10.72.0.13 description ATL-ST1-DC1-N1
+      neighbor 10.72.0.29 peer group PE_CE_DC_TEST_ST_IDTNDX
+      neighbor 10.72.0.29 description ATL-ST1-DC1-N2
+   !
+   vrf NCFDMZ
+      rd 10.199.0.29:494
+      route-target import vpn-ipv4 64693:490
+      route-target import vpn-ipv4 64800:494
+      route-target export vpn-ipv4 64800:494
+      route-target import vpn-ipv4 route-map NCFDMZ_PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.64.0.17 peer group PE_CE_DC_PROD_SI_NCFDMZ
+      neighbor 10.64.0.17 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.37 peer group PE_CE_DC_PROD_SI_NCFDMZ
+      neighbor 10.64.0.37 description ATL-SI1-DC1-N2
+   !
+   vrf OB1
+      route-target import vpn-ipv4 64800:900
+      route-target import vpn-ipv4 64801:900101
+      route-target export vpn-ipv4 64800:900
+      maximum-paths 2 ecmp 2
+   !
+   vrf PEN1
+      rd 10.199.0.29:992
+      route-target import vpn-ipv4 64800:992
+      route-target import vpn-ipv4 64811:992
+      route-target import vpn-ipv4 64813:992
+      route-target import vpn-ipv4 65315:992
+      route-target import vpn-ipv4 65508:99201
+      route-target import vpn-ipv4 65508:99202
+      route-target export vpn-ipv4 64800:992
+      router-id 10.199.0.29
+      neighbor 10.77.0.13 peer group PE_CE_DC_PCI_SE_PEN1
+      neighbor 10.77.0.13 description ATL-SE1-DC1-N1
+      neighbor 10.77.0.33 peer group PE_CE_DC_PCI_SE_PEN1
+      neighbor 10.77.0.33 description ATL-SE1-DC1-N2
+   !
+   vrf USX1
+      rd 10.199.0.29:914
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64653:949
+      route-target import vpn-ipv4 64659:910
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64755:910
+      route-target import vpn-ipv4 64756:910
+      route-target import vpn-ipv4 64758:910
+      route-target import vpn-ipv4 64782:91401
+      route-target import vpn-ipv4 64782:91402
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65010:91099
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90113
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:914
+      route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.29
+      neighbor 10.64.0.19 peer group PE_CE_DC_PROD_SI_USX1
+      neighbor 10.64.0.19 description ATL-SI1-DC1-N1
+      neighbor 10.64.0.39 peer group PE_CE_DC_PROD_SI_USX1
+      neighbor 10.64.0.39 description ATL-SI1-DC1-N2
+!
+router ospf 64800
+   router-id 10.199.0.29
+   auto-cost reference-bandwidth 1000000
+   bfd default
+   max-lsa 12000
+!
+ip tacacs vrf MGMT source-interface Management1
+!
+management ssh
+   ip access-group SSH_ACCESS vrf MGMT in
+   idle-timeout 10
+   authentication mode password
+   !
+   vrf MGMT
+      no shutdown
+!
+end

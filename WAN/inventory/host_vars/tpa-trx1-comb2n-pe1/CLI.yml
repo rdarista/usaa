@@ -1,0 +1,38 @@
+# ---
+# # Commerce Park only peers to 1 OB device.
+# ROUTER_BGP_OB1_VRF: |-
+#   vrf OB1
+#     rd {{Loopback0}}:900
+#     route-target import vpn-ipv4 64800:900
+#     route-target import vpn-ipv4 64801:900101
+#     route-target export vpn-ipv4 64800:900
+#     router-id {{Loopback0}}
+#     maximum-paths 2 ecmp 2
+#     neighbor {{vrf_ob1.pe_ce_n1}} peer group PE_CE_OB1
+#     neighbor {{vrf_ob1.pe_ce_n1}} description OB1-N1:OB1
+
+# eos_cli: |-
+#   !
+#   {{MAC_SEC}}
+#   !
+#   {{VRF_DEFINITION}}
+#   !
+#   {{INTERFACE_CONFIG}}
+#   !
+#   {{MPLS_DEFAULTS}}
+#   !
+#   {{ROUTER_BGP_DEFAULTS}}
+#     {{ROUTER_BGP_OB1_PG}}
+#     {{ROUTER_BGP_USUNT1_PG}}
+#     {{ROUTER_BGP_USX1_PG}}
+#     {{ROUTER_BGP_RR_PG}}
+#     !
+#     {{ROUTER_BGP_ADR_FAMILY}}
+#     !
+#     {{ROUTER_BGP_OB1_VRF}}
+#     !
+#     {{ROUTER_BGP_USUNT1_VRF}}
+#     !
+#     {{ROUTER_BGP_USX1_VRF}}
+#   !
+#   {{MGMT_DEFAULTS}}

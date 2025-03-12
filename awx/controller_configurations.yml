@@ -1,0 +1,244 @@
+---
+# CI Pipeline Environment Variables
+awx_environment: "{{ lookup('env', 'AWX_ENVIRONMENT') | mandatory }}"
+gitlab_namespace: "{{ lookup('env', 'CI_PROJECT_NAMESPACE') | mandatory | upper }}"
+gitlab_project: "{{ lookup('env', 'CI_PROJECT_NAME') | mandatory | upper }}"
+gitlab_branch: "{{ lookup('env', 'CI_COMMIT_REF_NAME') | mandatory }}"
+gitlab_commit_id: "{{ lookup('env', 'CI_COMMIT_SHORT_SHA') | mandatory }}"
+
+# Gitlab Url and Docker Repository 
+gitlab_url: "https://prodgitlab.usaa.com"
+usaa_docker_repo: docker.repo.usaa.com/usaa
+
+# AWX Controller Configuration Variables   
+awx_organization_name: NETSVC # Must exist on AWX
+awx_team_name: NETSVCTEAM
+awx_gitlab_access_token_cred_name: "{{gitlab_project}}_GITLAB_ACCESS_TOKEN" # Must exist in project and on AWX
+awx_vault_access_cred_name: "{{gitlab_project}}_VAULT_ACCESS_CREDENTIAL" # Must exist in project and on AWX
+awx_project_name: "{{gitlab_namespace}}_{{gitlab_project}}"
+awx_inventory_name: "{{gitlab_project}}_INVENTORY"
+awx_email_notification_name: "{{awx_organization_name}}_EMAIL_NOTIFICATION"
+awx_slack_notification_name: "{{awx_organization_name}}_SLACK_NOTIFICATION"
+awx_execution_environment_name: "{{gitlab_namespace}}_{{gitlab_project}}_EE"
+# FIXME: Add current image here
+awx_execution_environment_image: docker.repo.usaa.com/usaa/grp-ops-netsvc-sdi/ansible-cicd:1.6.2
+
+
+# AWX Configuration State ('present' == create configuration) and ('absent' == delete configuration) 
+awx_configuration_state: present 
+
+# [Roles] Map templates to execute role for team
+controller_roles:
+  - team: "{{awx_team_name}}"
+    job_templates: # TODO:
+    - "{{gitlab_project}}_BUILD_CMP1_LAB"
+    - "{{gitlab_project}}_BUILD_DEPLOY_CMP1_LAB"
+    role: execute
+    state: "{{awx_configuration_state}}"
+
+# # TODO: Configure the build and deploy to launch automatically.
+# job_launch:
+#   job_template: "{{gitlab_project}}_BUILD_DEPLOY_CMP1_LAB"
+# register: job
+
+
+# [Credentials]
+controller_credentials:
+  - credential_type: "Source Control"
+    name: "{{awx_gitlab_access_token_cred_name}}"
+    description: >
+      This credential is for the project's gitlab access token
+    inputs: "{{None}}"
+    organization: "{{awx_organization_name}}"
+    state: "{{awx_configuration_state}}"
+  - credential_type: "Vault"
+    name: "{{awx_vault_access_cred_name}}"
+    description: >
+      This credential is for access to open the local vault
+    inputs: "{{None}}"
+    organization: "{{awx_organization_name}}"
+    state: "{{awx_configuration_state}}"
+
+# [Projects]
+controller_projects:
+  - name: "{{awx_project_name}}"
+    scm_type: git
+    scm_url: "{{gitlab_url | lower}}/{{gitlab_namespace | lower}}/{{gitlab_project | lower}}"
+    scm_branch: "{{gitlab_branch}}"
+    scm_clean: true
+    scm_delete_on_update: true
+    description: >
+      Project's configurations 
+    organization: "{{awx_organization_name}}"
+    wait: true
+    update: true
+    credential: "{{awx_gitlab_access_token_cred_name}}"
+    state: "{{awx_configuration_state}}"
+
+# [Inventories]
+controller_inventories:
+  - name: "{{awx_inventory_name}}"
+    description: >
+      Project's inventory
+    organization: "{{awx_organization_name}}"
+    state: "{{awx_configuration_state}}"
+
+controller_inventory_sources:
+  - name: "{{gitlab_project}}_INVENTORY_SOURCE"
+    description: >
+      Project's inventory sources
+    inventory: "{{awx_inventory_name}}"
+    source: scm
+    source_project: "{{awx_project_name}}"
+    source_path: "environment/{{awx_environment}}/ONENET_TEST/inventory.yml" #FIXME: Check path
+    overwrite: True
+    state: "{{awx_configuration_state}}"
+
+# [Execution Environments]
+controller_execution_environments:
+  - name: "{{awx_execution_environment_name}}"
+    image: "{{awx_execution_environment_image}}"
+    organization: "{{awx_organization_name}}"
+    pull: always
+    state: "{{awx_configuration_state}}"
+
+# [Job Templates]
+controller_templates:
+  # LAB template
+  # - name: "{{gitlab_project}}_BUILD_LAB"
+  #   description: >
+  #     Job template to build WAN AVD for lab hosts
+  #   job_type: run
+  #   inventory: "{{awx_inventory_name}}"
+  #   project: "{{awx_project_name}}"
+  #   playbook: playbooks/pb.build.yml
+  #   credentials:
+  #     - "{{ awx_vault_access_cred_name }}"
+  #   extra_vars:
+  #     target_hosts: ONENET #FIXME: Filter for fabric build
+  #   execution_environment: "{{awx_execution_environment_name}}"
+  #   state: "{{awx_configuration_state}}"
+
+  # - name: "{{gitlab_project}}_BUILD_DEPLOY_ONENET_LAB"
+  #   description: >
+  #     Job template to build WAN AVD for lab hosts and deploy to NWLAB  CVP
+  #   job_type: run
+  #   inventory: "{{awx_inventory_name}}"
+  #   project: "{{awx_project_name}}"
+  #   playbook: playbooks/pb.build_deploy_cvp.yml
+  #   credentials:
+  #     - "{{ awx_vault_access_cred_name }}"
+  #     # NOTE: Credentials for connection to CVP are configured in the playbook
+  #   extra_vars:
+  #     target_hosts: ONENET #FIXME: Filter for fabric build
+  #     host_filter: nwlab-trx1-rnap1 #FIXME: Filter for deploy hosts
+  #   execution_environment: "{{awx_execution_environment_name}}"
+  #   # notification_templates_success:
+  #   #   - "{{ awx_email_notification_name }}"
+  #   # notification_templates_error:
+  #   #   - "{{ awx_email_notification_name }}"
+  #   state: "{{awx_configuration_state}}"
+
+  - name: "{{gitlab_project}}_BUILD_CMP1_LAB"
+    description: >
+      Job template to build WAN AVD for lab hosts
+    job_type: run
+    inventory: "{{awx_inventory_name}}"
+    project: "{{awx_project_name}}"
+    playbook: playbooks/pb.build.yml
+    credentials:
+      - "{{ awx_vault_access_cred_name }}"
+      # NOTE: Credentials for connection to CVP are configured in the playbook
+    extra_vars:
+      target_hosts: CMP1 #FIXME: Filter for fabric build
+      host_filter: nwlab-trx1-cmp1 #FIXME: Filter for deploy hosts
+    execution_environment: "{{awx_execution_environment_name}}"
+    # notification_templates_success:
+    #   - "{{ awx_email_notification_name }}"
+    # notification_templates_error:
+    #   - "{{ awx_email_notification_name }}"
+    state: "{{awx_configuration_state}}"
+
+  - name: "{{gitlab_project}}_BUILD_DEPLOY_CMP1_LAB"
+    description: >
+      Job template to build WAN AVD for lab hosts and deploy to NWLAB  CVP
+    job_type: run
+    inventory: "{{awx_inventory_name}}"
+    project: "{{awx_project_name}}"
+    playbook: playbooks/pb.build_deploy_cvp.yml
+    credentials:
+      - "{{ awx_vault_access_cred_name }}"
+      # NOTE: Credentials for connection to CVP are configured in the playbook
+    extra_vars:
+      target_hosts: CMP1 #FIXME: Filter for fabric build
+      host_filter: nwlab-trx1-cmp1 #FIXME: Filter for deploy hosts
+    execution_environment: "{{awx_execution_environment_name}}"
+    # notification_templates_success:
+    #   - "{{ awx_email_notification_name }}"
+    # notification_templates_error:
+    #   - "{{ awx_email_notification_name }}"
+    state: "{{awx_configuration_state}}"
+
+  # - name: "{{gitlab_project}}_BUILD_DEPLOY_DC1_LAB"
+  #   description: >
+  #     Job template to build WAN AVD for lab hosts and deploy to NWLAB  CVP
+  #   job_type: run
+  #   inventory: "{{awx_inventory_name}}"
+  #   project: "{{awx_project_name}}"
+  #   playbook: playbooks/pb.build_deploy_cvp.yml
+  #   credentials:
+  #     - "{{ awx_vault_access_cred_name }}"
+  #     # NOTE: Credentials for connection to CVP are configured in the playbook
+  #   extra_vars:
+  #     target_hosts: DC1_PE_ROUTERS #FIXME: Filter for fabric build
+  #     host_filter: nwlab-trx1-dc1 #FIXME: Filter for deploy hosts
+  #   execution_environment: "{{awx_execution_environment_name}}"
+  #   # notification_templates_success:
+  #   #   - "{{ awx_email_notification_name }}"
+  #   # notification_templates_error:
+  #   #   - "{{ awx_email_notification_name }}"
+  #   state: "{{awx_configuration_state}}"
+
+# # [Notifications]
+# FIXME: Build out notifications
+controller_notifications:
+  - name: "{{awx_email_notification_name}}"
+    description: >
+      Email notification template for job and workflow templates
+    organization: "{{awx_organization_name}}"
+    notification_type: email
+    notification_configuration:
+      host: mail.usaa.com
+      recipients:
+        - USAA_NETWORK_ILM@usaa.com
+        - USAA_NETWORK_PROVIDERNETWORK@usaa.com
+      sender: AWX_CONTROLLER@usaa.com
+      port: 25
+      timeout: 30
+      username: ''
+      password: ''
+      use_tls: false
+      use_ssl: false
+    state: "{{awx_configuration_state}}"
+
+  # - name: "{{ awx_slack_notification_name }}"
+  #   description: >
+  #     Slack notification template for job and workflow templates
+  #   organization: "{{awx_organization_name}}"
+  #   notification_type: slack
+  #   notification_configuration:
+  #     channels:
+  #       - netsvc-toolbox
+  #     # token: "xoxe..." # FIXME:
+  #   messages:
+  #     success:
+  #       message: "{{ '{{ job_friendly_name }} completed in {{ job.elapsed }} seconds' }}"
+  #     error:
+  #       message: "{{ '{{ job_friendly_name }} FAILED! Please review the job at {{ job.url }}' }}"
+  #   state: "{{awx_configuration_state}}"
+
+# [Workflow Job Templates]
+controller_workflows: []
+
+# [Schedules]
+controller_schedules: []

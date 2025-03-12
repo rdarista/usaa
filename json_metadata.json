@@ -1,0 +1,40 @@
+// {
+//     "device_overrides": {
+//         "nwlab-trx1-dc1-pe1": {
+//             "serial_number": "JPE12345675"
+//         },
+//         "nwlab-trx1-dc1-pe2": {
+//             "serial_number": "JPE12345676"
+//         },
+//         "nwlab-trx1-rnap1-p1": {
+//             "serial_number": "JPE12345671"
+//         },
+//         "nwlab-trx1-rnap1-p2": {
+//             "serial_number": "JPE12345672"
+//         },
+//         "nwlab-trx1-rnap1-pe1": {
+//             "serial_number": "JPE12345673"
+//         },
+//         "nwlab-trx1-rnap1-pe2": {
+//             "serial_number": "JPE12345674"
+//         },
+//         "nwlab-trx1-rnap1-rr1": {
+//             "serial_number": "JPE12345677"
+//         },
+//         "nwlab-trx1-rnap2-p1": {
+//             "serial_number": "JPE12345678"
+//         },
+//         "nwlab-trx1-rnap2-p2": {
+//             "serial_number": "JPE12345679"
+//         },
+//         "nwlab-trx1-rnap2-pe1": {
+//             "serial_number": "JPE12345680"
+//         },
+//         "nwlab-trx1-rnap2-pe2": {
+//             "serial_number": "JPE12345681"
+//         },
+//         "nwlab-trx1-rnap2-rr1": {
+//             "serial_number": "JPE12345682"
+//         }
+//     }
+// }

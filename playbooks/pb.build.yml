@@ -1,0 +1,34 @@
+---
+# - name: test
+#   ansible.builtin.pip:
+#     name: grpclib==0.4.7
+#   delegate_to: 127.0.0.1
+
+- name: Build Switch configuration
+  hosts: "{{ target_hosts }}"
+  gather_facts: false
+  # vars_files:
+  #   - ../local_vault.yml
+  collections:
+    - arista.avd
+
+  tasks:
+    # - debug: var=groups
+
+    - name: Generate Structured Variables per Device
+      ansible.builtin.import_role:
+        name: arista.avd.eos_designs
+
+    - name: Generate Intended Config and Documentation
+      ansible.builtin.import_role:
+        name: arista.avd.eos_cli_config_gen
+      # vars:
+      #   root_dir: '{{ inventory_dir }}'
+      #   output_dir_name: 'intended'
+      #   output_dir: '{{ root_dir }}/{{ output_dir_name }}'
+
+    # - name: Copy ocprometheus binary to Switch
+    #   ansible.builtin.copy:
+    #     src: /home/ansible/ocprometheus
+    #     dest: /mnt/flash/ocprometheus
+    #     mode: 0755

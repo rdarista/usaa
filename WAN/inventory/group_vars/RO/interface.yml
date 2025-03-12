@@ -1,0 +1,145 @@
+---
+# Do NOT modify any of the vars below. These are dynamically generated variables that are only to be referenced by AVD.
+DYNAMIC_DES: "{{SERVICE}}:{{PROVIDER}}:{{CID}}:{{A_PORT}}:{{Z_CON_ID}}:{{Z_DEV}}:{{Z_PORT}}"
+PE_TO_OB1_CE_DESC: "PE-CE:Et4:{{OB1_CE1.HOSTNAME}}:{{OB1_CE1.CE_PORT}}"
+PE_TO_OB1_CE_PO_DESC: "PE-CE:{% if 'pe1' in inventory_hostname %}Po11{% else %}Po12{% endif %}:{{OB1_CE1.HOSTNAME}}:{{OB1_CE1.CE_PORT}}"
+OPPOSITE_PE: "{% if 'pe1' in inventory_hostname %}{{ inventory_hostname[:-1].upper() + '2' }}{% elif 'pe2' in inventory_hostname %}{{ inventory_hostname[:-1].upper() + '1' }}{% endif %}"
+
+INTERFACE_CONFIG: |-
+    interface Port-Channel100
+    description PE-PE:{{OPPOSITE_PE}}:Po100
+    no switchport
+    ip address {{PE_TO_PE_IP}}
+    mpls ldp interface
+    ip ospf network point-to-point
+    ip ospf authentication message-digest
+    ip ospf area 0.0.0.0
+    ip ospf message-digest-key 1 md5 usaaospfpass
+    !
+    interface Ethernet37
+      description {{DYNAMIC_DES}}
+      no shutdown
+      mtu 9170
+      no switchport
+      ip address {{PE_TO_P_IP}}
+      mpls ldp interface
+      mac security profile MKA_AES_256
+      ip ospf network point-to-point
+      ip ospf authentication message-digest
+      ip ospf area 0.0.0.0
+      ip ospf message-digest-key 1 md5 usaaospfpass
+    !
+    interface Ethernet47
+      description PE-PE:{{OPPOSITE_PE}}:Eth47/1
+      no shutdown
+      no switchport
+      channel-group 100 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet48
+      description PE-PE:{{OPPOSITE_PE}}:Eth48/1
+      no shutdown
+      no switchport
+      channel-group 100 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet49/1
+      description PE-CE:{{U_BORDER_NAME}}-N1:Eth55/1
+      no shutdown
+      no switchport
+    !
+    interface Ethernet49/1.2020
+      description PE-CE:{{U_BORDER_NAME}}-N1:Eth55/1.2020
+      encapsulation dot1q vlan 2020
+      vrf USX1
+      ip address {{VRF_USX1.PE_CE_N1_SELF}}/31
+      ip access-group ACL_RO_TRAFFIC_INBOUND in
+    !
+    interface Ethernet49/1.2820
+      description PE-CE:{{U_BORDER_NAME}}-N1:Eth55/1.2820
+      encapsulation dot1q vlan 2820
+      vrf USUNT1
+      ip address {{VRF_USUNT1.PE_CE_N1_SELF}}/31
+    !
+    interface Ethernet50/1
+      description PE-CE:{{U_BORDER_NAME}}-N2:Eth55/1
+      no shutdown
+      no switchport
+    !
+    interface Ethernet50/1.2020
+      description PE-CE:{{U_BORDER_NAME}}-N2:Eth55/1.2020
+      encapsulation dot1q vlan 2020
+      vrf USX1
+      ip address {{VRF_USX1.PE_CE_N2_SELF}}/31
+      ip access-group ACL_RO_TRAFFIC_INBOUND in
+    !
+    interface Ethernet50/1.2820
+      description PE-CE:{{U_BORDER_NAME}}-N2:Eth55/1.2820
+      encapsulation dot1q vlan 2820
+      vrf USUNT1
+      ip address {{VRF_USUNT1.PE_CE_N2_SELF}}/31
+    !
+    interface Ethernet51/1
+      description PE-CE:{{OB_BORDER_NAME}}-N1:Eth53/1
+      no shutdown
+      no switchport
+      vrf OB1
+      ip address {{VRF_OB1.PE_CE_N1_SELF}}/31
+    !
+    interface Ethernet52/1
+      description PE-CE:{{OB_BORDER_NAME}}-N2:Eth53/1
+      no shutdown
+      no switchport
+      vrf OB1
+      ip address {{VRF_OB1.PE_CE_N2_SELF}}/31
+    !
+    interface Loopback0
+      description MPLS_Overlay_peering
+      ip address {{Loopback0}}/32
+      ip ospf area 0.0.0.0
+    !
+    interface Management1
+      description oob_management
+      no shutdown
+      vrf MGMT
+      ip address {{ansible_host}}/28
+    !
+
+network_ports:
+  - switches:
+    - inventory_hostname:
+    switch_ports:
+    - Ethernet1-36
+    - Ethernet38-46
+    - Ethernet49/2
+    - Ethernet49/3
+    - Ethernet49/4
+    - Ethernet50/2
+    - Ethernet50/3
+    - Ethernet50/4
+    - Ethernet51/2
+    - Ethernet51/3
+    - Ethernet51/4
+    - Ethernet52/2
+    - Ethernet52/3
+    - Ethernet52/4
+    - Ethernet53/1
+    - Ethernet54/1
+    - Ethernet55/1
+    - Ethernet56/1
+    - Ethernet53/2
+    - Ethernet54/2
+    - Ethernet55/2
+    - Ethernet56/2
+    - Ethernet53/3
+    - Ethernet54/3
+    - Ethernet55/3
+    - Ethernet56/3
+    - Ethernet53/4
+    - Ethernet54/4
+    - Ethernet55/4
+    - Ethernet56/4
+
+    raw_eos_cli: |-
+      no switchport
+      shutdown

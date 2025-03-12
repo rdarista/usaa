@@ -1,0 +1,109 @@
+---
+# Do NOT modify any of the vars below. These are dynamically generated variables that are only to be referenced by AVD.
+DYNAMIC_DES: "{{SERVICE}}:{{PROVIDER}}:{{CID}}:{{A_PORT}}:{{Z_CON_ID}}:{{Z_DEV}}:{{Z_PORT}}"
+PE_TO_VENDOR_CE_CONN1_DESC: "{{PE_TO_VENDOR_CE_CONN_1.HOSTNAME}}:{{PE_TO_VENDOR_CE_CONN_1.CE_PORT_1}}"
+PE_TO_VENDOR_CE_CONN2_DESC: "{{PE_TO_VENDOR_CE_CONN_2.HOSTNAME}}:{{PE_TO_VENDOR_CE_CONN_2.CE_PORT_1}}"
+PE_TO_VENDOR_PO_DESC: "VENDOR:Po13:{{VENDOR_NAME}}:Po13"
+PE_TO_OB1_CE_DESC: "PE-CE:Et4:{{OB1_CE1.HOSTNAME}}:{{OB1_CE1.CE_PORT}}"
+PE_TO_OB1_CE_PO_DESC: "PE-CE:{% if 'pe1' in inventory_hostname %}Po11{% else %}Po12{% endif %}:{{OB1_CE1.HOSTNAME}}:{{OB1_CE1.CE_PORT}}"
+OPPOSITE_PE: "{% if 'pe1' in inventory_hostname %}{{ inventory_hostname[:-1].upper() + '2' }}{% elif 'pe2' in inventory_hostname %}{{ inventory_hostname[:-1].upper() + '1' }}{% endif %}"
+
+INTERFACE_CONFIG: |-
+    interface Port-Channel10
+    description PE-PE:Po10:{{OPPOSITE_PE}}:Po10
+    no switchport
+    ip address {{PE_TO_PE_IP}}
+    mpls ldp interface
+    ip ospf network point-to-point
+    ip ospf authentication message-digest
+    ip ospf area 0.0.0.0
+    ip ospf message-digest-key 1 md5 usaaospfpass
+    !
+    interface {% if 'pe1' in inventory_hostname %}Port-Channel11{% else %}Port-Channel12{% endif %} 
+    description {{PE_TO_OB1_CE_PO_DESC}}
+    vrf OB1
+    ip address {{PE_TO_OB1_CE_IP}}
+    !
+    interface Port-Channel13
+    description {{PE_TO_VENDOR_PO_DESC}}
+    no switchport
+    vrf VNX1
+    ip address {{PE_TO_VENDOR_CE_IP}}
+    mtu 9214
+    !
+    interface Ethernet2
+      description VENDOR:Et2:{{PE_TO_VENDOR_CE_CONN1_DESC}} 
+        no shutdown
+        no switchport
+        channel-group 13 mode active
+    !
+    interface Ethernet3
+      description VENDOR:Et3:{{PE_TO_VENDOR_CE_CONN2_DESC}} 
+        no shutdown
+        no switchport
+        channel-group 13 mode active
+    !
+    interface Ethernet4
+      description {{PE_TO_OB1_CE_DESC}}
+      no shutdown
+      no switchport
+      channel-group {% if 'pe1' in inventory_hostname %}11{% else %}12{% endif %} mode active
+    !
+    interface Ethernet5
+      description PE-PE:Et5:{{OPPOSITE_PE}}:Et5
+      no shutdown
+      no switchport
+      channel-group 10 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet6
+      description PE-PE:Et6:{{OPPOSITE_PE}}:Et6
+      no shutdown
+      no switchport
+      channel-group 10 mode active
+      mac security profile MKA_AES_256
+    !
+    interface Ethernet37
+      description {{DYNAMIC_DES}}
+      no shutdown
+      mtu 9170
+      no switchport
+      ip address {{PE_TO_P_IP}}
+      mpls ldp interface
+      mac security profile MKA_AES_256
+      ip ospf network point-to-point
+      ip ospf authentication message-digest
+      ip ospf area 0.0.0.0
+      ip ospf message-digest-key 1 md5 usaaospfpass
+    !
+    interface Loopback0
+      description MPLS_Overlay_peering
+      ip address {{Loopback0}}/32
+      ip ospf area 0.0.0.0
+    !
+    interface Management1
+      description oob_management
+      no shutdown
+      vrf MGMT
+      ip address {{ansible_host}}/28
+    !
+
+network_ports:
+  - switches:
+    - inventory_hostname:
+    switch_ports:
+    - Ethernet1
+    - Ethernet7-36
+    - Ethernet38-48
+    - Ethernet49/1-4
+    - Ethernet50/1-4
+    - Ethernet51/1-4
+    - Ethernet52/1-4
+    - Ethernet53/1-4
+    - Ethernet54/1-4
+    - Ethernet55/1-4
+    - Ethernet56/1-4
+
+    raw_eos_cli: |-
+      no switchport
+      shutdown

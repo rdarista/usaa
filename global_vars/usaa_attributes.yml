@@ -1,0 +1,58 @@
+############################################################
+# USAA CONSTRUCTS
+############################################################
+
+# rac_type:
+#   compute:
+#     version: v3.0
+#   management:
+#     version: v3.1
+#   storage:
+#     version: v3.2
+
+# # EVPN VNI/RD variables
+# data_center:
+#   itc: 1
+#   dfw: 2
+#   sjt: 3
+#   sat: 4
+#   nwlab: 6
+
+# env:
+#   vc: 10
+#   sc: 20
+#   psc: 20
+#   pvc: 10
+#   2layer: 30
+#   vf: 90
+# tenant_def:
+#   prod: 2
+#   zoneless: "00"
+# avail_zone:
+#   a: 1
+#   b: 2
+
+# # VRF VNI
+# vrf_vni_desc:
+#   BUSINTEL:
+#     base: 2400
+#     vlan1: 2401
+#     vlan2: 2402
+#   PROD:
+#     base: 2100
+#     vlan1: 2101
+#     vlan2: 2102
+#     vlan3: "0110"
+
+############################################################
+# CUSTOM STRUCTURED CONFIGS
+############################################################
+
+# Native VLAN
+# custom_structured_configuration_vlans:
+# - id: 1
+#   name: Default
+#   state: suspend
+# - id: 7
+#   name: Native
+#   state: active

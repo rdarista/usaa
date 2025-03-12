@@ -1,0 +1,16 @@
+version: '3'
+services:
+  arista-avd-dc:
+    entrypoint: bash -c "bash"
+    stdin_open: true
+    tty: true
+    # FIXME: Update current Arista AVD image
+    image: docker.repo.usaa.com/usaa/grp-ops-netsvc-sdi/ansible-cicd:1.6.0
+    environment:
+      - ARTIFACTORY_LOGIN_TOKEN=${ARTIFACTORY_LOGIN_TOKEN}
+      - ARTIFACTORY_LOGIN_ID=${LOGNAME} #Login user ID, should match user token's eagle ID
+      - HISTFILE=/tmp/.bash_history
+      - HOME=/awx-deploy-template
+    working_dir: /arista-avd-wan
+    volumes:
+      - /Users/PL6I437/:/arista-avd-wan

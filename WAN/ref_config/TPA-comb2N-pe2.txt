@@ -1,0 +1,856 @@
+! Command: show running-config
+! device: TPA-TRX1-COMB2N-PE2 (DCS-7280SR3M-48YC8, EOS-4.31.4M)
+!
+! boot system flash:/EOS-4.31.4M.swi
+!
+aaa root secret sha512 $6$V48GnSGw9xSecXh6$usRtZW/pZWxmsN3DAg8niqiwnzMDwmHrT26UTkKcpYQHv3f2wqWHP5r11wTfrOAwj1V7AN59tQ0Z3QKyCYADk0
+no username admin
+!
+username netsupport privilege 15 role network-admin secret sha512 $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+username sdadmin privilege 15 role network-admin secret sha512 $6$3A9mEC9YnLa4nWDE$gxQQ32f2jHy0GXbIpRyjHjkAIaTs7oEH1vPGuAlv8uuEg.FYmMqDg8MCre2tbsr7cEAb7sKdIKZGGbmTXrAUO1
+!
+prompt %H%v[%D{%H:%M:%S}]%P
+alias c bash clear
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -cvaddr=10.139.16.173:9910,10.139.16.174:9910,10.139.16.175:9910 -cvauth=token,tmp/token -cvvrf=MGMT -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs=/var/log/messages
+   no shutdown
+!
+switchport default mode routed
+!
+vlan internal order ascending range 1006 1199
+!
+event-monitor
+!
+load-interval default 30
+!
+transceiver qsfp default-mode 4x10G
+!
+interface defaults
+   mtu 9214
+   !
+   ethernet
+      shutdown
+!
+service routing protocols model multi-agent
+!
+queue-monitor length
+!
+logging buffered 10000
+logging trap debugging
+no logging console
+logging vrf MGMT host routingelk-ingest.usaa.com 8012
+logging format timestamp high-resolution
+logging vrf MGMT source-interface Management1
+!
+hostname TPA-TRX1-COMB2N-PE2
+ip domain lookup vrf MGMT source-interface Management1
+ip name-server vrf MGMT 10.0.255.100
+ip name-server vrf MGMT 10.136.128.100
+ip name-server vrf MGMT 10.231.108.100
+dns domain usaa.com
+!
+sflow sample 65536
+sflow polling-interval 5
+sflow vrf MGMT source-interface Management1
+sflow run
+!
+snmp-server engineID local f5717fb492fe2ac35d00
+snmp-server contact http://go/acc-lan
+snmp-server vrf MGMT local-interface Management1
+snmp-server view READALL ISO included
+snmp-server group CAPC v3 auth read READALL
+snmp-server group READONLY v3 priv read READALL
+snmp-server user NETSVC_NETBRAIN READONLY v3 localized f5717fb492fe2ac35d00 auth sha df4ab2eb482e3db4de084de589dca7d8a1751473 priv aes 45e46bca8fb44a2d8378743557c18ee5
+snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 0c8d15369ba40f62da84953da549db15bcab247b priv aes e0a4addc4acafdbf7bbeb02816cee87a
+snmp-server user NETSVC_NETSCOUT READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 816c471fe6bc6a297c45b76c64469be74c82731e priv aes 49eec8cd3a09c6c85ea1cbbf760c9641
+snmp-server user NETSVC_SPECTRUM READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 01da6f5daa81c34645b28b3f708e28748888b65a priv aes 54976de00b43bd906f43a11eb21965d1
+snmp-server user SERVICENOW READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 90d309463546f2e726ac946040cd7156aba3ac42 priv aes 5dd748f1cb378016b5a0a535feca9d6e
+snmp-server host 10.139.4.41 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host 10.139.4.44 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host proddxnspv1lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server host proddxnspv2lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server enable traps
+no snmp-server enable traps bgp backward-transition
+no snmp-server enable traps bridge
+no snmp-server vrf default
+snmp-server vrf MGMT
+!
+hardware speed-group1 serdes 10g
+hardware speed-group2 serdes 10g
+hardware speed-group3 serdes 10g
+hardware speed-group4 serdes 10g
+hardware speed-group5 serdes 10g
+hardware speed-group6 serdes 10g
+hardware speed-group7 serdes 10g
+hardware speed-group8 serdes 10g
+hardware speed-group9 serdes 10g
+hardware speed-group10 serdes 10g
+hardware speed-group11 serdes 10g
+hardware speed-group12 serdes 10g
+!
+spanning-tree mode none
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+clock timezone CST6CDT
+!
+vlan 1
+   name Default
+   state suspend
+!
+vrf instance MGMT
+!
+vrf instance OB1
+!
+vrf instance USUNT1
+!
+vrf instance USX1
+!
+queue-monitor streaming
+   no shutdown
+!
+banner login
+******************************WARNING************************************
+This system is for authorized users only. This, and any other sessions,
+can and will be monitored to determine whether or not it is being used
+by an authorized user.
+
+By logging into this system, you are consenting to such monitoring, and
+are advised that the system administrators retain the right to use any
+recorded session as evidence of criminal activity, if such activity is
+monitored.
+******************************WARNING************************************
+EOF
+!
+management api http-commands
+   protocol https ssl profile SSL_TLS_1_2
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+!
+management api gnmi
+   transport grpc default
+      ssl profile SSL_TLS_1_2
+      vrf MGMT
+   provider eos-native
+!
+management security
+   entropy source hardware
+   !
+   ssl profile SSL_TLS_1_2
+      tls versions 1.2
+      cipher-list HIGH:!NULL:!MD5:!ADH:!ANULL:!AECDH
+      certificate SSL_TLS_1_2.crt key SSL_TLS_1_2.key
+      trust certificate SSL_TLS_1_2.crt
+!
+tacacs-server host prodauth.usaa.com vrf MGMT key 7 06033519661C5F3A530F251F3C
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ local
+aaa authorization serial-console
+aaa authorization exec default group tacacs+ local
+aaa authorization commands 15 default group tacacs+ local
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 15 default stop-only group tacacs+
+!
+mac security
+   profile MKA_AES_256
+      cipher aes256-gcm
+      key 0100000000000000000000000000000000000000000000000000000000000000 7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+      mka key-server priority 255
+      sci
+!
+interface Port-Channel100
+   description PE-PE:TPA-TRX1-COMB2N-PE1:Po100
+   no switchport
+   ip address 10.199.1.41/31
+   mpls ldp interface
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 IZHin6R1FrKg2GaolowV8Q==
+!
+interface Ethernet1
+   shutdown
+   no switchport
+!
+interface Ethernet2
+   shutdown
+   no switchport
+!
+interface Ethernet3
+   shutdown
+   no switchport
+!
+interface Ethernet4
+   shutdown
+   no switchport
+!
+interface Ethernet5
+   shutdown
+   no switchport
+!
+interface Ethernet6
+   shutdown
+   no switchport
+!
+interface Ethernet7
+   shutdown
+   no switchport
+!
+interface Ethernet8
+   shutdown
+   no switchport
+!
+interface Ethernet9
+   shutdown
+   no switchport
+!
+interface Ethernet10
+   shutdown
+   no switchport
+!
+interface Ethernet11
+   description PE-PE:TEMP To TPA-TRX1-TFLRO-PE2:Te0/1/2
+   no shutdown
+   mtu 9170
+   no switchport
+   ip address 10.199.1.26/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 Nh5uOmPgl5u4z6I0rF3erA==
+!
+interface Ethernet12
+   shutdown
+   no switchport
+!
+interface Ethernet13
+   shutdown
+   no switchport
+!
+interface Ethernet14
+   shutdown
+   no switchport
+!
+interface Ethernet15
+   shutdown
+   no switchport
+!
+interface Ethernet16
+   shutdown
+   no switchport
+!
+interface Ethernet17
+   shutdown
+   no switchport
+!
+interface Ethernet18
+   shutdown
+   no switchport
+!
+interface Ethernet19
+   shutdown
+   no switchport
+!
+interface Ethernet20
+   shutdown
+   no switchport
+!
+interface Ethernet21
+   shutdown
+   no switchport
+!
+interface Ethernet22
+   shutdown
+   no switchport
+!
+interface Ethernet23
+   shutdown
+   no switchport
+!
+interface Ethernet24
+   shutdown
+   no switchport
+!
+interface Ethernet25
+   shutdown
+   no switchport
+!
+interface Ethernet26
+   shutdown
+   no switchport
+!
+interface Ethernet27
+   shutdown
+   no switchport
+!
+interface Ethernet28
+   shutdown
+   no switchport
+!
+interface Ethernet29
+   shutdown
+   no switchport
+!
+interface Ethernet30
+   shutdown
+   no switchport
+!
+interface Ethernet31
+   shutdown
+   no switchport
+!
+interface Ethernet32
+   shutdown
+   no switchport
+!
+interface Ethernet33
+   shutdown
+   no switchport
+!
+interface Ethernet34
+   shutdown
+   no switchport
+!
+interface Ethernet35
+   shutdown
+   no switchport
+!
+interface Ethernet36
+   description PE-PE:TPA-TRX1-CRA2S-PE2:Eth36:Lumen:CID#446719580
+   no shutdown
+   mtu 9170
+   no switchport
+   ip address 10.199.1.94/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf cost 1000
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 LWjQhAwDgK8PAURxrj2omA==
+!
+interface Ethernet37
+   description P-PE:Level3:440351841:DFW-TRX1-DALEQ-P4:TenGigE0/0/0/8
+   no shutdown
+   mtu 9170
+   no switchport
+   ip address 10.199.1.15/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 LWjQhAwDgK8PAURxrj2omA==
+!
+interface Ethernet38
+   shutdown
+   no switchport
+!
+interface Ethernet39
+   shutdown
+   no switchport
+!
+interface Ethernet40
+   shutdown
+   no switchport
+!
+interface Ethernet41
+   shutdown
+   no switchport
+!
+interface Ethernet42
+   shutdown
+   no switchport
+!
+interface Ethernet43
+   shutdown
+   no switchport
+!
+interface Ethernet44
+   shutdown
+   no switchport
+!
+interface Ethernet45
+   shutdown
+   no switchport
+!
+interface Ethernet46
+   shutdown
+   no switchport
+!
+interface Ethernet47
+   description PE-PE:TPA-TRX1-COM-PE1:Eth47
+   no shutdown
+   no switchport
+   channel-group 100 mode active
+   mac security profile MKA_AES_256
+!
+interface Ethernet48
+   description PE-PE:TPA-TRX1-COM-PE1:Eth48
+   no shutdown
+   no switchport
+   channel-group 100 mode active
+   mac security profile MKA_AES_256
+!
+interface Ethernet49/1
+   description PE-CE:TPA-UI1-COM-N1:Eth2/1
+   no shutdown
+   no switchport
+!
+interface Ethernet49/1.2020
+   description PE-CE:TPA-UI1-COM-N1:Eth2/1.2020
+   encapsulation dot1q vlan 2020
+   vrf USX1
+   ip address 10.49.158.4/31
+   ip access-group ACL_RO_TRAFFIC_INBOUND in
+!
+interface Ethernet49/1.2820
+   description PE-CE:TPA-UI1-COM-N1:Eth2/1.2820
+   encapsulation dot1q vlan 2820
+   vrf USUNT1
+   ip address 10.111.124.68/31
+!
+interface Ethernet49/2
+   no shutdown
+   no switchport
+!
+interface Ethernet49/3
+   no shutdown
+   no switchport
+!
+interface Ethernet49/4
+   no shutdown
+   no switchport
+!
+interface Ethernet50/1
+   description PE-CE:TPA-UI1-COM-N2:Eth2/1
+   no shutdown
+   no switchport
+!
+interface Ethernet50/1.2020
+   description PE-CE:TPA-UI1-COM-N2:Eth2/1.2020
+   encapsulation dot1q vlan 2020
+   vrf USX1
+   ip address 10.49.158.6/31
+   ip access-group ACL_RO_TRAFFIC_INBOUND in
+!
+interface Ethernet50/1.2820
+   description PE-CE:TPA-UI1-COM-N2:Eth2/1.2820
+   encapsulation dot1q vlan 2820
+   vrf USUNT1
+   ip address 10.111.124.70/31
+!
+interface Ethernet50/2
+   no shutdown
+   no switchport
+!
+interface Ethernet50/3
+   no shutdown
+   no switchport
+!
+interface Ethernet50/4
+   no shutdown
+   no switchport
+!
+interface Ethernet51/1
+   description PE-CE:TPA-OB1-COM-N1:Eth54/1
+   no shutdown
+   no switchport
+   vrf OB1
+   ip address 10.9.183.46/31
+!
+interface Ethernet51/2
+   no shutdown
+   no switchport
+!
+interface Ethernet51/3
+   no shutdown
+   no switchport
+!
+interface Ethernet51/4
+   no shutdown
+   no switchport
+!
+interface Ethernet52/1
+   no shutdown
+   no switchport
+   vrf OB1
+!
+interface Ethernet52/2
+   no shutdown
+   no switchport
+!
+interface Ethernet52/3
+   no shutdown
+   no switchport
+!
+interface Ethernet52/4
+   no shutdown
+   no switchport
+!
+interface Ethernet53/1
+   shutdown
+   no switchport
+!
+interface Ethernet53/2
+   shutdown
+   no switchport
+!
+interface Ethernet53/3
+   shutdown
+   no switchport
+!
+interface Ethernet53/4
+   shutdown
+   no switchport
+!
+interface Ethernet54/1
+   shutdown
+   no switchport
+!
+interface Ethernet54/2
+   shutdown
+   no switchport
+!
+interface Ethernet54/3
+   shutdown
+   no switchport
+!
+interface Ethernet54/4
+   shutdown
+   no switchport
+!
+interface Ethernet55/1
+   shutdown
+   no switchport
+!
+interface Ethernet55/2
+   shutdown
+   no switchport
+!
+interface Ethernet55/3
+   shutdown
+   no switchport
+!
+interface Ethernet55/4
+   shutdown
+   no switchport
+!
+interface Ethernet56/1
+   shutdown
+   no switchport
+!
+interface Ethernet56/2
+   shutdown
+   no switchport
+!
+interface Ethernet56/3
+   shutdown
+   no switchport
+!
+interface Ethernet56/4
+   shutdown
+   no switchport
+!
+interface Loopback0
+   description MPLS_Overlay_peering
+   ip address 10.199.0.43/32
+   ip ospf area 0.0.0.0
+!
+interface Management1
+   description oob_management
+   no shutdown
+   vrf MGMT
+   ip address 10.9.182.163/28
+!
+ip access-list ACL_RO_TRAFFIC_INBOUND
+   10 permit ip 10.0.0.0/8 any
+   20 deny ip any any
+!
+ip access-list SSH_ACCESS
+   10 permit tcp 10.0.0.0/8 any eq ssh
+   20 permit tcp 172.16.0.0/12 any eq ssh
+   30 permit tcp 167.24.0.0/16 any eq ssh
+   40 permit tcp 192.168.0.0/16 any eq ssh
+   50 permit tcp 198.148.150.0/24 any eq ssh
+!
+ip routing
+no ip routing vrf MGMT
+ip routing vrf OB1
+ip routing vrf USUNT1
+ip routing vrf USX1
+!
+ip prefix-list PL_DEFAULT seq 10 permit 0.0.0.0/0
+ip prefix-list PL_RFC1918 seq 20 permit 10.0.0.0/8
+ip prefix-list PL_RFC1918 seq 30 permit 172.16.0.0/12
+ip prefix-list PL_RFC1918 seq 40 permit 192.168.0.0/16
+ip community-list DA2_DEFAULT_COMM permit 64811:11233
+ip community-list DC21_DEFAULT_COMM permit 64813:13233
+ip community-list regexp PE1 permit (.*):1_
+ip community-list regexp PE2 permit (.*):2_
+ip community-list regexp POLICY_LP120 permit (.*):412
+ip community-list regexp POLICY_LP150 permit (.*):415
+ip community-list regexp POLICY_LP170 permit (.*):417
+ip community-list regexp POLICY_LP180 permit (.*):418
+ip community-list regexp POLICY_LP190_OVERRIDE permit (.*):419
+ip community-list regexp POLICY_LP20_BLEED permit (.*):410
+!
+ip route vrf MGMT 0.0.0.0/0 10.9.182.161
+!
+arp aging timeout default 900
+!
+mpls ip
+!
+mpls ldp
+   router-id interface Loopback0
+   no shutdown
+!
+ip ssh client source-interface Management1 vrf MGMT
+!
+ntp authentication-key 10 md5 7 0721350D7E4F32560E
+ntp trusted-key 10
+ntp authenticate
+ntp server vrf MGMT 10.0.16.254 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.253 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.254 local-interface Management1 key 10
+!
+route-map DENY_ALL deny 10
+!
+route-map PASS_ALL permit 10
+!
+route-map PASS_DEFAULT_ONLY permit 10
+   match ip address prefix-list PL_DEFAULT
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 10
+   description Standard import map to allow DC21 Default
+   match community DC21_DEFAULT_COMM
+   set local-preference 150
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 20
+   description Standard import map to allow DA2 Default
+   match community DA2_DEFAULT_COMM
+   set local-preference 120
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 900
+   description Standard import map to allow All routes
+!
+route-map RM_CE_OB1_IN permit 10
+!
+route-map RM_CE_OB1_OUT permit 10
+!
+route-map RM_CE_UNTRUST_IN permit 10
+!
+route-map RM_CE_UNTRUST_OUT permit 10
+!
+route-map RM_FILTERED_TRUST_OUT permit 10
+   match ip address prefix-list PL_DEFAULT
+!
+route-map RM_FILTERED_TRUST_OUT permit 20
+   match ip address prefix-list PL_RFC1918
+!
+route-map RM_RO_TRUST_IN permit 10
+   match community POLICY_LP190_OVERRIDE
+   set local-preference 190
+!
+route-map RM_RO_TRUST_IN permit 20
+   match community POLICY_LP120
+   set local-preference 120
+!
+route-map RM_RO_TRUST_IN permit 30
+   match community POLICY_LP150
+   set local-preference 150
+!
+route-map RM_RO_TRUST_IN permit 40
+   match community POLICY_LP170
+   set local-preference 170
+!
+route-map RM_RO_TRUST_IN permit 50
+   match community POLICY_LP180
+   set local-preference 180
+!
+route-map RM_RO_TRUST_IN permit 60
+   match community PE1
+   set local-preference 120
+!
+route-map RM_RO_TRUST_IN permit 80
+!
+route-map RM_RO_TRUST_OUT permit 10
+   match ip address prefix-list PL_DEFAULT
+   set community 64800:2 additive
+!
+route-map RM_RO_TRUST_OUT permit 20
+   match ip address prefix-list PL_RFC1918
+   set community 64800:2 additive
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 10
+   match community POLICY_LP20_BLEED
+   set local-preference 20
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 20
+   match community POLICY_LP190_OVERRIDE
+   set local-preference 190
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 30
+   match community POLICY_LP120
+   set local-preference 120
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 40
+   match community POLICY_LP150
+   set local-preference 150
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 50
+   match community POLICY_LP170
+   set local-preference 170
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 60
+   match community POLICY_LP180
+   set local-preference 180
+!
+route-map STANDARD_1NET_BGP_POLICY_IN permit 500
+   description PERMIT_ALL_ROUTES
+!
+route-map STANDARD_1NET_BGP_POLICY_OUT permit 10
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+!
+router bgp 64800
+   router-id 10.199.0.43
+   update wait-install
+   no bgp default ipv4-unicast
+   distance bgp 20 200 200
+   maximum-paths 2 ecmp 2
+   bgp bestpath tie-break router-id
+   neighbor PE_CE_OB1 peer group
+   neighbor PE_CE_OB1 remote-as 64906
+   neighbor PE_CE_OB1 bfd
+   neighbor PE_CE_OB1 route-map RM_CE_OB1_IN in
+   neighbor PE_CE_OB1 route-map RM_CE_OB1_OUT out
+   neighbor PE_CE_OB1 password 7 LrxdPchq0LiOI2Jz39Pe5Q==
+   neighbor PE_CE_OB1 send-community
+   neighbor PE_CE_USUNT1 peer group
+   neighbor PE_CE_USUNT1 remote-as 64752
+   neighbor PE_CE_USUNT1 bfd
+   neighbor PE_CE_USUNT1 route-map RM_CE_UNTRUST_IN in
+   neighbor PE_CE_USUNT1 route-map RM_CE_UNTRUST_OUT out
+   neighbor PE_CE_USUNT1 password 7 w0VhJ31l/4hvhNMZ8pgI2g==
+   neighbor PE_CE_USUNT1 send-community
+   neighbor PE_CE_USX1 peer group
+   neighbor PE_CE_USX1 remote-as 64752
+   neighbor PE_CE_USX1 bfd
+   neighbor PE_CE_USX1 route-map RM_RO_TRUST_IN in
+   neighbor PE_CE_USX1 route-map RM_RO_TRUST_OUT out
+   neighbor PE_CE_USX1 password 7 /LMqBWdOHfjalXup2w+BeA==
+   neighbor PE_CE_USX1 send-community
+   neighbor RR_PEERS peer group
+   neighbor RR_PEERS remote-as 64800
+   neighbor RR_PEERS transport pmtud
+   neighbor RR_PEERS update-source Loopback0
+   neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==
+   neighbor RR_PEERS send-community standard extended
+   neighbor RR_PEERS maximum-routes 0
+   neighbor 10.199.0.38 peer group RR_PEERS
+   neighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1
+   neighbor 10.199.0.39 peer group RR_PEERS
+   neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1
+   !
+   address-family ipv4
+      neighbor PE_CE_OB1 activate
+      neighbor PE_CE_USUNT1 activate
+      neighbor PE_CE_USX1 activate
+   !
+   address-family vpn-ipv4
+      neighbor RR_PEERS activate
+   !
+   vrf OB1
+      rd 10.199.0.43:900
+      route-target import vpn-ipv4 64800:900
+      route-target import vpn-ipv4 64801:900101
+      route-target export vpn-ipv4 64800:900
+      router-id 10.199.0.43
+      maximum-paths 2 ecmp 2
+      neighbor 10.9.183.47 peer group PE_CE_OB1
+      neighbor 10.9.183.47 description TPA-OB1-COM-N1:OB1
+   !
+   vrf USUNT1
+      rd 10.199.0.43:911
+      route-target import vpn-ipv4 64535:91102
+      route-target import vpn-ipv4 64800:911
+      route-target import vpn-ipv4 64811:911
+      route-target import vpn-ipv4 64812:911
+      route-target import vpn-ipv4 64813:911
+      route-target import vpn-ipv4 65420:91111
+      route-target import vpn-ipv4 65500:911
+      route-target export vpn-ipv4 64800:912
+      router-id 10.199.0.43
+      maximum-paths 2 ecmp 2
+      neighbor 10.111.124.69 peer group PE_CE_USUNT1
+      neighbor 10.111.124.69 description TPA-UI1-COM-N1:USUNT1
+      neighbor 10.111.124.71 peer group PE_CE_USUNT1
+      neighbor 10.111.124.71 description TPA-UI1-COM-N2:USUNT1
+   !
+   vrf USX1
+      rd 10.199.0.43:914
+      route-target import vpn-ipv4 64536:910
+      route-target import vpn-ipv4 64653:949
+      route-target import vpn-ipv4 64659:910
+      route-target import vpn-ipv4 64698:949
+      route-target import vpn-ipv4 64750:910
+      route-target import vpn-ipv4 64751:910
+      route-target import vpn-ipv4 64752:910
+      route-target import vpn-ipv4 64753:910
+      route-target import vpn-ipv4 64755:910
+      route-target import vpn-ipv4 64756:910
+      route-target import vpn-ipv4 64758:910
+      route-target import vpn-ipv4 64780:914
+      route-target import vpn-ipv4 64782:91401
+      route-target import vpn-ipv4 64782:91402
+      route-target import vpn-ipv4 64800:910
+      route-target import vpn-ipv4 64800:914
+      route-target import vpn-ipv4 64800:949
+      route-target import vpn-ipv4 64800:91098
+      route-target import vpn-ipv4 64800:91099
+      route-target import vpn-ipv4 64811:910
+      route-target import vpn-ipv4 64811:91099
+      route-target import vpn-ipv4 64813:910
+      route-target import vpn-ipv4 64813:91099
+      route-target import vpn-ipv4 64820:90101
+      route-target import vpn-ipv4 64820:90103
+      route-target import vpn-ipv4 65011:90201
+      route-target import vpn-ipv4 65210:90111
+      route-target import vpn-ipv4 65215:90113
+      route-target import vpn-ipv4 65354:949
+      route-target export vpn-ipv4 64800:914
+      route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+      router-id 10.199.0.43
+      maximum-paths 2 ecmp 2
+      neighbor 10.49.158.5 peer group PE_CE_USX1
+      neighbor 10.49.158.5 description TPA-UI1-COM-N1:USX1
+      neighbor 10.49.158.7 peer group PE_CE_USX1
+      neighbor 10.49.158.7 description TPA-UI1-COM-N2:USX1
+!
+router ospf 64800
+   router-id 10.199.0.43
+   auto-cost reference-bandwidth 1000000
+   bfd default
+   max-lsa 0
+!
+ip tacacs vrf MGMT source-interface Management1
+!
+management ssh
+   ip access-group SSH_ACCESS vrf MGMT in
+   idle-timeout 10
+   authentication mode password
+   !
+   vrf MGMT
+      no shutdown
+!
+end

@@ -1,0 +1,53 @@
+---
+type: rr
+# management_interface: "Management1"
+mgmt_interface_vrf: MGMT
+mgmt_interface: Management1
+rr:
+  defaults:
+    platform: "7280R3"
+    # bgp_as: 64800
+    loopback_ipv4_pool: 10.199.0.38/27
+    mpls_route_reflectors: [ IAD-TRX1-DC21-RR1 ]
+    spanning_tree_mode: none
+  node_groups:
+    - group: DA2_RR_ROUTERS
+      nodes:
+        - name: DFW-TRX1-DALEQ-RR1
+          id: 1
+          mgmt_ip: 10.13.81.232/24
+          loopback_ipv4_address: 10.199.0.38
+    - group: DC21_RR_ROUTERS
+      nodes:
+        - name: IAD-TRX1-DC21-RR1
+          id: 2
+          mgmt_ip: 10.9.181.16/24
+          loopback_ipv4_address: 10.199.0.39
+
+# custom_structured_configuration_router_bgp:
+#   address_family_evpn: null
+#   peer_groups:
+#     - name: LEGACY-CLIENTS
+#       remote-as: 64800
+#       route_reflector_client: true
+#       update_source: Loopback1
+#       send_community: extended
+#     # - name: RR-OVERLAY-PEERS # custom bgp configuration to remove the default rendering
+#     #   remote_as: null
+#     #   update_source: null
+#     #   send_community: null
+#     #   bfd: null
+#     #   maximum_routes: null
+#   address_family_vpn_ipv4:
+#     peer_groups:
+#       - name: LEGACY-CLIENTS
+#         activate: true
+#   bgp_cluster_id: null
+
+# mac_security:
+#   profiles:
+#     - name: MKA_AES_256
+#       cipher: aes256-gcm
+#       mka:
+#         key_server_priority: 60
+#       sci: true

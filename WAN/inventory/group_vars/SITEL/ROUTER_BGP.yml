@@ -1,0 +1,21 @@
+ROUTER_BGP_VNX1_VRF: |-
+  vrf VNX1
+    rd {{Loopback0}}:920
+    route-target import vpn-ipv4 65420:90311
+    route-target import vpn-ipv4 65526:90312
+    route-target import vpn-ipv4 65500:903
+    route-target import vpn-ipv4 64840:90301
+    route-target import vpn-ipv4 64840:90302
+    route-target import vpn-ipv4 64840:90303
+    route-target import vpn-ipv4 64800:903
+    route-target export vpn-ipv4 64800:903
+    router-id {{Loopback0}}
+    maximum-paths 2 ecmp 2
+    neighbor {{vrf_vnx1.pe_ce_n1}} remote-as {{VENDOR_ASN}}
+    neighbor {{vrf_vnx1.pe_ce_n1}} peer group PE_CE_3PCC
+    neighbor {{vrf_vnx1.pe_ce_n1}} description {{VENDOR_NAME}}:VENDOR_DEVICE
+    neighbor {{vrf_vnx1.pe_ce_n1}} password 7 $1c$O/K5nO7RsL6PAxl7mDsL0Q==
+    neighbor {{vrf_vnx1.pe_ce_n2}} remote-as {{VENDOR_ASN}}
+    neighbor {{vrf_vnx1.pe_ce_n2}} peer group PE_CE_3PCC
+    neighbor {{vrf_vnx1.pe_ce_n2}} description {{VENDOR_NAME}}:VENDOR_DEVICE
+    neighbor {{vrf_vnx1.pe_ce_n2}} password 7 $1c$O/K5nO7RsL6PAxl7mDsL0Q==

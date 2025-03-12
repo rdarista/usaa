@@ -1,0 +1,21 @@
+# USAA Arista Fabrics
+{# Fabric Home Page #}
+
+
+
+{%- for datacenter in doc_struct.datacenters %}
+
+## {{ datacenter['dc'] }} Datacenter Fabrics
+
+<div class="grid" markdown>
+
+    {%- for fabric in datacenter['fabrics'] %}
+
+:material-office-building: [{{ datacenter['dc'] }} | {{ fabric }}](./{{ datacenter['dc'] }}/{{ fabric }}/documentation/fabric/{{ datacenter['slug'] }}_{{ fabric }}_FABRIC-documentation.md)
+{ .card }
+
+    {% endfor %}
+
+</div>
+
+{%- endfor %}

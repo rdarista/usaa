@@ -1,0 +1,76 @@
+---
+# Populate the below vars with your unique information for this device.
+Loopback0: 10.199.0.152
+vrf_ob1:
+  remote_as: 64801
+  pe_ce_n1: 10.9.177.225
+vrf_vnx1:
+  remote_as: 65008
+  pe_ce_n1: 10.8.249.0
+
+# This is the PE to P (Ethernet37) IP address.
+PE_TO_P_IP: 10.199.1.152/31
+
+# This is the the PE to PE (Port-Channel10) IP address.
+PE_TO_PE_IP: 10.199.1.162/31
+
+# Populate the below info with the vendors information.
+VENDOR_NAME: QUALFON
+VENDOR_ASN: 65008
+
+# If vendors devices are stacked then we run our connections PE1->CE1&2 and PE2->CE1&2. If standalone then 2 each of PE1->CE1 and PE2->CE2. Automation handles the logic.
+# Stacked is if vendor is running vPC (Nexus), Stackwise (Catalyst), MLAG (Arista), etc on their devices.
+
+PE_TO_VENDOR_CE_CONN_1:
+  HOSTNAME: DEN:VW-SCLT-01DC-01
+  CE_PORT_1: Et1 #UPDATE
+
+PE_TO_VENDOR_CE_CONN_2:
+  HOSTNAME: DEN:VW-SCLT-01DC-01
+  CE_PORT_1: Et2 #UPDATE
+
+PE_TO_VENDOR_CE_IP: 10.8.249.1/31 # This is the PE to CE Vendor (Port-Channel13) IP address.
+
+OB1_CE1:
+  HOSTNAME: DEN-OB1-QUALFON-N1
+  CE_PORT: Et13
+
+# This is the PE to OB1 CE (Port-Channel11 if PE1, Port-Channel12 if PE2) IP address.
+PE_TO_OB1_CE_IP: 10.9.177.224/31
+
+## See wiki for Interface Description Standard https://wiki.usaa.com/display/NETSVC/NETSVC+-+ER0092:+Deriving+Interface+Descriptions
+
+SERVICE: P-PE # P-PE, VENDOR, P-P, etc.
+PROVIDER: ATT # ISP short name
+PROVIDER_CN: # short for Common Name. This is for vendors like VISA, MCARD, etc. Add this where applicable.
+CID: IZEC564629ATI # short for Circuit IDentifier
+XCON_ID: #short for cross (X) CONnect IDentifier. Not used if the device is at a remote site. Add this where applicable.
+LOGCON_ID: # LOGical CONnection IDentifier. Typically for ECX or dedicated cloud connections like AWS DX. Add this where applicable.
+A_PORT: Et37 # Local host port
+Z_CON_ID: 23076833 # Remote CONnection IDentifier. Every 3PCC device needs to have this filled out.
+Z_DEV: IAD-TRX1-DC21-P3 # Remote DEVice
+Z_PORT: Eth26 # Remote host port
+
+# # # # # # # # # # # # # # # # # # # 
+#  _    _   ____    _____  _______  #
+# | |  | | / __ \  / ____| __   __| #
+# | |__| || |  | | | (___    | |    #
+# |  __  || |  | | \___  \   | |    #
+# | |  | || |__| |  ____) |  | |    #
+# |_|  |_| \____/  |_____/   |_|    #
+# # # # # # # # # # # # # # # # # # #
+
+# Any one off config goes below. If you are adding any code below this comment, you MUST provide evidence why this config can not go anywhere else or it will not be approved.
+# Changes below should be true host level config that can not be added in to a higher level.
+
+# # This failover method is specific to QUALFON
+# ROUTER_BGP_3PCC_PG: |-
+#   neighbor PE_CE_3PCC peer-group
+#     neighbor PE_CE_3PCC local-as 7838 no-prepend replace-as
+#     neighbor PE_CE_3PCC timers 2 5
+#     neighbor PE_CE_3PCC fall-over bfd
+#     neighbor PE_CE_3PCC send-community
+#     neighbor PE_CE_3PCC remove-private-as
+#     neighbor PE_CE_3PCC route-map DENY_ALL in
+#     neighbor PE_CE_3PCC route-map DENY_ALL out
+#

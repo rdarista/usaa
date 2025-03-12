@@ -1,0 +1,954 @@
+hostname: PHX-TRX1-DSVC-PE2
+is_deployed: false
+router_bgp:
+  as: '64800'
+  router_id: 10.199.0.21
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 4
+    ecmp: 4
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: RR_PEERS
+    type: mpls
+    update_source: Loopback0
+    bfd: true
+    password: iKTQwhTMWkGv8NnVBwWL8w==
+    send_community: all
+    maximum_routes: 0
+    remote_as: '64800'
+  address_family_evpn:
+    peer_groups: []
+  address_family_ipv4:
+    peer_groups:
+    - name: RR_PEERS
+      activate: false
+  address_family_vpn_ipv4:
+    neighbor_default_encapsulation_mpls_next_hop_self:
+      source_interface: Loopback0
+    peer_groups:
+    - name: RR_PEERS
+      activate: true
+  neighbors:
+  - ip_address: 10.199.0.39
+    peer_group: RR_PEERS
+    peer: IAD-TRX1-DC21-RR1
+    description: IAD-TRX1-DC21-RR1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: none
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: MGMT
+  ip_routing: false
+management_interfaces:
+- name: Management1
+  description: oob_management
+  shutdown: false
+  vrf: MGMT
+  ip_address: 10.50.129.21/24
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: MGMT
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+snmp_server:
+  engine_ids:
+    local: 94e76ddbb53986dabd7785c6d6b853ad4da3d9f8
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 94e76ddbb53986dabd7785c6d6b853ad4da3d9f8
+    auth: sha
+    auth_passphrase: 5667224e92849581b3e8cd5f9f969e5d03445efe
+    priv: aes
+    priv_passphrase: e6b2115da9de802770b8bcd54c4674bd
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 94e76ddbb53986dabd7785c6d6b853ad4da3d9f8
+    auth: sha
+    auth_passphrase: 2007bff2985d9d55e81091dcd6f89715689107fc
+    priv: aes
+    priv_passphrase: 20f5af6a2bc37b956d99f617c8d38b12
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 94e76ddbb53986dabd7785c6d6b853ad4da3d9f8
+    auth: sha
+    auth_passphrase: b70375e041b93e126ab38cd5240679e64f2791e9
+    priv: aes
+    priv_passphrase: 7fb4406ec2807945726eac8811517b69
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 94e76ddbb53986dabd7785c6d6b853ad4da3d9f8
+    auth: sha
+    auth_passphrase: 0269d76cb84ecf8dda6ed6b343cc0309b923c134
+    priv: aes
+    priv_passphrase: 2b79718ee1931ac1a04ec0934cf73ffb
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+    vrf: MGMT
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: PHX
+  local_interfaces:
+  - name: Management1
+    vrf: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: MPLS_Overlay_peering
+  shutdown: false
+  ip_address: 10.199.0.21/32
+  ospf_area: 0.0.0.0
+  mpls:
+    ldp:
+      interface: true
+router_ospf:
+  process_ids:
+  - id: 64800
+    passive_interface_default: false
+    router_id: 10.199.0.21
+    max_lsa: 0
+    no_passive_interfaces: null
+    bfd_enable: true
+    auto_cost_reference_bandwidth: 1000000
+mpls:
+  ip: true
+  ldp:
+    interface_disabled_default: false
+    router_id: interface Loopback0
+    shutdown: false
+    transport_address_interface: null
+router_bfd:
+  multihop:
+    interval: 1000
+    min_rx: 1000
+    multiplier: 3
+ip_igmp_snooping:
+  globally_enabled: true
+eos_cli: "!\n{{MAC_SEC}}\n!\n{{VRF_DEFINITION}}\n!\n{{INTERFACE_CONFIG}}\n!\n{{MPLS_DEFAULTS}}\n!\n{{ROUTER_BGP_DEFAULTS}}\n  {{ROUTER_BGP_OB1_PG}}\n
+  \ {{ROUTER_BGP_USUNT1_PG}}\n  {{ROUTER_BGP_USX1_PG}}\n  {{ROUTER_BGP_RR_PG}}\n  !\n  {{ROUTER_BGP_ADR_FAMILY}}\n  !\n  {{ROUTER_BGP_OB1_VRF}}\n
+  \ !\n  {{ROUTER_BGP_USUNT1_VRF}}\n  !\n  {{ROUTER_BGP_USX1_VRF}}\n!\n{{MGMT_DEFAULTS}}"
+ethernet_interfaces:
+- name: Ethernet1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet5
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet6
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet7
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet8
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet9
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet10
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet11
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet12
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet13
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet14
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet15
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet16
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet17
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet18
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet19
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet20
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet21
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet22
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet23
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet24
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet25
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet26
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet27
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet28
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet29
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet30
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet31
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet32
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet33
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet34
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet35
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet36
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet38
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet39
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet40
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet41
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet42
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet43
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet44
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet45
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet46
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet49/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet49/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet49/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet50/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet50/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet50/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet52/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet52/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet52/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet53/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet54/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet55/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet56/1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet53/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet54/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet55/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet56/2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet53/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet54/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet55/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet56/3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet53/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet54/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet55/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+- name: Ethernet56/4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: 'no switchport
+
+    shutdown'
+  type: switched
+metadata:
+  platform: 7280R3
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+- name: ACL_RO_TRAFFIC_INBOUND
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: ip
+    source: 10.0.0.0/8
+    destination: any
+  - sequence: 20
+    action: deny
+    protocol: ip
+    source: any
+    destination: any
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
+ip_community_lists:
+- name: DA2_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64811:11233
+- name: DC21_DEFAULT_COMM
+  entries:
+  - action: permit
+    communities:
+    - 64813:13233
+- name: PE1
+  entries:
+  - action: permit
+    regexp: (.*):1_
+- name: PE2
+  entries:
+  - action: permit
+    regexp: (.*):2_
+- name: POLICY_LP120
+  entries:
+  - action: permit
+    regexp: (.*):412
+- name: POLICY_LP150
+  entries:
+  - action: permit
+    regexp: (.*):415
+- name: POLICY_LP170
+  entries:
+  - action: permit
+    regexp: (.*):417
+- name: POLICY_LP180
+  entries:
+  - action: permit
+    regexp: (.*):418
+- name: POLICY_LP190_OVERRIDE
+  entries:
+  - action: permit
+    regexp: (.*):419
+- name: POLICY_LP20_BLEED
+  entries:
+  - action: permit
+    regexp: (.*):410
+route_maps:
+- name: RM_RO_TRUST_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community POLICY_LP190_OVERRIDE
+    set:
+    - local-preference 190
+  - sequence: 20
+    type: permit
+    match:
+    - community POLICY_LP120
+    set:
+    - local-preference 120
+  - sequence: 30
+    type: permit
+    match:
+    - community POLICY_LP150
+    set:
+    - local-preference 150
+  - sequence: 40
+    type: permit
+    match:
+    - community POLICY_LP170
+    set:
+    - local-preference 170
+  - sequence: 50
+    type: permit
+    match:
+    - community POLICY_LP180
+    set:
+    - local-preference 180
+  - sequence: 60
+    type: permit
+    match:
+    - community PE1
+    set:
+    - local-preference 120
+  - sequence: 80
+    type: permit
+- name: RM_RO_TRUST_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+    set:
+    - community 64800:2 additive
+  - sequence: 20
+    type: permit
+    match:
+    - ip address prefix-list PL_RFC1918
+    set:
+    - community 64800:2 additive
+- name: RM_FILTERED_TRUST_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+  - sequence: 20
+    type: permit
+    match:
+    - ip address prefix-list PL_RFC1918
+- name: RM_CE_UNTRUST_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: RM_CE_UNTRUST_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: DENY_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: deny
+- name: PASS_ALL
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: PASS_DEFAULT_ONLY
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list PL_DEFAULT
+- name: PREF_DEFAULT_IMPORT_MAP
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: Standard import map to allow DA2 Default
+    match:
+    - community DA2_DEFAULT_COMM
+    set:
+    - local-preference 150
+  - sequence: 20
+    type: permit
+    description: Standard import map to allow DC21 Default
+    match:
+    - community DC21_DEFAULT_COMM
+    set:
+    - local-preference 120
+  - sequence: 900
+    type: permit
+    description: Standard import map to allow All routes
+- name: RM_CE_OB1_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: RM_CE_OB1_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+- name: STANDARD_1NET_BGP_POLICY_IN
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - community POLICY_LP20_BLEED
+    set:
+    - local-preference 20
+  - sequence: 20
+    type: permit
+    match:
+    - community POLICY_LP190_OVERRIDE
+    set:
+    - local-preference 190
+  - sequence: 30
+    type: permit
+    match:
+    - community POLICY_LP120
+    set:
+    - local-preference 120
+  - sequence: 40
+    type: permit
+    match:
+    - community POLICY_LP150
+    set:
+    - local-preference 150
+  - sequence: 50
+    type: permit
+    match:
+    - community POLICY_LP170
+    set:
+    - local-preference 170
+  - sequence: 60
+    type: permit
+    match:
+    - community POLICY_LP180
+    set:
+    - local-preference 180
+  - sequence: 500
+    type: permit
+    description: PERMIT_ALL_ROUTES
+- name: STANDARD_1NET_BGP_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit

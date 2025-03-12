@@ -1,0 +1,206 @@
+---
+type: pe
+# management_interface: "Management1"
+mgmt_interface_vrf: MGMT
+mgmt_interface: Management1
+pe:
+  defaults:
+    platform: "7280R3"
+    # bgp_as: 64800
+    loopback_ipv4_pool: 10.199.0.28/26
+    mpls_route_reflectors: [ IAD-TRX1-DC21-RR1]
+#    bgp_defaults:
+#      - distance bgp 20 200 200
+#      - neighbor default send-community
+#      - maximum-paths 2 ecmp 2
+#      - bgp bestpath tie-break router-id
+    spanning_tree_mode: none
+  node_groups:
+    - group: ATL_PE_ROUTERS
+      # filter:
+      #   tenants: [tenants_dc]
+      nodes:
+        - name: atl-trx1-dc1-pe1
+          id: 1
+          mgmt_ip: 10.13.80.232/24
+          mac_address: "94:8e:d3:ed:7e:be"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: atl-trx1-dc1-pe2
+          id: 2
+          mgmt_ip: 10.13.80.228/24
+          mac_address: "94:8e:d3:ed:73:56"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: TPA_CR_PE_ROUTERS
+      # filter:
+      #   tenants: [tenants_dc]
+      nodes:
+        - name: tpa-trx1-cra2s-pe1
+          id: 3
+          mgmt_ip: 10.9.180.1/24
+          mac_address: "94:8e:d3:ed:7e:be"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: tpa-trx1-cra2s-pe2
+          id: 4
+          mgmt_ip: 10.9.180.2/24
+          mac_address: "94:8e:d3:ed:73:56"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: TPA_COM_PE_ROUTERS
+      # filter:
+      #   tenants: [tenants_dc]
+      nodes:
+        - name: tpa-trx1-comb2n-pe1
+          id: 5
+          mgmt_ip: 10.9.181.1/24
+          mac_address: "94:8e:d3:ed:7e:be"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: tpa-trx1-comb2n-pe2
+          id: 6
+          mgmt_ip: 10.9.181.2/24
+          mac_address: "94:8e:d3:ed:73:56"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: PTX_PE_ROUTERS
+      # filter:
+      #   tenants: [tenants_dc]
+      nodes:
+        - name: dfw-trx1-ptxb1-pe1
+          id: 7
+          mgmt_ip: 10.9.182.132/28
+          mac_address: "b4:92:fe:2b:b9:af"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: dfw-trx1-ptxb1-pe2
+          id: 8
+          mgmt_ip: 10.9.182.133/28
+          mac_address: "b4:92:fe:2b:3f:a5"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: PHX_PE_ROUTERS
+      nodes:
+        - name: phx-trx1-a2e-pe1
+          id: 9
+          mgmt_ip: 10.50.1.21/24
+          mac_address: "b4:92:fe:2b:b9:af"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: phx-trx1-dsvc-pe2
+          id: 10
+          mgmt_ip: 10.50.129.21/24
+          mac_address: "b4:92:fe:2b:3f:a5"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: QUALFON_PE_ROUTERS
+      nodes:
+        - name: dtw-trx1-qualfon-pe1
+          id: 11
+          mgmt_ip: 10.9.184.50/28
+          mac_address: "a4:3f:68:ce:b7:79"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: dtw-trx1-qualfon-pe2
+          id: 12
+          mgmt_ip: 10.9.184.51/28
+          mac_address: "a4:3f:68:ce:b5:df"
+        - name: den-trx1-qualfon-pe1
+          id: 13
+          mgmt_ip: 10.9.184.114/28
+          mac_address: "a4:3f:68:ce:b8:c1"
+          # loopback_ipv4_address: "{{ loopback_ipv4_address }}"
+        - name: den-trx1-qualfon-pe2
+          id: 14
+          mgmt_ip: 10.9.184.115/28
+          mac_address: "a4:3f:68:ce:b6:83"
+          # loopback_ipv4_address: 10.199.0.29
+    - group: CONCENTRIX_PE_ROUTERS
+      nodes:
+        - name: mco-trx1-concentrix-pe1
+          id: 15
+          mgmt_ip: 10.9.181.162/28
+          mac_address: "a4:3f:68:ce:b3:4f"
+        - name: mco-trx1-concentrix-pe2
+          id: 16
+          mgmt_ip: 10.9.181.163/28
+          mac_address: "a4:3f:68:ce:b2:ab"
+        - name: cvg-trx1-concentrix-pe1
+          id: 17
+          mgmt_ip: 10.9.181.178/28
+          mac_address: "a4:3f:68:ce:b4:97"
+        - name: cvg-trx1-concentrix-pe2
+          id: 18
+          mgmt_ip: 10.9.181.179/28
+          mac_address: "e4:78:76:fb:78:a9"
+    - group: TEST_3PCC_PE_ROUTERS
+      nodes:
+        - name: lax-trx1-test3pcc-pe1
+          id: 19
+          mgmt_ip: 7.7.7.7/28
+          mac_address: "ab:cd:ef:gh:ij:kl"
+        - name: lax-trx1-test3pcc-pe2
+          id: 20
+          mgmt_ip: 7.7.7.8/28
+          mac_address: "12:34:56:78:90:ab"
+    - group: SITEL_PE_ROUTERS
+      nodes:
+        - name: oma-trx1-sitel-pe1
+          id: 21
+          mgmt_ip: 10.9.184.66/28
+          mac_address: "a4:3f:68:ce:ad:8b"
+        - name: oma-trx1-sitel-pe2
+          id: 22
+          mgmt_ip: 10.9.184.67/28
+          mac_address: "a4:3f:68:ce:ab:9f"
+        - name: dfw-trx1-sitel-pe1
+          id: 23
+          mgmt_ip: 10.9.184.2/28
+          mac_address: "a4:3f:68:ce:b0:bf"
+        - name: dfw-trx1-sitel-pe2
+          id: 24
+          mgmt_ip: 10.9.184.3/28
+          mac_address: "a4:3f:68:ce:a6:7f"
+    - group: TELEPERFORMANCE_PE_ROUTERS
+      nodes:
+        - name: dfw-trx1-telepf-pe1
+          id: 25
+          mgmt_ip: 10.9.184.18/28
+          mac_address: "68:bf:6c:36:6a:5b"
+        - name: dfw-trx1-telepf-pe2
+          id: 26
+          mgmt_ip: 10.9.184.19/28
+          mac_address: "e4:78:76:fb:79:9f"
+        - name: slc-trx1-telepf-pe1
+          id: 26
+          mgmt_ip: 10.9.184.82/28
+          mac_address: "a4:3f:68:ce:ad:dd"
+        - name: slc-trx1-telepf-pe2
+          id: 28
+          mgmt_ip: 10.9.184.83/28
+          mac_address: "68:bf:6c:36:84:4d"
+    - group: TELETECH_PE_ROUTERS
+      nodes:
+        - name: den-trx1-ttcnt-pe1
+          id: 29
+          mgmt_ip: 10.9.184.34/28
+          mac_address: "b4:92:fe:2b:cf:25"
+        - name: den-trx1-ttcnt-pe2
+          id: 30
+          mgmt_ip: 10.9.184.35/28
+          mac_address: "b4:92:fe:2b:bd:35"
+        - name: iad-trx1-teletech-pe1
+          id: 31
+          mgmt_ip: 10.9.184.98/28
+          mac_address: "e4:78:76:fb:83:8d"
+        - name: iad-trx1-teletech-pe2
+          id: 32
+          mgmt_ip: 10.9.184.99/28
+          mac_address: "e4:78:76:fb:95:2b"
+
+# mac_security:
+#   profiles:
+#     - name: MKA_AES_256
+#       cipher: aes256-gcm
+#       mka:
+#         key_server_priority: 60
+#       sci: true
+
+#custom_structured_configuration_router_bgp:
+#  peer_groups:
+#    RR_PEERS:
+#      send_community: extended
+#  address_family_evpn: null
+#  address_family_vpn_ipv4:
+#    neighbor_default_encapsulation_mpls_next_hop_self:
+#      source_interface: null

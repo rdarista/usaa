@@ -1,0 +1,25 @@
+---
+# TODO: Need to determine the best way to generate these configs
+# TODO: Remediate for compliance automation
+# custom_structured_configuration_management_ssh:
+#   authentication_mode: password
+# ! note: eos_cli follows
+# eos_cli: |
+#   management ssh
+#     ip access-group SSH_ACCESS vrf MGMT in
+#     idle-timeout 10
+#     authentication mode password
+#     !
+#     vrf MGMT
+#       no shutdown
+# system control-plane
+#   ip access-group DEF2 vrf MGMT in
+#   ip access-group DEF2 in
+# !
+# mac security
+#   profile MKA_AES_256
+#     cipher aes256-gcm
+#     key 0100000000000000000000000000000000000000000000000000000000000000 7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+#     mka key-server priority 255
+#     sci
+ 

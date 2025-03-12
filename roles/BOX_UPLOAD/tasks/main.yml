@@ -1,0 +1,71 @@
+# tasks file for BOX_UPLOAD
+---
+# Requirements: 
+# usaads.ansible_collection_box 1.1.0
+# grp-python-innersource-conjur           4.1.0
+# grp-python-innersource-service-accounts  0.4.0
+
+- name: Build Box Credentials
+  set_fact:
+    box_secrets:
+      boxAppSettings:
+        clientID: "{{ box_client_conjur_creds.service_account.username }}"
+        clientSecret: "{{ box_client_conjur_creds.service_account.password }}"
+        appAuth:
+          publicKeyID: "{{ box_key_conjur_creds.service_account.username }}"
+          privateKey: "{{ box_key_conjur_creds.service_account.password }}"
+          passphrase: "{{ box_pass_conjur_creds.service_account.password }}"
+      enterpriseID: "340263"
+  no_log: true
+
+- block:
+  - name: Create date folder
+    usaads.ansible_collection_box.usaa_box_folder:
+      name: "{{ today }}"
+      parent_folder_id: "{{ parent_folder_id }}"
+      box_settings: "{{ box_secrets }}"
+      session_settings: "{{ box_session }}"
+    vars:
+      # Get YYYY-mm-dd for folder name
+      today: "{{ lookup('pipe', 'date +%Y-%m-%d') }}"
+    register: date_folder_result
+
+  always:
+  - name: Output from folder creation task
+    ansible.builtin.debug:
+      msg: "date_folder_result is {{ date_folder_result }}"
+    when: date_folder_result is failed
+
+# - block:
+#   - name: Create change folder
+#     usaads.ansible_collection_box.usaa_box_folder:
+#       name: "{{ snow_change_num }}"
+#       parent_folder_id: "{{ date_folder_result.remote_folder.id }}"
+#       box_settings: "{{ box_secrets }}"
+#       session_settings: "{{ box_session }}"
+#     register: change_folder_result
+
+#   always:
+#   - name: Output from folder creation task
+#     ansible.builtin.debug:
+#       msg: "change_folder_result is {{ change_folder_result }}"
+#     when: change_folder_result is failed
+
+- block:
+  - name: Upload files
+    usaads.ansible_collection_box.usaa_box_upload:
+      folder_id: "{{ date_folder_result.remote_folder.id }}"
+      src: "{{ item }}"
+      # Default behavior (but here to remind the param exists)
+      update_existing: true
+      box_settings: "{{ box_secrets }}"
+      session_settings: "{{ box_session }}"
+    register: upload_result
+    with_fileglob:
+      - "{{ upload_source_folder }}"
+
+  always:
+  - name: Output from upload task
+    ansible.builtin.debug:
+      msg: "upload_result is {{ upload_result }}"
+    when: upload_result is failed

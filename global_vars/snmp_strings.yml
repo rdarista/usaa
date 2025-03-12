@@ -1,0 +1,12 @@
+---
+netbrain_snmp_auth_test: Tauth20nb
+netbrain_snmp_priv_test: TisV3pfNB
+netbrain_snmp_auth_prod: Pauthnb20
+netbrain_snmp_priv_prod: Psv3ppfNB
+snow_snmp_auth_prod: VcLJGW3O
+snow_snmp_priv_prod: jEgD0hfu
+netscout_snmp_auth_prod: 4nGTD5AF
+netscout_snmp_priv_prod: wk1xwYDq
+spectrum_snmp_auth_prod: IQ5LyEsW
+spectrum_snmp_priv_prod: 7XJTAkDa
+sdadmin_snmp_auth_prod: N@ch0camach0

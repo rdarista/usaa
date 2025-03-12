@@ -1,0 +1,16 @@
+variables:
+  STANDARD_TEMPLATE_ID: 4bcb3ed9c3880e10daed30dc7a0131ac  # ILM standard code deploy template
+  SNOW_CONFIG_FILE: snow-config.json
+
+# # Pipeline to deploy objects to AWX via AWX controller collection
+# include:
+#   - project: 'grp-dis-storage-configs/awx-pipeline-config'
+#     ref: v1-latest
+#     file: 'ansible/awx/project-deploy.yml'
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - echo "Hello, just being a pipeline"

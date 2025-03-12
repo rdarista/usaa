@@ -1,0 +1,556 @@
+---
+all:
+  children:
+    CVP:
+      hosts:
+        # cv_ztp:
+        #   # Address of host that will act as DHCP server
+        #   # ansible_host: 10.139.16.173 #PROD
+        #   ansible_host: 10.158.12.31 #LAB
+        # nwlabcvp2x:
+        prodcvppen1xsat:
+          # section for CVP primary node address
+          ansible_httpapi_host: 10.139.16.173 #PROD
+          # ansible_httpapi_host: 10.158.12.31 #LAB
+          ansible_host: 10.139.16.173 #PROD
+          # ansible_host: 10.158.12.31 #LAB
+          ansible_connection: httpapi
+          ansible_httpapi_use_ssl: false
+          ansible_httpapi_validate_certs: false
+          ansible_network_os: eos
+          ansible_httpapi_port: 443
+          fabric_name: MPLS_FABRIC
+          # Configuration to get Virtual Env information
+          ansible_python_interpreter: $(which python3)
+
+    WAN:
+      children:
+        # node_groups indented below the fabric var will create containers
+        MPLS_FABRIC:
+          children:
+            DC:
+              children:
+                ATL:
+                  children:
+                    ATL_PE_ROUTERS:
+                      hosts:
+                        atl-trx1-dc1-pe1:
+                          ansible_host: 10.9.182.151
+                          is_deployed: false
+                          management_gateway: 10.9.182.145
+                          Loopback0: 10.199.0.28
+                          busintel_peer_ip_n1: 10.64.0.5
+                          busintel_peer_ip_n2: 10.64.0.25
+                          cchybrid_peer_ip_n1: 10.77.0.9
+                          cchybrid_peer_ip_n2: 10.77.0.29
+                          ccissue_peer_ip_n1: 10.77.0.5
+                          ccissue_peer_ip_n2: 10.77.0.25
+                          ccmerch_peer_ip_n1: 10.77.0.7
+                          ccmerch_peer_ip_n2: 10.77.0.27
+                          dcx1_prod_peer_ip_n1: 10.64.0.1
+                          dcx1_prod_peer_ip_n2: 10.64.0.21
+                          dcx1_test_peer_ip_n1: 10.72.0.1
+                          dcx1_test_peer_ip_n2: 10.72.0.17
+                          dcx1_ob_peer_ip_n1: 10.76.0.131
+                          dcx1_ob_peer_ip_n2: 10.76.0.139
+                          dcx1_pci_peer_ip_n1: 10.77.0.1
+                          dcx1_pci_peer_ip_n2: 10.77.0.21
+                          dmzmem1_peer_ip_n1: 10.64.0.3
+                          dmzmem1_peer_ip_n2: 10.64.0.23
+                          idtn_peer_ip_n1: 10.72.0.3
+                          idtn_peer_ip_n2: 10.72.0.19
+                          idtnb2b_peer_ip_n1: 10.72.0.7
+                          idtnb2b_peer_ip_n2: 10.72.0.23
+                          idtndx_peer_ip_n1: 10.72.0.5
+                          idtndx_peer_ip_n2: 10.72.0.21
+                          ncfdmz_peer_ip_n1: 10.64.0.7
+                          ncfdmz_peer_ip_n2: 10.64.0.27
+                          pen1_peer_ip_n1: 10.77.0.3
+                          pen1_peer_ip_n2: 10.77.0.23
+                          usx1_peer_ip_n1: 10.64.0.9
+                          usx1_peer_ip_n2: 10.64.0.29
+                        atl-trx1-dc1-pe2:
+                          ansible_host: 10.9.182.149
+                          is_deployed: false
+                          management_gateway: 10.9.182.161
+                          Loopback0: 10.199.0.29
+                          busintel_peer_ip_n1: 10.64.0.15
+                          busintel_peer_ip_n2: 10.64.0.35
+                          cchybrid_peer_ip_n1: 10.77.0.19
+                          cchybrid_peer_ip_n2: 10.77.0.39
+                          ccissue_peer_ip_n1: 10.77.0.15
+                          ccissue_peer_ip_n2: 10.77.0.35
+                          ccmerch_peer_ip_n1: 10.77.0.17
+                          ccmerch_peer_ip_n2: 10.77.0.37
+                          dcx1_prod_peer_ip_n1: 10.64.0.11
+                          dcx1_prod_peer_ip_n2: 10.64.0.31
+                          dcx1_test_peer_ip_n1: 10.72.0.9
+                          dcx1_test_peer_ip_n2: 10.72.0.25
+                          dcx1_ob_peer_ip_n1: 10.76.0.135
+                          dcx1_ob_peer_ip_n2: 10.76.0.143
+                          dcx1_pci_peer_ip_n1: 10.77.0.11
+                          dcx1_pci_peer_ip_n2: 10.77.0.31
+                          dmzmem1_peer_ip_n1: 10.64.0.13
+                          dmzmem1_peer_ip_n2: 10.64.0.33
+                          idtn_peer_ip_n1: 10.72.0.11
+                          idtn_peer_ip_n2: 10.72.0.27
+                          idtnb2b_peer_ip_n1: 10.72.0.15
+                          idtnb2b_peer_ip_n2: 10.72.0.31
+                          idtndx_peer_ip_n1: 10.72.0.13
+                          idtndx_peer_ip_n2: 10.72.0.29
+                          ncfdmz_peer_ip_n1: 10.64.0.17
+                          ncfdmz_peer_ip_n2: 10.64.0.37
+                          pen1_peer_ip_n1: 10.77.0.13
+                          pen1_peer_ip_n2: 10.77.0.33
+                          usx1_peer_ip_n1: 10.64.0.19
+                          usx1_peer_ip_n2: 10.64.0.39
+                      vars:
+                        PRIMARY_RNAP: DC21
+                    ATL_P_ROUTERS:
+                      hosts:
+                        atl-trx1-dc1-p1:
+                          ansible_host: 10.9.182.150
+                          is_deployed: false
+                          management_gateway: 10.9.182.145
+                          Loopback0: 10.199.0.40
+                        atl-trx1-dc1-p2:
+                          ansible_host: 10.13.81.248
+                          is_deployed: false
+                          management_gateway: 10.9.182.161
+                          Loopback0: 10.199.0.42
+            RNAP:
+              children:
+                DC21:
+                  children:
+                    DC21_RR_ROUTERS:
+                      hosts:
+                        IAD-TRX1-DC21-RR1:
+                          ansible_host: 10.9.181.16
+                          is_deployed: false
+                          Loopback0: 10.199.0.39
+                    # DC21_PE_ROUTERS:
+                    #   hosts:
+                    #     iad_trx_dc21_pe1:
+                    #       ansible_host: 10.9.181.11
+                    #     iad_trx_dc21_pe2:
+                    #       ansible_host: 10.9.181.12
+                    # DC21_P_ROUTERS:
+                    #   hosts:
+                    #     iad_trx_dc1_p1:
+                    #       ansible_host: 10.9.181.13
+                    #     iad_trx_dc1_p2:
+                    #       ansible_host: 10.9.181.14
+                    #     iad_trx_dc1_p3:
+                    #       ansible_host: 10.9.181.15
+                DA2:
+                  children:
+                    DA2_RR_ROUTERS:
+                      hosts:
+                        DFW-TRX1-DALEQ-RR1:
+                          ansible_host: 10.13.81.232
+                          is_deployed: false
+                          Loopback0: 10.199.0.38
+                    # DC21_PE_ROUTERS:
+                    #   children:
+                    #     DC21_PE_1_2:
+                    #       hosts:
+                    #         iad_trx_dc21_pe1:
+                    #           ansible_host: 10.9.181.11
+                    #         iad_trx_dc21_pe2:
+                    #           ansible_host: 10.9.181.12
+                    # DC21_P_ROUTERS:
+                    #   children:
+                    #     DC21_P_1_2:
+                    #       hosts:
+                    #         iad_trx_dc1_p1:
+                    #           ansible_host: 10.9.181.13
+                    #         iad_trx_dc1_p2:
+                    #           ansible_host: 10.9.181.14
+                    #         iad_trx_dc1_p3:
+                    #           ansible_host: 10.9.181.15
+            RO:
+              children:
+                TPA:
+                  children:
+                    TPA_CR:
+                      children:
+                        TPA_CR_PE_ROUTERS:
+                          hosts:
+                            tpa-trx1-cra2s-pe1:
+                              ansible_host: 10.9.181.226 #update
+                              is_deployed: false
+                              Loopback0: 10.199.0.44
+                              vrf_ob1:
+                                remote_as: 64907
+                                pe_ce_n1: 10.9.183.37
+                                pe_ce_n2: 10.9.183.39
+                              vrf_usx1:
+                                remote_as: 64753
+                                pe_ce_n1: 10.49.30.1
+                                pe_ce_n2: 10.49.30.3
+                              vrf_usunt1:
+                                remote_as: 64753
+                                pe_ce_n1: 10.111.124.33
+                                pe_ce_n2: 10.111.124.35
+                              vrf_idtn:
+                                remote_as: 64631
+                                pe_ce_n1: 10.62.0.1
+                                pe_ce_n2: 10.62.0.5
+                            tpa-trx1-cra2s-pe2:
+                              ansible_host: 10.9.180.2 #update
+                              is_deployed: false
+                              Loopback0: 10.199.0.45
+                              vrf_ob1:
+                                remote_as: 64907
+                                pe_ce_n1: 10.9.183.41
+                                pe_ce_n2: 10.9.183.43
+                              vrf_usx1:
+                                remote_as: 64753
+                                pe_ce_n1: 10.49.30.5
+                                pe_ce_n2: 10.49.30.7
+                              vrf_usunt1:
+                                remote_as: 64753
+                                pe_ce_n1: 10.111.124.37
+                                pe_ce_n2: 10.111.124.39
+                              vrf_idtn:
+                                remote_as: 64631
+                                pe_ce_n1: 10.62.0.3
+                                pe_ce_n2: 10.62.0.7
+                          vars:
+                            management_gateway: 10.9.181.225
+                            PRIMARY_RNAP: DC21
+                    TPA_COM:
+                      children:
+                        TPA_COM_PE_ROUTERS:
+                          hosts:
+                            tpa-trx1-comb2n-pe1:
+                              ansible_host: 10.9.181.1 #update
+                              is_deployed: false
+                              Loopback0: 10.199.0.42
+                              vrf_ob1:
+                                remote_as: 64906
+                                pe_ce_n1: 10.9.183.45
+                              vrf_usx1:
+                                remote_as: 64752
+                                pe_ce_n1: 10.49.158.1
+                                pe_ce_n2: 10.49.158.3
+                              vrf_usunt1:
+                                remote_as: 64752
+                                pe_ce_n1: 10.111.124.65
+                                pe_ce_n2: 10.111.124.67
+                            tpa-trx1-comb2n-pe2:
+                              ansible_host: 10.9.181.2 #update
+                              is_deployed: false
+                              Loopback0: 10.199.0.43
+                              vrf_ob1:
+                                remote_as: 64906
+                                pe_ce_n1: 10.9.183.47
+                              vrf_usx1:
+                                remote_as: 64752
+                                pe_ce_n1: 10.49.158.5
+                                pe_ce_n2: 10.49.158.7
+                              vrf_usunt1:
+                                remote_as: 64752
+                                pe_ce_n1: 10.111.124.69
+                                pe_ce_n2: 10.111.124.71
+                          vars:
+                            management_gateway: 10.9.182.161
+                            PRIMARY_RNAP: DC21
+                PTX:
+                  children:
+                    PTX_PE_ROUTERS:
+                      hosts:
+                        dfw-trx1-ptxb1-pe1:
+                          ansible_host: 10.9.182.132
+                          is_deployed: false
+                        dfw-trx1-ptxb1-pe2:
+                          ansible_host: 10.9.182.133
+                          is_deployed: false
+                      vars:
+                        management_gateway: 10.9.182.129
+                        PRIMARY_RNAP: DC21
+                PHX:
+                  children:
+                    PHX_PE_ROUTERS:
+                      hosts:
+                        phx-trx1-a2e-pe1:
+                          ansible_host: 10.50.1.21
+                          is_deployed: false
+                          Loopback0: 10.199.0.20
+                          vrf_ob1:
+                            remote_as: 64905
+                            pe_ce_n1: 1.1.1.1
+                            pe_ce_n2: 1.1.1.3
+                          vrf_usx1:
+                            remote_as: 64750
+                            pe_ce_n1: 2.2.2.1
+                            pe_ce_n2: 2.2.2.3
+                          vrf_usunt1:
+                            remote_as: 64750
+                            pe_ce_n1: 3.3.3.1
+                            pe_ce_n2: 3.3.3.3
+                        phx-trx1-dsvc-pe2:
+                          ansible_host: 10.50.129.21
+                          is_deployed: false
+                          Loopback0: 10.199.0.21
+                          vrf_ob1:
+                            remote_as: 64905
+                            pe_ce_n1: 1.1.1.5
+                            pe_ce_n2: 1.1.1.7
+                          vrf_usx1:
+                            remote_as: 64750
+                            pe_ce_n1: 2.2.2.5
+                            pe_ce_n2: 2.2.2.7
+                          vrf_usunt1:
+                            remote_as: 64750
+                            pe_ce_n1: 3.3.3.5
+                            pe_ce_n2: 3.3.3.7
+                      vars:
+                        management_gateway: 10.50.1.1 #Currently PE1 and PE2 have different mgmt gateways. Will this change post campus refresh?
+                        PRIMARY_RNAP: DA2
+            3PCC:
+              children:
+                QUALFON:
+                  children:
+                    VEN0189_DTW:
+                      children:
+                        VEN0189_DTW_PE_ROUTERS:
+                          hosts:
+                            dtw-trx1-qualfon-pe1:
+                              ansible_host: 10.9.184.50
+                              is_deployed: false
+                            dtw-trx1-qualfon-pe2:
+                              ansible_host: 10.9.184.51
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.184.49
+                            ORIGIN_COMMUNITY: 11711
+                            PRIMARY: true
+                            PRIMARY_RNAP: DA2
+                    VEN0189_DEN:
+                      children:
+                        VEN0189_DEN_PE_ROUTERS:
+                          hosts:
+                            den-trx1-qualfon-pe1:
+                              ansible_host: 10.9.184.114
+                              is_deployed: false
+                            den-trx1-qualfon-pe2:
+                              ansible_host: 10.9.184.115
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.184.113
+                            ORIGIN_COMMUNITY: 11710
+                            PRIMARY: false
+                            PRIMARY_RNAP: DC21
+                CONCENTRIX:
+                  children:
+                    VEN0192_MCO:
+                      children:
+                        VEN0192_MCO_PE_ROUTERS:
+                          hosts:
+                            mco-trx1-concentrix-pe1:
+                              ansible_host: 10.9.181.162
+                              # serial_number: JPA2410P26A
+                              serial_number: JPA2410P26A 
+                              is_deployed: true
+                            mco-trx1-concentrix-pe2:
+                              ansible_host: 10.9.181.163
+                              # serial_number: JPA2410P25D
+                              serial_number: JPA2410P25D
+                              is_deployed: true
+                          vars:
+                            management_gateway: 10.9.181.161
+                            ORIGIN_COMMUNITY: 11712
+                            PRIMARY: true
+                            PRIMARY_RNAP: DC21
+                    VEN0192_CVG:
+                      children:
+                        VEN0192_CVG_PE_ROUTERS:
+                          hosts:
+                            cvg-trx1-concentrix-pe1:
+                              ansible_host: 10.9.181.178
+                              serial_number: JPA2410P265
+                              is_deployed: false
+                            cvg-trx1-concentrix-pe2:
+                              ansible_host: 10.9.181.179
+                              serial_number: JPA2340P4W6
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.181.177
+                            ORIGIN_COMMUNITY: 11713
+                            PRIMARY: false
+                            PRIMARY_RNAP: DC21
+                TEST_3PCC:
+                  children:
+                    LAX:
+                      children:
+                        LAX_PE_ROUTERS:
+                          hosts:
+                            lax-trx1-test3pcc-pe1:
+                              ansible_host: 7.7.7.7
+                              is_deployed: false
+                              Loopback0: 7.7.7.9
+                            lax-trx1-test3pcc-pe2:
+                              ansible_host: 7.7.7.8
+                              is_deployed: false
+                              Loopback0: 7.7.7.10
+                          vars:
+                            management_gateway: 7.7.7.1
+                            ORIGIN_COMMUNITY: 77777
+                            PRIMARY: true
+                            PRIMARY_RNAP: DC21
+                SITEL:
+                  children:
+                    VEN0103_OMA:
+                      children:
+                        VEN0103_OMA_PE_ROUTERS:
+                          hosts:
+                            oma-trx1-sitel-pe1:
+                              ansible_host: 10.9.184.66
+                              # serial_number: JPA2410P26V
+                              serial_number: JPA2410P26V 
+                              is_deployed: true
+                            oma-trx1-sitel-pe2:
+                              ansible_host: 10.9.184.67
+                              # serial_number: JPA2410P26Y
+                              serial_number: JPA2410P26Y
+                              is_deployed: true
+                          vars:
+                            management_gateway: 10.9.184.65
+                            ORIGIN_COMMUNITY: 11704
+                            PRIMARY: true
+                            PRIMARY_RNAP: DA2
+                    VEN0103_DFW:
+                      children:
+                        VEN0103_DFW_PE_ROUTERS:
+                          hosts:
+                            dfw-trx1-sitel-pe1:
+                              ansible_host: 10.9.184.2
+                              serial_number: JPA2410P263
+                              is_deployed: false
+                            dfw-trx1-sitel-pe2:
+                              ansible_host: 10.9.184.3
+                              serial_number: JPA2410P262
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.184.1
+                            ORIGIN_COMMUNITY: 11703
+                            PRIMARY: false
+                            PRIMARY_RNAP: DC21
+                TELEPERFORMANCE:
+                  children:
+                    VEN0105_DFW:
+                      children:
+                        VEN0105_DFW_PE_ROUTERS:
+                          hosts:
+                            dfw-trx1-telepf-pe1:
+                              ansible_host: 10.9.184.18
+                              # serial_number: HBG243702EA
+                              serial_number: HBG243702EA 
+                              is_deployed: true
+                            dfw-trx1-telepf-pe2:
+                              ansible_host: 10.9.184.19
+                              # serial_number: JPA2340P4YX
+                              serial_number: JPA2340P4YX
+                              is_deployed: true
+                          vars:
+                            management_gateway: 10.9.184.17
+                            ORIGIN_COMMUNITY: 11708
+                            PRIMARY: true
+                            PRIMARY_RNAP: DA2
+                    VEN0105_SLC:
+                      children:
+                        VEN0105_SLC_PE_ROUTERS:
+                          hosts:
+                            slc-trx1-telepf-pe1:
+                              ansible_host: 10.9.184.82
+                              serial_number: JPA2410P263
+                              is_deployed: false
+                            slc-trx1-telepf-pe2:
+                              ansible_host: 10.9.184.83
+                              serial_number: JPA2410P262
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.184.81
+                            ORIGIN_COMMUNITY: 11706
+                            PRIMARY: false
+                            PRIMARY_RNAP: DC21
+                TELETECH:
+                  children:
+                    VEN0106_DEN:
+                      children:
+                        VEN0106_DEN_PE_ROUTERS:
+                          hosts:
+                            den-trx1-ttcnt-pe1:
+                              ansible_host: 10.9.184.34
+                              # serial_number: HBG241300U2
+                              serial_number: HBG241300U2 
+                              is_deployed: true
+                            den-trx1-ttcnt-pe2:
+                              ansible_host: 10.9.184.35
+                              # serial_number: HBG241300TZ
+                              serial_number: HBG241300TZ
+                              is_deployed: true
+                          vars:
+                            management_gateway: 10.9.184.33
+                            ORIGIN_COMMUNITY: 11707
+                            PRIMARY: true
+                            PRIMARY_RNAP: DA2
+                    VEN0106_IAD:
+                      children:
+                        VEN0106_IAD_PE_ROUTERS:
+                          hosts:
+                            iad-trx1-teletech-pe1:
+                              ansible_host: 10.9.184.98
+                              serial_number: JPA2410P263
+                              is_deployed: false
+                            iad-trx1-teletech-pe2:
+                              ansible_host: 10.9.184.99
+                              serial_number: JPA2410P262
+                              is_deployed: false
+                          vars:
+                            management_gateway: 10.9.184.97
+                            ORIGIN_COMMUNITY: 13702
+                            PRIMARY: false
+                            PRIMARY_RNAP: DC21
+        PE_ROUTERS:
+          children:
+            DC_PE_ROUTERS:
+              children:
+                ATL_PE_ROUTERS:
+            TPA_PE:
+              children:
+                TPA_CR_PE_ROUTERS:
+                TPA_COM_PE_ROUTERS:
+            PTX_PE_ROUTERS:
+            PHX_PE_ROUTERS:
+            QUALFON_PE_ROUTERS:
+              children:
+                VEN0189_DTW_PE_ROUTERS:
+                VEN0189_DEN_PE_ROUTERS:
+            CONCENTRIX_PE_ROUTERS:
+              children:
+                VEN0192_MCO_PE_ROUTERS:
+                VEN0192_CVG_PE_ROUTERS:
+            TEST_3PCC_PE_ROUTERS:
+              children:
+                LAX_PE_ROUTERS:
+            SITEL_PE_ROUTERS:
+              children:
+                VEN0103_OMA_PE_ROUTERS:
+                VEN0103_DFW_PE_ROUTERS:
+            TELEPERFORMANCE_PE_ROUTERS:
+              children:
+                VEN0105_DFW_PE_ROUTERS:
+                VEN0105_SLC_PE_ROUTERS:
+            TELETECH_PE_ROUTERS:
+              children:
+                VEN0106_DEN_PE_ROUTERS:
+                VEN0106_IAD_PE_ROUTERS:
+        P_ROUTERS:
+          children:
+            ATL_P_ROUTERS:
+        RR_ROUTERS:
+          children:
+            DC21_RR_ROUTERS:
+            DA2_RR_ROUTERS:

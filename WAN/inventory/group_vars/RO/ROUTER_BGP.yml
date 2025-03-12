@@ -1,0 +1,131 @@
+ROUTER_BGP_ADR_FAMILY: |-
+  address-family ipv4
+    neighbor PE_CE_OB1 activate
+    neighbor PE_CE_USUNT1 activate
+    neighbor PE_CE_USX1 activate
+    !
+    address-family vpn-ipv4
+    neighbor RR_PEERS activate
+    no neighbor default encapsulation mpls next-hop-self source-interface Loopback0
+
+ROUTER_BGP_DEFAULTS: |-
+  router bgp 64800
+    router-id {{Loopback0}}
+    update wait-install
+    no bgp default ipv4-unicast
+    distance bgp 20 200 200
+    maximum-paths 2 ecmp 2
+    bgp bestpath tie-break router-id
+
+ROUTER_BGP_OB1_PG: |-
+  neighbor PE_CE_OB1 peer group
+    neighbor PE_CE_OB1 remote-as {{VRF_OB1.REMOTE_AS}}
+    neighbor PE_CE_OB1 bfd
+    neighbor PE_CE_OB1 route-map RM_CE_OB1_IN in
+    neighbor PE_CE_OB1 route-map RM_CE_OB1_OUT out
+    neighbor PE_CE_OB1 password 7 LrxdPchq0LiOI2Jz39Pe5Q==
+    neighbor PE_CE_OB1 send-community
+
+ROUTER_BGP_OB1_VRF: |-
+  vrf OB1
+    rd {{Loopback0}}:900
+    route-target import vpn-ipv4 64800:900
+    route-target import vpn-ipv4 64801:900101
+    route-target export vpn-ipv4 64800:900
+    router-id {{Loopback0}}
+    maximum-paths 2 ecmp 2
+    neighbor {{VRF_OB1.PE_CE_N1_PEER}} peer group PE_CE_OB1
+    neighbor {{VRF_OB1.PE_CE_N1_PEER}} description OB1-N1:OB1
+    neighbor {{VRF_OB1.PE_CE_N2_PEER}} peer group PE_CE_OB1
+    neighbor {{VRF_OB1.PE_CE_N2_PEER}} description OB1-N2:OB1
+
+ROUTER_BGP_RR_PG: |-
+  neighbor RR_PEERS peer group
+    neighbor RR_PEERS remote-as 64800
+    neighbor RR_PEERS transport pmtud
+    neighbor RR_PEERS update-source Loopback0
+    neighbor RR_PEERS bfd
+    neighbor RR_PEERS password 7 iKTQwhTMWkGv8NnVBwWL8w==
+    neighbor RR_PEERS send-community standard extended
+    neighbor RR_PEERS maximum-routes 0
+    neighbor 10.199.0.38 peer group RR_PEERS
+    neighbor 10.199.0.38 description BGP-RR:DFW-TRX1-DALEQ-RR1
+    neighbor 10.199.0.39 peer group RR_PEERS
+    neighbor 10.199.0.39 description BGP-RR:IAD-TRX1-ABVEQ-RR1
+
+ROUTER_BGP_USUNT1_PG: |-
+  neighbor PE_CE_USUNT1 peer group
+    neighbor PE_CE_USUNT1 remote-as {{VRF_USUNT1.REMOTE_AS}}
+    neighbor PE_CE_USUNT1 bfd
+    neighbor PE_CE_USUNT1 route-map RM_CE_UNTRUST_IN in
+    neighbor PE_CE_USUNT1 route-map RM_CE_UNTRUST_OUT out
+    neighbor PE_CE_USUNT1 password 7 w0VhJ31l/4hvhNMZ8pgI2g==
+    neighbor PE_CE_USUNT1 send-community
+
+ROUTER_BGP_USUNT1_VRF: |-
+  vrf USUNT1
+    rd {{Loopback0}}:911
+    route-target import vpn-ipv4 64535:91102
+    route-target import vpn-ipv4 64800:911
+    route-target import vpn-ipv4 64811:911
+    route-target import vpn-ipv4 64812:911
+    route-target import vpn-ipv4 64813:911
+    route-target import vpn-ipv4 65420:91111
+    route-target import vpn-ipv4 65500:911
+    route-target export vpn-ipv4 64800:912
+    router-id {{Loopback0}}
+    maximum-paths 2 ecmp 2
+    neighbor {{VRF_USUNT1.PE_CE_N1_PEER}} peer group PE_CE_USUNT1
+    neighbor {{VRF_USUNT1.PE_CE_N1_PEER}} description UI1-N1:USUNT1
+    neighbor {{VRF_USUNT1.PE_CE_N2_PEER}} peer group PE_CE_USUNT1
+    neighbor {{VRF_USUNT1.PE_CE_N2_PEER}} description UI1-N2:USUNT1
+
+ROUTER_BGP_USX1_PG: |-
+  neighbor PE_CE_USX1 peer group
+    neighbor PE_CE_USX1 remote-as {{VRF_USX1.REMOTE_AS}}
+    neighbor PE_CE_USX1 bfd
+    neighbor PE_CE_USX1 route-map RM_RO_TRUST_IN in
+    neighbor PE_CE_USX1 route-map RM_RO_TRUST_OUT out
+    neighbor PE_CE_USX1 password 7 /LMqBWdOHfjalXup2w+BeA==
+    neighbor PE_CE_USX1 send-community
+
+ROUTER_BGP_USX1_VRF: |-
+  vrf USX1
+    rd {{Loopback0}}:914
+    route-target import vpn-ipv4 64536:910
+    route-target import vpn-ipv4 64653:949
+    route-target import vpn-ipv4 64659:910
+    route-target import vpn-ipv4 64698:949
+    route-target import vpn-ipv4 64750:910
+    route-target import vpn-ipv4 64751:910
+    route-target import vpn-ipv4 64752:910
+    route-target import vpn-ipv4 64753:910
+    route-target import vpn-ipv4 64755:910
+    route-target import vpn-ipv4 64756:910
+    route-target import vpn-ipv4 64758:910
+    route-target import vpn-ipv4 64780:914
+    route-target import vpn-ipv4 64782:91401
+    route-target import vpn-ipv4 64782:91402
+    route-target import vpn-ipv4 64800:910
+    route-target import vpn-ipv4 64800:914
+    route-target import vpn-ipv4 64800:949
+    route-target import vpn-ipv4 64800:91098
+    route-target import vpn-ipv4 64800:91099
+    route-target import vpn-ipv4 64811:910
+    route-target import vpn-ipv4 64811:91099
+    route-target import vpn-ipv4 64813:910
+    route-target import vpn-ipv4 64813:91099
+    route-target import vpn-ipv4 64820:90101
+    route-target import vpn-ipv4 64820:90103
+    route-target import vpn-ipv4 65011:90201
+    route-target import vpn-ipv4 65210:90111
+    route-target import vpn-ipv4 65215:90113
+    route-target import vpn-ipv4 65354:949
+    route-target export vpn-ipv4 64800:914
+    route-target import vpn-ipv4 route-map PREF_DEFAULT_IMPORT_MAP
+    router-id {{Loopback0}}
+    maximum-paths 2 ecmp 2
+    neighbor {{VRF_USX1.PE_CE_N1_PEER}} peer group PE_CE_USX1
+    neighbor {{VRF_USX1.PE_CE_N1_PEER}} description UI1-N1:USX1
+    neighbor {{VRF_USX1.PE_CE_N2_PEER}} peer group PE_CE_USX1
+    neighbor {{VRF_USX1.PE_CE_N2_PEER}} description UI1-N2:USX1

@@ -1,0 +1,42 @@
+# MAC_SEC: |-
+#   mac security
+#       profile MKA_AES_256
+#           cipher aes256-gcm
+#           key 0100000000000000000000000000000000000000000000000000000000000000 7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+#           mka key-server priority 255
+#           sci
+#     !
+
+# MGMT_DEFAULTS: |- 
+#   management ssh
+#   ip access-group SSH_ACCESS vrf MGMT in
+#   idle-timeout 10
+#   authentication mode password
+#   !
+#   vrf MGMT
+#     no shutdown
+
+# MPLS_DEFAULTS: |-
+#   mpls ip
+#   !
+#   mpls ldp
+#     router-id interface Loopback0
+#     no shutdown
+#   !
+
+# VRF_DEFINITION: |-
+#   !
+#   vrf instance MGMT
+#   !
+#   vrf instance OB1
+#   !
+#   vrf instance USUNT1
+#   !
+#   vrf instance USX1
+#   !
+#   ip routing
+#   no ip routing vrf MGMT
+#   ip routing vrf OB1
+#   ip routing vrf USUNT1
+#   ip routing vrf USX1
+#   !

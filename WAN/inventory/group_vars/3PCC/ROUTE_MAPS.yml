@@ -1,0 +1,36 @@
+---
+
+custom_group_configuration_ip_community_lists:
+  - name: 3PCC
+    entries:
+      - action: permit
+        regexp: (.*):920
+  - name: OB1
+    entries:
+      - action: permit
+        regexp: 64801:1[1-3]7[0-9][0-9]
+
+custom_structured_configuration_route_maps:
+  - name: 3PCC_VENDOR_PRIORITY-1_IN
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "ip address prefix-list VENDOR_PFX"
+      set:
+        - "local-preference {% if 'pe1' in inventory_hostname %}{{ 180 if PRIMARY else 150 }}{% elif 'pe2' in inventory_hostname %}{{ 170 if PRIMARY else 120 }}{% endif %}"
+        - "community 64800:920 64800:{{ORIGIN_COMMUNITY}} additive"
+  - name: 3PCC_VENDOR_PRIORITY-1_OUT
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "community 3PCC"
+      set:
+        - "as-path prepend {% if 'pe1' in inventory_hostname %}{{ '64800' if PRIMARY else '64800 64800 64800' }}{% elif 'pe2' in inventory_hostname %}{{ '64800 64800' if PRIMARY else '64800 64800 64800 64800' }}{% endif %}"
+  - name: RM_CE_OB1_IN
+    sequence_numbers:
+    - sequence: 10
+      type: permit
+      match:
+        - "community OB1"

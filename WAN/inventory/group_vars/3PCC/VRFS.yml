@@ -1,0 +1,13 @@
+VRF_DEFINITION: |-
+  !
+  vrf instance MGMT
+  !
+  vrf instance OB1
+  !
+  vrf instance VNX1
+  !
+  ip routing
+  no ip routing vrf MGMT
+  ip routing vrf OB1
+  ip routing vrf VNX1
+  !

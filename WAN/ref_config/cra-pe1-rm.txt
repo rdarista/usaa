@@ -1,0 +1,173 @@
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 10
+ match community POLICY_LP20_BLEED
+ set local-preference 20
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 20
+ match community POLICY_LP190_OVERRIDE
+ set local-preference 190
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 30
+ match community POLICY_LP120
+ set local-preference 120
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 40
+ match community POLICY_LP150
+ set local-preference 150
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 50
+ match community POLICY_LP170
+ set local-preference 170
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 60
+ match community POLICY_LP180
+ set local-preference 180
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 70
+ match community PE1
+ set local-preference 120
+!
+route-map RO_UNTRUST_BGP_POLICY_IN permit 80
+!
+route-map DENY_ALL deny 5
+!
+route-map PREF_BSVC_DEFAULT_IMPORT_MAP permit 10
+ match community ITC_DEFAULT_COMM_DEPREF
+ set local-preference 20
+!
+route-map PREF_BSVC_DEFAULT_IMPORT_MAP permit 20
+!
+route-map RO_IDTN_BGP_POLICY_OUT permit 10
+ set community 64800:1 additive
+!
+route-map RO_USAADR_BGP_POLICY_OUT permit 10
+ set community 64800:1 additive
+!
+route-map RO_BLEED_OUT permit 10
+ set as-path prepend 64800 64800 64800 64800 64800
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 10
+ match community POLICY_LP20_BLEED
+ set local-preference 20
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 20
+ match community POLICY_LP190_OVERRIDE
+ set local-preference 190
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 30
+ match community POLICY_LP120
+ set local-preference 120
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 40
+ match community POLICY_LP150
+ set local-preference 150
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 50
+ match community POLICY_LP170
+ set local-preference 170
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 60
+ match community POLICY_LP180
+ set local-preference 180
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 70
+ match community PE1
+ set local-preference 120
+!
+route-map RO_TRUST_BGP_POLICY_IN permit 80
+!
+route-map RO_MGMT_SW_OUT permit 10
+ match ip address prefix-list DEFAULT
+ set community 64800:1 additive
+!
+route-map RO_UNTRUST_BGP_POLICY_OUT permit 10
+ set community 64800:1 additive
+!
+route-map RO_BLEED_IN permit 10
+ set local-preference 20
+!
+route-map RO_TRUST_BGP_POLICY_OUT deny 5
+ match ip address prefix-list VELO-SPECIFIC
+!
+route-map RO_TRUST_BGP_POLICY_OUT permit 10
+ set community 64800:1 additive
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 10
+ description Standard import map to allow DA2 Default
+ match community DA2_DEFAULT_COMM
+ set local-preference 120
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 20
+ description Standard import map to allow DC5 Default
+ match community DC5_DEFAULT_COMM
+ set local-preference 150
+!
+route-map PREF_DEFAULT_IMPORT_MAP permit 900
+ description Standard import map to allow All routes
+!
+route-map PREF_ITC_DEFAULT_IMPORT_MAP permit 10
+ match community ITC_DEFAULT_COMM
+ set local-preference 120
+!
+route-map PREF_ITC_DEFAULT_IMPORT_MAP permit 15
+ match community DA2_DEFAULT_COMM
+ set local-preference 120
+!
+route-map PREF_ITC_DEFAULT_IMPORT_MAP permit 20
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 20
+ match community POLICY_LP190_OVERRIDE
+ set local-preference 190
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 30
+ match community POLICY_LP120
+ set local-preference 120
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 40
+ match community POLICY_LP150
+ set local-preference 150
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 50
+ match community POLICY_LP170
+ set local-preference 170
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 60
+ match community POLICY_LP180
+ set local-preference 180
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 70
+ match community PE1
+ set local-preference 120
+!
+route-map RO_IDTN_BGP_POLICY_IN permit 80
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 10
+ match community POLICY_LP20_BLEED
+ set local-preference 20
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 20
+ match community POLICY_LP190_OVERRIDE
+ set local-preference 190
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 30
+ match community POLICY_LP120
+ set local-preference 120
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 40
+ match community POLICY_LP150
+ set local-preference 150
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 50
+ match community POLICY_LP170
+ set local-preference 170
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 60
+ match community POLICY_LP180
+ set local-preference 180
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 70
+ match community PE1
+ set local-preference 120
+!
+route-map RO_USAADR_BGP_POLICY_IN permit 80
+!

@@ -1,0 +1,66 @@
+---
+# include any other sensitive information such as snmp configuration, tacacs, unsupported transceiver license, etc.
+
+vault:
+  users:
+    admin:
+      password: "$6$tPb.0ryluOpDGa9X$o29dqtH/bSdvachSlPNe2QbXNZXo2b/xHNCECdXrGJ0z91yrZdDDwczHmzDyVZtq6IeG23cTGD24Tfi0Nyh/R."
+    cvpadmin:
+      password: "$6$tPb.0ryluOpDGa9X$o29dqtH/bSdvachSlPNe2QbXNZXo2b/xHNCECdXrGJ0z91yrZdDDwczHmzDyVZtq6IeG23cTGD24Tfi0Nyh/R."
+  enable:
+    password: "$6$tPb.0ryluOpDGa9X$o29dqtH/bSdvachSlPNe2QbXNZXo2b/xHNCECdXrGJ0z91yrZdDDwczHmzDyVZtq6IeG23cTGD24Tfi0Nyh/R."
+  # bgp peer groups passwords
+  bgp_peerings:
+    underlay:
+      password: "$1c$G8BQN0ezkiJOX2cuAYpsEA=="
+    overlay:
+      password: "$1c$U41I+zV057R0l38LbPqKww=="
+    mlag:
+      password: "$1c$U41I+zV057S2PuXZVQiX2g=="
+    mpls_overlay_peers:
+      password: "iKTQwhTMWkGv8NnVBwWL8w=="
+    rr_overlay_peers:
+      password: "iKTQwhTMWkGv8NnVBwWL8w=="    
+    PE_CE_DC_OB_SOB_DCX1:
+      password: "kKXxGiEu6TVyilumLqEW/A=="
+    PE_CE_DC_PCI_SE_CCHYBRID:
+      password: "6eausfeHuNQGCcxKUsAFPw=="
+    PE_CE_DC_PCI_SE_CCISSUE:
+      password: "qtf3UzE4xZNeuFGd+3xb4g=="
+    PE_CE_DC_PCI_SE_CCMERCH:
+      password: "6MpbKgmZazHWDDoj3OyS6g=="
+    PE_CE_DC_PCI_SE_DCX1:
+      password: "GFznB+vHUnXO8PBEZxEMaw=="
+    PE_CE_DC_PCI_SE_PEN1:
+      password: "RNV9B6iVlRDUJlS1ePw3NA=="
+    PE_CE_DC_PROD_SI_BUSINTEL:
+      password: "yUMUcnzcG+Z38KepecqVPg=="
+    PE_CE_DC_PROD_SI_DCX1:
+      password: "1jAa9l2kLUpHINa0qKoB4Q=="
+    PE_CE_DC_PROD_SI_DMZMEM1:
+      password: "TOwcrcsHO2k2BL+WS6y2gw=="
+    PE_CE_DC_PROD_SI_NCFDMZ:
+      password: "nDL2RDMDmbVlVbVI4SuueQ=="
+    PE_CE_DC_PROD_SI_USX1:
+      password: "dN/55dGE6CJYDkJQAFCa7A=="
+    PE_CE_DC_TEST_ST_DCX1:
+      password: "QOH18HsEBuGBmAPWI1fdJA=="
+    PE_CE_DC_TEST_ST_IDTN:
+      password: "1jIoYXF6cWpAQoBcqwbNtA=="
+    PE_CE_DC_TEST_ST_IDTNB2B:
+      password: "pugQyDfR4vWDCNsCFm/KgA=="
+    PE_CE_DC_TEST_ST_IDTNDX:
+      password: "AIP6ztnNcrut2cZWEI7nlA=="
+    
+  # snmpv3:
+  #   users:
+  #     user1:
+  #       auth: snmp_auth_password
+  #       priv: snmp_priv_password
+  tacacs:
+    key: "1324051B1818053A3804796166"
+  ipsec:
+    control_plane:
+      key: "AABB"
+    data_plane:
+      key: "AABB"

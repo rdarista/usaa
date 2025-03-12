@@ -1,0 +1,798 @@
+! Command: show running-config
+! device: ATL-TRX1-DC1-P1 (DCS-7280CR3MK-32P4S, EOS-4.31.4M)
+!
+! boot system flash:/EOS-4.31.4M.swi
+!
+aaa root secret sha512 $6$V48GnSGw9xSecXh6$usRtZW/pZWxmsN3DAg8niqiwnzMDwmHrT26UTkKcpYQHv3f2wqWHP5r11wTfrOAwj1V7AN59tQ0Z3QKyCYADk0
+no username admin
+!
+username netsupport privilege 15 role network-admin secret sha512 $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+username sdadmin privilege 15 role network-admin secret sha512 $6$3A9mEC9YnLa4nWDE$gxQQ32f2jHy0GXbIpRyjHjkAIaTs7oEH1vPGuAlv8uuEg.FYmMqDg8MCre2tbsr7cEAb7sKdIKZGGbmTXrAUO1
+!
+prompt %H%v[%D{%H:%M:%S}]%P
+alias c bash clear
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -cvaddr=10.139.16.173:9910,10.139.16.174:9910,10.139.16.175:9910 -cvauth=token,tmp/token -cvvrf=MGMT -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -taillogs=/var/log/messages
+   no shutdown
+!
+switchport default mode routed
+!
+vlan internal order ascending range 1006 1199
+!
+event-monitor
+!
+load-interval default 30
+!
+transceiver qsfp default-mode 4x10G
+!
+interface defaults
+   mtu 9214
+   !
+   ethernet
+      shutdown
+!
+service routing protocols model multi-agent
+!
+queue-monitor length
+!
+logging buffered 10000
+logging trap debugging
+no logging console
+logging vrf MGMT host 10.0.249.172 9107
+logging vrf MGMT host log.usaa.com 7036
+logging vrf MGMT host routingelk-anycast.usaa.com 8012
+logging format timestamp high-resolution
+logging vrf MGMT source-interface Management1
+!
+hostname ATL-TRX1-DC1-P1
+ip domain lookup vrf MGMT source-interface Management1
+ip name-server vrf MGMT 10.0.255.100
+ip name-server vrf MGMT 10.136.128.100
+ip name-server vrf MGMT 10.231.108.100
+dns domain usaa.com
+!
+sflow sample 65536
+sflow polling-interval 5
+sflow vrf MGMT source-interface Management1
+sflow run
+!
+snmp-server engineID local f5717fcc1aa3dd53df00
+snmp-server contact http://go/acc-lan
+snmp-server vrf MGMT local-interface Management1
+snmp-server view READALL ISO included
+snmp-server group CAPC v3 auth read READALL
+snmp-server group READONLY v3 priv read READALL
+snmp-server user NETSVC_NETBRAIN READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 4146adc42aa8853eccbc1a38e97ea00d7406dfa7 priv aes 2f731cd3968fb2e321c4ccc27f90cb8a
+snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 0c8d15369ba40f62da84953da549db15bcab247b priv aes e0a4addc4acafdbf7bbeb02816cee87a
+snmp-server user NETSVC_NETSCOUT READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 816c471fe6bc6a297c45b76c64469be74c82731e priv aes 49eec8cd3a09c6c85ea1cbbf760c9641
+snmp-server user NETSVC_SPECTRUM READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 01da6f5daa81c34645b28b3f708e28748888b65a priv aes 54976de00b43bd906f43a11eb21965d1
+snmp-server user SERVICENOW READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 90d309463546f2e726ac946040cd7156aba3ac42 priv aes 5dd748f1cb378016b5a0a535feca9d6e
+snmp-server host 10.139.4.41 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host 10.139.4.44 vrf MGMT version 3 priv NETSVC_SPECTRUM
+snmp-server host proddxnspv1lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server host proddxnspv2lsat.usaa.com vrf MGMT version 3 auth sdadmin
+snmp-server enable traps
+no snmp-server enable traps bgp backward-transition
+no snmp-server enable traps bridge
+no snmp-server vrf default
+snmp-server vrf MGMT
+!
+spanning-tree mode mstp
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+clock timezone CST6CDT
+!
+vlan 1
+   name Default
+   state suspend
+!
+vrf instance MGMT
+!
+queue-monitor streaming
+   no shutdown
+!
+banner login
+******************************WARNING************************************
+This system is for authorized users only. This, and any other sessions,
+can and will be monitored to determine whether or not it is being used
+by an authorized user.
+
+By logging into this system, you are consenting to such monitoring, and
+are advised that the system administrators retain the right to use any
+recorded session as evidence of criminal activity, if such activity is
+monitored.
+******************************WARNING************************************
+EOF
+!
+management api http-commands
+   protocol https ssl profile SSL_TLS_1_2
+   no shutdown
+   !
+   vrf MGMT
+      no shutdown
+!
+management api gnmi
+   transport grpc default
+      ssl profile SSL_TLS_1_2
+      vrf MGMT
+   provider eos-native
+!
+management security
+   entropy source hardware
+   !
+   ssl profile SSL_TLS_1_2
+      tls versions 1.2
+      cipher-list HIGH:!NULL:!MD5:!ADH:!ANULL:!AECD
+      certificate SSL_TLS_1_2.crt key SSL_TLS_1_2.key
+      trust certificate SSL_TLS_1_2.crt
+!
+tacacs-server host prodauth.usaa.com vrf MGMT key 7 06033519661C5F3A530F251F3C
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ local
+aaa authorization serial-console
+aaa authorization exec default group tacacs+ local
+aaa authorization commands 15 default group tacacs+ local
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 15 default stop-only group tacacs+
+!
+mac security
+   profile MKA_AES_256
+      cipher aes256-gcm
+      key 0100000000000000000000000000000000000000000000000000000000000000 7 13031216090D057A7B7478636572435746535106090803045E534846090807030205045B0B56570807544356540B5B565F711C1E59495547425B5C547A7B747863
+      mka key-server priority 60
+      sci
+!
+interface Port-Channel1
+   description P-P:ATL-TRX1-DC1-P2:Po1
+   no switchport
+   ip address 10.199.1.76/31
+   mpls ldp interface
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 S855yxQDW7ozhPiz4EoSqQ==
+!
+interface Ethernet1/1
+   description P-P:DFW-TRX1-DALEQ-P1:Hu0/0/0/11:Verizon:CID#W1E67717
+   no shutdown
+   mtu 9184
+   no switchport
+   ip address 10.199.1.68/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 yc2q2lnRSpoNVOBBVUvITA==
+!
+interface Ethernet1/2
+   shutdown
+   no switchport
+!
+interface Ethernet1/3
+   shutdown
+   no switchport
+!
+interface Ethernet1/4
+   shutdown
+   no switchport
+!
+interface Ethernet2/1
+   description P-P:IAD-TRX1-ABVEQ-P1:E3/1:PROVIDER:CID#
+   no shutdown
+   mtu 9184
+   no switchport
+   ip address 10.199.1.70/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 gymNWewoZb5r3GPCx5ez3Q==
+!
+interface Ethernet2/3
+   shutdown
+   no switchport
+!
+interface Ethernet3/1
+   no shutdown
+   no switchport
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 gymNWewoZb5r3GPCx5ez3Q==
+!
+interface Ethernet3/2
+   shutdown
+   no switchport
+!
+interface Ethernet3/3
+   shutdown
+   no switchport
+!
+interface Ethernet3/4
+   shutdown
+   no switchport
+!
+interface Ethernet4/1
+   no shutdown
+   no switchport
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 MSa7TnkNi//oV24nt7ZjQQ==
+!
+interface Ethernet4/3
+   shutdown
+   no switchport
+!
+interface Ethernet5/1
+   no shutdown
+   no switchport
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 MSa7TnkNi//oV24nt7ZjQQ==
+!
+interface Ethernet5/2
+   shutdown
+   no switchport
+!
+interface Ethernet5/3
+   shutdown
+   no switchport
+!
+interface Ethernet5/4
+   shutdown
+   no switchport
+!
+interface Ethernet6/1
+   no shutdown
+   no switchport
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 tW0EG7J9sl2pTjyrX429GA==
+!
+interface Ethernet6/3
+   shutdown
+   no switchport
+!
+interface Ethernet7/1
+   no shutdown
+   no switchport
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 tW0EG7J9sl2pTjyrX429GA==
+!
+interface Ethernet7/2
+   shutdown
+   no switchport
+!
+interface Ethernet7/3
+   shutdown
+   no switchport
+!
+interface Ethernet7/4
+   shutdown
+   no switchport
+!
+interface Ethernet8/1
+   shutdown
+   no switchport
+!
+interface Ethernet8/3
+   shutdown
+   no switchport
+!
+interface Ethernet9/1
+   shutdown
+   no switchport
+!
+interface Ethernet9/2
+   shutdown
+   no switchport
+!
+interface Ethernet9/3
+   shutdown
+   no switchport
+!
+interface Ethernet9/4
+   shutdown
+   no switchport
+!
+interface Ethernet10/1
+   shutdown
+   no switchport
+!
+interface Ethernet10/3
+   shutdown
+   no switchport
+!
+interface Ethernet11/1
+   shutdown
+   no switchport
+!
+interface Ethernet11/2
+   shutdown
+   no switchport
+!
+interface Ethernet11/3
+   shutdown
+   no switchport
+!
+interface Ethernet11/4
+   shutdown
+   no switchport
+!
+interface Ethernet12/1
+   shutdown
+   no switchport
+!
+interface Ethernet12/3
+   shutdown
+   no switchport
+!
+interface Ethernet13/1
+   shutdown
+   no switchport
+!
+interface Ethernet13/2
+   shutdown
+   no switchport
+!
+interface Ethernet13/3
+   shutdown
+   no switchport
+!
+interface Ethernet13/4
+   shutdown
+   no switchport
+!
+interface Ethernet14/1
+   shutdown
+   no switchport
+!
+interface Ethernet14/3
+   shutdown
+   no switchport
+!
+interface Ethernet15/1
+   shutdown
+   no switchport
+!
+interface Ethernet15/2
+   shutdown
+   no switchport
+!
+interface Ethernet15/3
+   shutdown
+   no switchport
+!
+interface Ethernet15/4
+   shutdown
+   no switchport
+!
+interface Ethernet16/1
+   shutdown
+   no switchport
+!
+interface Ethernet16/3
+   shutdown
+   no switchport
+!
+interface Ethernet17/1
+   shutdown
+   no switchport
+!
+interface Ethernet17/2
+   shutdown
+   no switchport
+!
+interface Ethernet17/3
+   shutdown
+   no switchport
+!
+interface Ethernet17/4
+   shutdown
+   no switchport
+!
+interface Ethernet18/1
+   shutdown
+   no switchport
+!
+interface Ethernet18/3
+   shutdown
+   no switchport
+!
+interface Ethernet19/1
+   shutdown
+   no switchport
+!
+interface Ethernet19/2
+   shutdown
+   no switchport
+!
+interface Ethernet19/3
+   shutdown
+   no switchport
+!
+interface Ethernet19/4
+   shutdown
+   no switchport
+!
+interface Ethernet20/1
+   shutdown
+   no switchport
+!
+interface Ethernet20/3
+   shutdown
+   no switchport
+!
+interface Ethernet21/1
+   shutdown
+   no switchport
+!
+interface Ethernet21/2
+   shutdown
+   no switchport
+!
+interface Ethernet21/3
+   shutdown
+   no switchport
+!
+interface Ethernet21/4
+   shutdown
+   no switchport
+!
+interface Ethernet22/1
+   shutdown
+   no switchport
+!
+interface Ethernet22/3
+   shutdown
+   no switchport
+!
+interface Ethernet23/1
+   shutdown
+   no switchport
+!
+interface Ethernet23/2
+   shutdown
+   no switchport
+!
+interface Ethernet23/3
+   shutdown
+   no switchport
+!
+interface Ethernet23/4
+   shutdown
+   no switchport
+!
+interface Ethernet24/1
+   shutdown
+   no switchport
+!
+interface Ethernet24/3
+   shutdown
+   no switchport
+!
+interface Ethernet25/1
+   description P-PE:ATL-TRX1-DC1-PE1:E25/1
+   no shutdown
+   no switchport
+   ip address 10.199.2.42/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 gI+W5b1R4lDpehCmYzyW2w==
+!
+interface Ethernet25/2
+   shutdown
+   no switchport
+!
+interface Ethernet25/3
+   shutdown
+   no switchport
+!
+interface Ethernet25/4
+   shutdown
+   no switchport
+!
+interface Ethernet26/1
+   description P-PE:ATL-TRX1-DC1-PE2:E25/1
+   no shutdown
+   no switchport
+   ip address 10.199.2.46/31
+   mpls ldp interface
+   mac security profile MKA_AES_256
+   ip ospf network point-to-point
+   ip ospf authentication message-digest
+   ip ospf area 0.0.0.0
+   ip ospf message-digest-key 1 md5 7 2N0AcrEZMpyItTIpN+dU7Q==
+!
+interface Ethernet26/3
+   shutdown
+   no switchport
+!
+interface Ethernet27/1
+   shutdown
+   no switchport
+!
+interface Ethernet27/2
+   shutdown
+   no switchport
+!
+interface Ethernet27/3
+   shutdown
+   no switchport
+!
+interface Ethernet27/4
+   shutdown
+   no switchport
+!
+interface Ethernet28/1
+   shutdown
+   no switchport
+!
+interface Ethernet28/3
+   shutdown
+   no switchport
+!
+interface Ethernet29/1
+   shutdown
+   no switchport
+!
+interface Ethernet29/2
+   shutdown
+   no switchport
+!
+interface Ethernet29/3
+   shutdown
+   no switchport
+!
+interface Ethernet29/4
+   shutdown
+   no switchport
+!
+interface Ethernet30/1
+   shutdown
+   no switchport
+!
+interface Ethernet30/3
+   shutdown
+   no switchport
+!
+interface Ethernet31/1
+   no shutdown
+   no switchport
+   channel-group 1 mode active
+   mac security profile MKA_AES_256
+!
+interface Ethernet31/2
+   shutdown
+   no switchport
+!
+interface Ethernet31/3
+   shutdown
+   no switchport
+!
+interface Ethernet31/4
+   shutdown
+   no switchport
+!
+interface Ethernet32/1
+   no shutdown
+   no switchport
+   channel-group 1 mode active
+   mac security profile MKA_AES_256
+!
+interface Ethernet32/3
+   shutdown
+   no switchport
+!
+interface Ethernet33/1
+   shutdown
+   no switchport
+!
+interface Ethernet33/2
+   shutdown
+   no switchport
+!
+interface Ethernet33/3
+   shutdown
+   no switchport
+!
+interface Ethernet33/4
+   shutdown
+   no switchport
+!
+interface Ethernet33/5
+   shutdown
+   no switchport
+!
+interface Ethernet33/6
+   shutdown
+   no switchport
+!
+interface Ethernet33/7
+   shutdown
+   no switchport
+!
+interface Ethernet33/8
+   shutdown
+   no switchport
+!
+interface Ethernet34/1
+   shutdown
+   no switchport
+!
+interface Ethernet34/2
+   shutdown
+   no switchport
+!
+interface Ethernet34/3
+   shutdown
+   no switchport
+!
+interface Ethernet34/4
+   shutdown
+   no switchport
+!
+interface Ethernet34/5
+   shutdown
+   no switchport
+!
+interface Ethernet34/6
+   shutdown
+   no switchport
+!
+interface Ethernet34/7
+   shutdown
+   no switchport
+!
+interface Ethernet34/8
+   shutdown
+   no switchport
+!
+interface Ethernet35/1
+   shutdown
+   no switchport
+!
+interface Ethernet35/2
+   shutdown
+   no switchport
+!
+interface Ethernet35/3
+   shutdown
+   no switchport
+!
+interface Ethernet35/4
+   shutdown
+   no switchport
+!
+interface Ethernet35/5
+   shutdown
+   no switchport
+!
+interface Ethernet35/6
+   shutdown
+   no switchport
+!
+interface Ethernet35/7
+   shutdown
+   no switchport
+!
+interface Ethernet35/8
+   shutdown
+   no switchport
+!
+interface Ethernet36/1
+   shutdown
+   no switchport
+!
+interface Ethernet36/2
+   shutdown
+   no switchport
+!
+interface Ethernet36/3
+   shutdown
+   no switchport
+!
+interface Ethernet36/4
+   shutdown
+   no switchport
+!
+interface Ethernet36/5
+   shutdown
+   no switchport
+!
+interface Ethernet36/6
+   shutdown
+   no switchport
+!
+interface Ethernet36/7
+   shutdown
+   no switchport
+!
+interface Ethernet36/8
+   shutdown
+   no switchport
+!
+interface Loopback0
+   description MPLS_Overlay_peering
+   ip address 10.199.0.40/32
+   ip ospf area 0.0.0.0
+!
+interface Management1
+   description oob_management
+   no shutdown
+   vrf MGMT
+   ip address 10.13.80.231/28
+!
+ip access-list SSH_ACCESS
+   10 permit tcp 10.0.0.0/8 any eq ssh
+   20 permit tcp 172.16.0.0/12 any eq ssh
+   30 permit tcp 167.24.0.0/16 any eq ssh
+   40 permit tcp 192.168.0.0/16 any eq ssh
+   50 permit tcp 198.148.150.0/24 any eq ssh
+!
+ip routing
+no ip routing vrf MGMT
+!
+ip route vrf MGMT 0.0.0.0/0 10.13.80.225
+!
+arp aging timeout default 900
+!
+mpls ip
+!
+mpls ldp
+   router-id interface Loopback0
+   no shutdown
+!
+ip ssh client source-interface Management1 vrf MGMT
+!
+ntp authentication-key 10 md5 7 0721350D7E4F32560E
+ntp trusted-key 10
+ntp authenticate
+ntp server vrf MGMT 10.0.16.254 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.253 local-interface Management1 key 10
+ntp server vrf MGMT 10.136.128.254 local-interface Management1 key 10
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+!
+router ospf 64800
+   auto-cost reference-bandwidth 1000000
+   bfd default
+   max-lsa 12000
+!
+ip tacacs vrf MGMT source-interface Management1
+!
+management ssh
+   ip access-group SSH_ACCESS vrf MGMT in
+   idle-timeout 10
+   authentication mode password
+   !
+   vrf MGMT
+      no shutdown
+!
+end

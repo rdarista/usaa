@@ -1,0 +1,35 @@
+---
+type: p
+# management_interface: "Management1"
+mgmt_interface_vrf: MGMT
+mgmt_interface: Management1
+p:
+  defaults:
+    platform: "7280R3"
+    spanning_tree_mode: none
+    # bgp_as: 64800
+    loopback_ipv4_pool: 10.153.33.128/26
+  node_groups:
+    - group: ATL_P_ROUTERS
+      # filter:
+      #   tenants: [tenants_dc]
+      nodes:
+        - name: atl-trx1-dc1-p1
+          id: 1
+          mgmt_ip: 10.13.81.232/24
+          mac_address: "94:8e:d3:ed:7e:be"
+        - name: atl-trx1-dc1-p2
+          id: 2
+          mgmt_ip: 10.13.81.228/24
+          mac_address: "94:8e:d3:ed:73:56"
+
+custom_structured_configuration_router_bgp:
+  address_family_evpn: null
+
+# mac_security:
+#   profiles:
+#     - name: MKA_AES_256
+#       cipher: aes256-gcm
+#       mka:
+#         key_server_priority: 60
+#       sci: true

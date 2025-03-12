@@ -1,0 +1,23 @@
+---
+- name: Configlet upload management
+  hosts: cvaas
+  connection: local
+  gather_facts: no
+  vars_files:
+    - ../local_vault.yml
+  collections:
+    - arista.avd
+  tasks:
+  - name: Deploying Configurations to CVaaS
+    ansible.builtin.import_role:
+      name: eos_config_deploy_cvp
+    # tags: [ deploy, never ]
+    vars:
+      cv_collection: v3
+      device_search_key: serialNumber
+      # container_root: Default is fabric name which must also be in inventory
+      container_root: "{{ target_hosts }}"
+      configlets_prefix: 'AVD'
+      device_filter: "{{ host_filter }}"
+      state: present
+      execute_tasks: false

@@ -1,0 +1,39 @@
+---
+- name: Acquire credentials
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  module_defaults:
+    uri:
+      body_format: json
+      validate_certs: no
+  pre_tasks:
+    - name: Get Box client
+      usaads.cyberark.usaa_conjur:
+        conjur_secret_string: "{{ conjur.box_client.path }}"
+      register: box_client_conjur_creds
+      # no_log: true
+    - name: Get Box key
+      usaads.cyberark.usaa_conjur:
+        conjur_secret_string: "{{ conjur.box_key.path }}"
+      register: box_key_conjur_creds
+      no_log: true
+    - name: Get Box passphrase
+      usaads.cyberark.usaa_conjur:
+        conjur_secret_string: "{{ conjur.box_pass.path }}"
+      register: box_pass_conjur_creds
+      no_log: true
+
+
+- name: Upload captures to Box
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - usaads.ansible_collection_box
+  vars:
+    parent_folder_id: "270712137136" # /NETSVC/WAN_OPS/AVD_BUILDS
+    upload_source_folder: "{{ playbook_dir }}../docs/local/intended/configs/*"
+  tasks:
+    - include_role:
+        name: BOX_UPLOAD

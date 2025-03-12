@@ -1,0 +1,23 @@
+---
+eos_cli: |-
+  !
+  {{MAC_SEC}}
+  !
+  {{VRF_DEFINITION}}
+  !
+  {{INTERFACE_CONFIG}}
+  !
+  {{MPLS_DEFAULTS}}
+  !
+  {{ROUTER_BGP_DEFAULTS}}
+    {{ROUTER_BGP_OB1_PG}}
+    {{ROUTER_BGP_3PCC_PG}}
+    {{ROUTER_BGP_RR_PG}}
+    !
+    {{ROUTER_BGP_ADR_FAMILY}}
+    !
+    {{ROUTER_BGP_OB1_VRF}}
+    {{ROUTER_BGP_VNX1_VRF}}
+  !
+  {{MGMT_DEFAULTS}}
+  !
