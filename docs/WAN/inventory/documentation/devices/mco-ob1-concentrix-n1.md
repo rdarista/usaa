@@ -1117,5 +1117,8 @@ management ssh
   authentication mode password
 !
 arp aging timeout default 900
+!
+system control-plane
+  no service-policy input copp-system-policy
 
 ```

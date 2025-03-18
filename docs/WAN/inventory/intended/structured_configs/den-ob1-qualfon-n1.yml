@@ -64,7 +64,7 @@ management_api_http:
   enable_https: true
   https_ssl_profile: SSL_TLS_1_2
 eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhcp relay all-subnets default\n!\nmanagement ssh\n  authentication
-  mode password\n!\narp aging timeout default 900\n"
+  mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy input copp-system-policy\n"
 snmp_server:
   engine_ids:
     local: 8dee919cb975a84fc325f1f847e24795b09b3380
@@ -372,7 +372,6 @@ ntp:
     key_type: '7'
   trusted_keys: '10'
 system:
-  raw_eos_cli: no service-policy input copp-system-policy
   l1:
     unsupported_speed_action: error
     unsupported_error_correction_action: error
