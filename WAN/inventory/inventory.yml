@@ -36,7 +36,6 @@ all:
               ob1_pe2_local_ip: 10.9.177.235
               mgmt_interface: Vlan1001
               mgmt_interface_vrf: default
-              management_gateway: 1.1.1.1 #TODO
               policy_out_ip: 10.9.181.160
               Loopback0: 10.9.176.186
               community: 64801:11710
@@ -51,7 +50,6 @@ all:
               ob1_pe2_local_ip: 10.9.178.235
               mgmt_interface: Vlan1001
               mgmt_interface_vrf: default
-              management_gateway: 1.1.1.1 #TODO
               policy_out_ip: 10.9.176.189
               Loopback0: 10.9.176.185
               vlan_1001_ip: 10.192.17.98
@@ -65,10 +63,13 @@ all:
               ob1_pe2_local_ip: 10.9.176.235
               mgmt_interface: Vlan1001
               mgmt_interface_vrf: default
-              management_gateway: 10.192.17.1 #TODO
               policy_out_ip: 10.9.184.32
               Loopback0: 10.9.176.180
               vlan_1001_ip: 10.192.17.107
+          vars:
+            management_gateway: 10.192.17.1
+
+
     WAN:
       children:
         # node_groups indented below the fabric var will create containers
