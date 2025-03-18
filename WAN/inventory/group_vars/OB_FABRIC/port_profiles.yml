@@ -29,8 +29,18 @@ network_ports:
     structured_config:
       profile: MGMT
     raw_eos_cli: rofile override description mgmt interface
+  - switches:
+      - den-ob1-ttech-n1
+    switch_ports:
+      - Ethernet1-12
+    structured_config:
+      profile: MGMT
+    raw_eos_cli: rofile override description mgmt interface
 
 routers:
+##############
+#mco-ob1-concentrix-n1 connections
+##############
   - name: MCO-TRX1-CONCENTRIX-PE1
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -57,6 +67,10 @@ routers:
         # port_channel:
         #   mode: active
         #   channel_id: 12
+
+##############
+#den-ob1-qualfon-n1 connections
+##############
   - name: DEN-TRX1-QUALFON-PE1
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -76,6 +90,37 @@ routers:
       - endpoint_ports: ['Ethernet4/1']
         switch_ports: ['Ethernet14']
         switches: [den-ob1-qualfon-n1]
+        profile: PE
+        structured_config:
+          channel_group:
+            id: 12
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 12
+##############
+#den-ob1-ttech-n1 connections
+##############
+  - name: DEN-TRX1-TTECH-PE1
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet13']
+        switches: [den-ob1-ttech-n1]
+        profile: PE
+        structured_config:
+          channel_group:
+            id: 11
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 11
+  - name: DEN-TRX1-TTECH-PE2
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet14']
+        switches: [den-ob1-ttech-n1]
         profile: PE
         structured_config:
           channel_group:
