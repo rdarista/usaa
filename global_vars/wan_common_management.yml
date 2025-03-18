@@ -484,11 +484,11 @@ custom_structured_configuration_ip_access_lists:
   #       source: any
   #       destination: any
 
-custom_structured_configuration_prefix_lists:
-  - name: PL_DEFAULT
-    sequence_numbers:
-      - sequence: 10
-        action: permit 0.0.0.0/0
+# custom_structured_configuration_prefix_lists:
+#   - name: PL_DEFAULT
+#     sequence_numbers:
+#       - sequence: 10
+#         action: permit 0.0.0.0/0
   # - name: PL_RFC1918
   #   sequence_numbers:
   #     - sequence: 20

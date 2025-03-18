@@ -68,6 +68,9 @@
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
+- [System L1](#system-l1)
+  - [Unsupported Interface Configurations](#unsupported-interface-configurations)
+  - [System L1 Device Configuration](#system-l1-device-configuration)
 - [EOS CLI Device Configuration](#eos-cli-device-configuration)
 
 ## Management
@@ -1019,20 +1022,11 @@ queue-monitor streaming
 | -------- | ------ |
 | 10 | permit 0.0.0.0/0 |
 
-##### PL_DEFAULT
-
-| Sequence | Action |
-| -------- | ------ |
-| 10 | permit 0.0.0.0/0 |
-
 #### Prefix-lists Device Configuration
 
 ```eos
 !
 ip prefix-list DEFAULT_ROUTE
-   seq 10 permit 0.0.0.0/0
-!
-ip prefix-list PL_DEFAULT
    seq 10 permit 0.0.0.0/0
 ```
 
@@ -1044,7 +1038,7 @@ ip prefix-list PL_DEFAULT
 
 | Sequence | Type | Match | Set | Sub-Route-Map | Continue |
 | -------- | ---- | ----- | --- | ------------- | -------- |
-| 10 | permit | ip address prefix-list OB1_3PCC_POLICY_OUT | - | - | - |
+| 10 | permit | ip address prefix-list DEFAULT_ROUTE | - | - | - |
 
 ##### OB1_3PCC_POLICY_OUT
 
@@ -1057,7 +1051,7 @@ ip prefix-list PL_DEFAULT
 ```eos
 !
 route-map DEFAULT_ROUTE permit 10
-   match ip address prefix-list OB1_3PCC_POLICY_OUT
+   match ip address prefix-list DEFAULT_ROUTE
 !
 route-map OB1_3PCC_POLICY_OUT permit 10
    match ip address prefix-list OB1_3PCC_POLICY_OUT
@@ -1089,6 +1083,24 @@ ip access-list SSH_ACCESS
 ### VRF Instances Device Configuration
 
 ```eos
+```
+
+## System L1
+
+### Unsupported Interface Configurations
+
+| Unsupported Configuration | action |
+| ---------------- | -------|
+| Speed | error |
+| Error correction | error |
+
+### System L1 Device Configuration
+
+```eos
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
 ```
 
 ## EOS CLI Device Configuration

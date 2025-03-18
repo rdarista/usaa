@@ -33,3 +33,7 @@ custom_structured_configuration_ntp:
     key_type: 7
   trusted_keys: "10"
 
+custom_structured_configuration_system:
+  l1:
+    unsupported_speed_action: error
+    unsupported_error_correction_action: error

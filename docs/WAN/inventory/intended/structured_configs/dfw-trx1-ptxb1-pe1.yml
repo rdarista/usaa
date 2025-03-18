@@ -300,19 +300,6 @@ ip_access_lists:
     protocol: ip
     source: any
     destination: any
-prefix_lists:
-- name: PL_DEFAULT
-  sequence_numbers:
-  - sequence: 10
-    action: permit 0.0.0.0/0
-- name: PL_RFC1918
-  sequence_numbers:
-  - sequence: 20
-    action: permit 10.0.0.0/8
-  - sequence: 30
-    action: permit 172.16.0.0/12
-  - sequence: 40
-    action: permit 192.168.0.0/16
 ip_community_lists:
 - name: DA2_DEFAULT_COMM
   entries:
@@ -356,6 +343,19 @@ ip_community_lists:
   entries:
   - action: permit
     regexp: (.*):410
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: PL_RFC1918
+  sequence_numbers:
+  - sequence: 20
+    action: permit 10.0.0.0/8
+  - sequence: 30
+    action: permit 172.16.0.0/12
+  - sequence: 40
+    action: permit 192.168.0.0/16
 route_maps:
 - name: RM_RO_TRUST_IN
   sequence_numbers:

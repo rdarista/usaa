@@ -54,7 +54,7 @@ l3router:
             - sequence: 10
               type: permit
               match:
-                - ip address prefix-list OB1_3PCC_POLICY_OUT
+                - ip address prefix-list DEFAULT_ROUTE
   node_groups:
     - group: 3PCC_OB1_switches
       platform: 710P
