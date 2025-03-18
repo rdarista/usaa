@@ -204,3 +204,11 @@ pe:
 #  address_family_vpn_ipv4:
 #    neighbor_default_encapsulation_mpls_next_hop_self:
 #      source_interface: null
+
+router_ospf:
+  process_ids:
+    - id: 64800
+      router_id: "{{ Loopback0 }}"
+      auto_cost_reference_bandwidth: 1000000
+      bfd_enable: true
+      max_lsa: 0

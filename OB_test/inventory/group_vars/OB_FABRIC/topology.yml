@@ -1,0 +1,139 @@
+---
+l3router:
+  defaults:
+    loopback_ipv4_pool: 10.9.176.0/24
+    # loopback_ipv6_pool: 2001::/64
+    virtual_router_mac_address: 00:1c:73:00:00:99
+    spanning_tree_mode: mstp
+    # bgp_as: "{{ hostvars[inventory_hostname].bgp_as }}"
+    bgp_as: 64801
+    bgp_defaults:
+      - update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      - graceful-restart restart-time 300
+      - graceful-restart
+    raw_eos_cli: |
+      dhcp relay
+        vss control disabled
+      !
+      ip dhcp relay always-on
+      ip dhcp relay all-subnets default
+      !
+      management ssh
+        authentication mode password
+      !
+      arp aging timeout default 900
+
+    # MLAG
+    # mlag: true
+    # mlag_peer_l3_vlan: 4093
+    # mlag_port_channel_id: 100
+    # mlag_peer_ipv4_pool: 192.168.40.94/31
+    # mlag_peer_l3_ipv4_pool: 192.168.40.92/31 #TODO: Removed per bug fix in 4.3.0
+    # mlag_port_channel_structured_config:
+    #   description: MLAG-PEER
+    #   native_vlan: 7
+    #   vlans: 2-4094
+    #   mode: trunk
+    #   trunk_groups:
+    #     - MLAG-PEER
+    structured_config:
+      # vlans:
+      #   - id: 7
+      #     name: Native
+      #     state: active
+      # #setting mgmt vlan as native vlan on physical int for l2leaf ztp
+      # ethernet_interfaces:
+      #   - name: Ethernet13
+      #     mode: trunk
+      #     native_vlan: 110
+      #   - name: Ethernet50
+      #     mode: trunk
+      #     native_vlan: 110
+
+      # prefix_lists:
+      #   - name: DEFAULT_ROUTE
+      #     sequence_numbers:
+      #       - sequence: 10
+      #         action: permit 0.0.0.0/0
+      # l3_interfaces:
+      #   - interfaces:
+      #     - Port-Channel11
+      #     ip_addresses:
+      #     - "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip }}"
+      #     - 10.64.0.14/31
+      #     nodes:
+      #     - 'mco-ob1-concentrix-n1'
+      route_maps:
+        - name: OB1_3PCC_POLICY_OUT
+          sequence_numbers:
+            - sequence: 10
+              type: permit
+              match:
+                - ip address prefix-list OB1_3PCC_POLICY_OUT
+        - name: DEFAULT_ROUTE
+          sequence_numbers:
+            - sequence: 10
+              type: permit
+              match:
+                - ip address prefix-list OB1_3PCC_POLICY_OUT
+      router_bgp:
+        maximum_paths:
+          paths: 2
+          ecmp: 2
+        neighbors:
+          - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_ip }}"
+            peer_group: "PE_CE_OB1"
+          - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_ip }}"
+            peer_group: "PE_CE_OB1"
+          - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"
+            peer_group: "PE_CE_OB1"
+          - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_ip }}"
+            peer_group: "PE_CE_OB1"
+  node_groups:
+    #################################################
+    # OB1 SPINES
+    #################################################
+    - group: 3PCC_OB1_switches
+      platform: 710P
+      # filter:
+      #   tenants:
+      #     - OB1
+      #   tags:
+      #     - SP
+      nodes:
+        - name: mco-ob1-concentrix-n1
+          id: 1
+          structured_config:
+            prefix-list:
+              - name: OB1_3PCC_POLICY_OUT
+                sequence_numbers:
+                  - sequence: 5
+                    action: permit 10.9.181.160/28
+                  - sequence: 10
+                    action: permit 10.9.176.186/32
+          l3_interfaces:
+            - profile: PE
+              name: Port-Channel11
+              ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+            - profile: PE
+              name: Port-Channel12
+              ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_local_ip }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+    - group: QUalfon_OB1_switches
+      nodes:
+        - name: den-ob1-qualfon-n1
+          id: 1
+          structured_config:
+            prefix-list:
+              - name: OB1_3PCC_POLICY_OUT
+                sequence_numbers:
+                  - sequence: 5
+                    action: permit 10.10.181.160/28 #TODO
+                  - sequence: 10
+                    action: permit 10.10.176.186/32 #TODO
+
+
+

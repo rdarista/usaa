@@ -7,7 +7,7 @@
 #           sci
 #     !
 
-# MGMT_DEFAULTS: |- 
+# MGMT_DEFAULTS: |-
 #   management ssh
 #   ip access-group SSH_ACCESS vrf MGMT in
 #   idle-timeout 10
@@ -40,3 +40,4 @@
 #   ip routing vrf USUNT1
 #   ip routing vrf USX1
 #   !
+

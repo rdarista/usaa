@@ -1,0 +1,342 @@
+hostname: MCO-OB1-CONCENTRIX-N1
+is_deployed: true
+serial_number: WTW23320662
+router_bgp:
+  as: '64801'
+  router_id: 10.9.176.1
+  bgp_defaults:
+  - update wait-install
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 2
+    ecmp: 2
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: PE_CE_OB1
+    type: ipv4
+    maximum_routes: 12000
+    send_community: all
+  address_family_ipv4:
+    peer_groups:
+    - name: PE_CE_OB1
+      activate: true
+  redistribute_routes:
+  - source_protocol: connected
+  neighbors:
+  - ip_address: 10.9.177.232
+    peer_group: PE_CE_OB1
+  - ip_address: 10.9.177.234
+    peer_group: PE_CE_OB1
+  - ip_address: 10.9.178.232
+    peer_group: PE_CE_OB1
+  - ip_address: 10.9.178.234
+    peer_group: PE_CE_OB1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: default
+  ip_routing: false
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhcp relay all-subnets default\n!\nmanagement ssh\n  authentication
+  mode password\n!\narp aging timeout default 900\n"
+snmp_server:
+  engine_ids:
+    local: 516f8d186f87c4c5106a1c0487fb731bc5683f55
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 516f8d186f87c4c5106a1c0487fb731bc5683f55
+    auth: sha
+    auth_passphrase: a86a74ca7be25186dfa2a65fcd0ddabfc6f36d07
+    priv: aes
+    priv_passphrase: e7142141705d00fe91aa571e19c17817
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 516f8d186f87c4c5106a1c0487fb731bc5683f55
+    auth: sha
+    auth_passphrase: eed40906209ddb7746d49b6ff7d3394bea1d7655
+    priv: aes
+    priv_passphrase: 41c29ff2d7fd848826ff2353e9e423df
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 516f8d186f87c4c5106a1c0487fb731bc5683f55
+    auth: sha
+    auth_passphrase: 2474a8a49ececda35af35cc9ab5525a43f7d0786
+    priv: aes
+    priv_passphrase: 786132cec220bc60c36f9c92df383e72
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 516f8d186f87c4c5106a1c0487fb731bc5683f55
+    auth: sha
+    auth_passphrase: be11cfeb4085f917e94641384b511fd02f84085c
+    priv: aes
+    priv_passphrase: 6a235710ff4bd7fdbcfb651f83d18f3c
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: MCO
+  local_interfaces:
+  - name: Vlan1001
+    vrf: default
+ethernet_interfaces:
+- name: Port-Channel11
+  peer_type: l3_interface
+  ip_address: 10.9.177.233
+  shutdown: false
+  type: routed
+  description: L3-PtP:OVERLAY:OB1:PE-CE
+- name: Port-Channel12
+  peer_type: l3_interface
+  ip_address: 10.9.177.235
+  shutdown: false
+  type: routed
+  description: L3-PtP:OVERLAY:OB1:PE-CE
+- name: Ethernet1
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet2
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet3
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet4
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet5
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet6
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet7
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet8
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet9
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet10
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet11
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet12
+  peer_type: network_port
+  shutdown: false
+  type: switched
+  profile: MGMT
+- name: Ethernet13
+  peer: MCO-TRX1-CONCENTRIX-PE1
+  peer_interface: Ethernet4/1
+  peer_type: router
+  port_profile: PE
+  description: MCO-TRX1-CONCENTRIX-PE1_Ethernet4/1
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 11
+    mode: active
+  spanning_tree_bpduguard: 'True'
+  spanning_tree_portfast: edge
+- name: Ethernet14
+  peer: MCO-TRX1-CONCENTRIX-PE2
+  peer_interface: Ethernet4/1
+  peer_type: router
+  port_profile: PE
+  description: MCO-TRX1-CONCENTRIX-PE2_Ethernet4/1
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 12
+    mode: active
+  spanning_tree_bpduguard: 'True'
+  spanning_tree_portfast: edge
+loopback_interfaces:
+- name: Loopback0
+  description: Router_ID
+  shutdown: false
+  ip_address: 10.9.176.1/32
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
+port_channel_interfaces:
+- name: Port-Channel11
+  description: MCO-TRX1-CONCENTRIX-PE1
+  type: switched
+  shutdown: false
+- name: Port-Channel12
+  description: MCO-TRX1-CONCENTRIX-PE2
+  type: switched
+  shutdown: false
+metadata:
+  platform: 710P
+route_maps:
+- name: OB1_3PCC_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list OB1_3PCC_POLICY_OUT
+- name: DEFAULT_ROUTE
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list OB1_3PCC_POLICY_OUT
+prefix-list:
+- name: OB1_3PCC_POLICY_OUT
+  sequence_numbers:
+  - sequence: 5
+    action: permit 10.9.181.160/28
+  - sequence: 10
+    action: permit 10.9.176.186/32
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+vlans:
+- id: 1
+  name: Default
+  state: suspend
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: PL_DEFAULT
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+- name: DEFAULT_ROUTE
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0

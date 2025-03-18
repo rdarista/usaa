@@ -41,6 +41,18 @@ node_type_keys:
     # ip_addressing:
     #   router_id: router_id.j2
 
+  - key: l3router
+    type: l3router
+    connected_endpoints: true
+    default_evpn_role: none
+    default_overlay_routing_protocol: none
+    mlag_support: true
+    network_services:
+      l2: true
+      l3: true
+    underlay_router: true
+    uplink_type: p2p
+
 underlay_routing_protocol: ospf-ldp
 overlay_routing_protocol: ibgp
 

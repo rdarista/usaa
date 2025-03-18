@@ -1,0 +1,69 @@
+port_profiles:
+  - profile: PE
+    structured_config:
+      spanning_tree_bpduguard: True
+      spanning_tree_portfast: edge
+    # mode: routed
+
+interface_profiles:
+  - name: MGMT
+    commands:
+      - description mgmt interface
+      - switchport access vlan 110
+      - spanning-tree portfast
+      - no spanning-tree portfast auto
+      - spanning-tree bpduguard enable
+
+network_ports:
+  - switches:
+      - mco-ob1-concentrix-n1
+    switch_ports:
+      - Ethernet1-12
+    structured_config:
+      profile: MGMT
+    raw_eos_cli: rofile override description mgmt interface
+  - switches:
+      - den-ob1-qualfon-n1
+    switch_ports:
+      - Ethernet1-12
+    structured_config:
+      profile: MGMT
+    raw_eos_cli: rofile override description mgmt interface
+
+routers:
+  - name: MCO-TRX1-CONCENTRIX-PE1
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet13']
+        switches: [mco-ob1-concentrix-n1]
+        profile: PE
+        port_channel:
+          mode: active
+          channel_id: 11
+  - name: MCO-TRX1-CONCENTRIX-PE2
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet14']
+        switches: [mco-ob1-concentrix-n1]
+        profile: PE
+        port_channel:
+          mode: active
+          channel_id: 12
+  - name: DEN-TRX1-QUALFON-PE1
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet13']
+        switches: [den-ob1-qualfon-n1]
+        profile: PE
+        port_channel:
+          mode: active
+          channel_id: 11
+  - name: DEN-TRX1-QUALFON-PE2
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet14']
+        switches: [den-ob1-qualfon-n1]
+        profile: PE
+        port_channel:
+          mode: active
+          channel_id: 12

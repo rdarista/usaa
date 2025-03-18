@@ -22,7 +22,38 @@ all:
           fabric_name: MPLS_FABRIC
           # Configuration to get Virtual Env information
           ansible_python_interpreter: $(which python3)
-
+    OB_FABRIC:
+      children:
+        3PCC_OB:
+          hosts:
+            mco-ob1-concentrix-n1:
+              type: l3router
+              serial_number: WTW23320662
+              vlan_1001_local_ip: 10.9.181.161
+              ob1_pe1_ip: 10.9.177.232
+              ob1_pe1_local_ip: 10.9.177.233
+              ob1_pe2_ip: 10.9.177.234
+              ob1_pe2_local_ip: 10.9.177.235
+              mgmt_interface: Vlan1001
+              mgmt_interface_vrf: default
+              management_gateway: 1.1.1.1 #TODO
+              policy_out_ip: 10.9.176.186
+              Loopback0: 10.9.176.186
+            den-ob1-qualfon-n1:
+              type: l3router
+              serial_number: WTW23320663
+              vlan_1001_local_ip: 10.9.182.161
+              ob1_pe1_ip: 10.9.178.232
+              ob1_pe1_local_ip: 10.9.178.233
+              ob1_pe2_ip: 10.9.178.234
+              ob1_pe2_local_ip: 10.9.178.235
+              mgmt_interface: Vlan1001
+              mgmt_interface_vrf: default
+              management_gateway: 1.1.1.1 #TODO
+              policy_out_ip: 10.9.176.189
+              Loopback0: 10.9.176.185
+          vars:
+            vlan_1001_ip: 10.9.181.161
     WAN:
       children:
         # node_groups indented below the fabric var will create containers
@@ -351,7 +382,7 @@ all:
                             mco-trx1-concentrix-pe1:
                               ansible_host: 10.9.181.162
                               # serial_number: JPA2410P26A
-                              serial_number: JPA2410P26A 
+                              serial_number: JPA2410P26A
                               is_deployed: true
                             mco-trx1-concentrix-pe2:
                               ansible_host: 10.9.181.163
@@ -408,7 +439,7 @@ all:
                             oma-trx1-sitel-pe1:
                               ansible_host: 10.9.184.66
                               # serial_number: JPA2410P26V
-                              serial_number: JPA2410P26V 
+                              serial_number: JPA2410P26V
                               is_deployed: true
                             oma-trx1-sitel-pe2:
                               ansible_host: 10.9.184.67
@@ -446,7 +477,7 @@ all:
                             dfw-trx1-telepf-pe1:
                               ansible_host: 10.9.184.18
                               # serial_number: HBG243702EA
-                              serial_number: HBG243702EA 
+                              serial_number: HBG243702EA
                               is_deployed: true
                             dfw-trx1-telepf-pe2:
                               ansible_host: 10.9.184.19
@@ -484,7 +515,7 @@ all:
                             den-trx1-ttcnt-pe1:
                               ansible_host: 10.9.184.34
                               # serial_number: HBG241300U2
-                              serial_number: HBG241300U2 
+                              serial_number: HBG241300U2
                               is_deployed: true
                             den-trx1-ttcnt-pe2:
                               ansible_host: 10.9.184.35

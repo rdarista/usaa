@@ -1,0 +1,64 @@
+---
+custom_structured_configuration_mpls:
+    ip: true
+    ldp:
+      interface_disabled_default: false
+      router_id: interface Loopback0
+      shutdown: false
+      transport_address_interface: null
+
+custom_structured_configuration_ip_community_lists:
+  - name:  DA2_DEFAULT_COMM
+    entries:
+      - action: permit
+        communities: [64811:11233]
+  - name:  DC21_DEFAULT_COMM
+    entries:
+      - action: permit
+        communities: [64813:13233]
+  - name: PE1
+    entries:
+      - action: permit
+        regexp: (.*):1_
+  - name: PE2
+    entries:
+      - action: permit
+        regexp: (.*):2_
+  - name: POLICY_LP120
+    entries:
+      - action: permit
+        regexp: (.*):412
+  - name: POLICY_LP150
+    entries:
+      - action: permit
+        regexp: (.*):415
+  - name: POLICY_LP170
+    entries:
+      - action: permit
+        regexp: (.*):417
+  - name: POLICY_LP180
+    entries:
+      - action: permit
+        regexp: (.*):418
+  - name: POLICY_LP190_OVERRIDE
+    entries:
+      - action: permit
+        regexp: (.*):419
+  - name: POLICY_LP20_BLEED
+    entries:
+      - action: permit
+        regexp: (.*):410
+
+custom_structured_configuration_prefix_lists:
+  - name: PL_DEFAULT
+    sequence_numbers:
+      - sequence: 10
+        action: permit 0.0.0.0/0
+  - name: PL_RFC1918
+    sequence_numbers:
+      - sequence: 20
+        action: permit 10.0.0.0/8
+      - sequence: 30
+        action: permit 172.16.0.0/12
+      - sequence: 40
+        action: permit 192.168.0.0/16

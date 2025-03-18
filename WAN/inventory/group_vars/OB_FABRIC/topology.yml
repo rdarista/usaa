@@ -1,0 +1,126 @@
+---
+l3router:
+  defaults:
+    loopback_ipv4_pool: 10.9.176.0/24
+    virtual_router_mac_address: 00:1c:73:00:00:99
+    spanning_tree_mode: mstp
+    # bgp_as: "{{ hostvars[inventory_hostname].bgp_as }}"
+    bgp_as: 64801
+    bgp_defaults:
+      - update wait-install
+      - no bgp default ipv4-unicast
+      - distance bgp 20 200 200
+      - graceful-restart restart-time 300
+      - graceful-restart
+    raw_eos_cli: |
+      dhcp relay
+        vss control disabled
+      !
+      ip dhcp relay always-on
+      ip dhcp relay all-subnets default
+      !
+      management ssh
+        authentication mode password
+      !
+      arp aging timeout default 900
+    structured_config:
+      port_channel_interfaces:
+        - name: Port-Channel11
+          bfd:
+            interval: 150
+            min_rx: 150
+            multiplier: 150
+        - name: Port-Channel12
+          bfd:
+            interval: 150
+            min_rx: 150
+            multiplier: 150
+      ethernet_interfaces:
+        - name: Ethernet13
+          spanning_tree_bpduguard: True
+          spanning_tree_portfast: edge
+        - name: Ethernet14
+          spanning_tree_bpduguard: True
+          spanning_tree_portfast: edge
+      route_maps:
+        - name: OB1_3PCC_POLICY_OUT
+          sequence_numbers:
+            - sequence: 10
+              type: permit
+              match:
+                - ip address prefix-list OB1_3PCC_POLICY_OUT
+        - name: DEFAULT_ROUTE
+          sequence_numbers:
+            - sequence: 10
+              type: permit
+              match:
+                - ip address prefix-list OB1_3PCC_POLICY_OUT
+  node_groups:
+    - group: 3PCC_OB1_switches
+      platform: 710P
+      nodes:
+        - name: mco-ob1-concentrix-n1
+          id: 1
+          structured_config:
+            prefix-list:
+              - name: OB1_3PCC_POLICY_OUT
+                sequence_numbers:
+                  - sequence: 5
+                    action: permit 10.9.181.160/28
+                  - sequence: 10
+                    action: permit 10.9.176.186/32
+            router_bgp:
+              neighbors:
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_ip }}"
+                  peer_group: "PE_CE_OB1"
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_ip }}"
+                  peer_group: "PE_CE_OB1"
+          l3_interfaces:
+            - profile: PE
+              name: Port-Channel11
+              ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+            - profile: PE
+              name: Port-Channel12
+              ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+          # l3_port_channels: #supported in 5.2 , not in 4.10
+          #   # - profile: PE
+          #     - name: Port-Channel11
+          #       member_interfaces:
+          #         - name: Ethernet13
+          #       peer: MCO-TRX1-CONCENTRIX-PE1
+          #       peer_interface: Eth4/1
+          #       ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip }}"
+          #       description: L3-PtP:OVERLAY:OB1:PE-CE
+          #       mode: active
+    - group: Qualfon_OB1_switches
+      nodes:
+        - name: den-ob1-qualfon-n1
+          id: 1
+          structured_config:
+            prefix-list:
+              - name: OB1_3PCC_POLICY_OUT
+                sequence_numbers:
+                  - sequence: 5
+                    action: permit 10.10.184.48/28
+                  - sequence: 10
+                    action: permit 10.10.176.184/32
+            router_bgp:
+              neighbors:
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"
+                  peer_group: "PE_CE_OB1"
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_ip }}"
+                  peer_group: "PE_CE_OB1"
+          l3_interfaces:
+            - profile: PE
+              name: Port-Channel11
+              ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+            - profile: PE
+              name: Port-Channel12
+              ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+
+
+

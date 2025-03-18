@@ -1,0 +1,314 @@
+! Command: show running-config
+! device: MCO-OB1-CONCENTRIX-N1 (CCS-710P-12, EOS-4.31.4M)
+!
+! boot system flash:/EOS-4.31.4M.swi
+!
+no aaa root
+no username admin
+!
+username netsupport privilege 15 role network-admin secret sha512 $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+username sdadmin privilege 15 role network-admin secret sha512 $6$3A9mEC9YnLa4nWDE$gxQQ32f2jHy0GXbIpRyjHjkAIaTs7oEH1vPGuAlv8uuEg.FYmMqDg8MCre2tbsr7cEAb7sKdIKZGGbmTXrAUO1
+username staging privilege 15 secret sha512 $6$vkpDfp0.OwLVF4L8$2DhnTmVT/zfSKsCDzIaJqhg55bDy5Oxe5xhFj86YvPdKY9VSykT5ruhDJ15wYePeVkiDj4UNFtURoeTN3JpHX/
+!
+prompt %H%v[%D{%H:%M:%S}]%P
+alias c bash clear
+!
+daemon TerminAttr
+   exec /usr/bin/TerminAttr -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -cvaddr=10.139.16.173:9910,10.139.16.174:9910,10.139.16.175:9910 -cvsourceip=10.9.181.161 -cvauth=token,/tmp/token -cvvrf=default -taillogs
+   no shutdown
+!
+dhcp relay
+   vss control disabled
+!
+ip dhcp relay information option
+ip dhcp relay always-on
+ip dhcp relay all-subnets default
+!
+event-monitor
+!
+load-interval default 30
+!
+interface defaults
+   mtu 9214
+   !
+   ethernet
+      shutdown
+!
+service routing protocols model multi-agent
+!
+logging buffered 10000
+logging trap debugging
+no logging console
+logging host routingelk-ingest.usaa.com 8012
+logging format timestamp high-resolution
+logging source-interface Vlan1001
+!
+hostname MCO-OB1-CONCENTRIX-N1
+ip domain lookup source-interface Vlan1001
+ip name-server vrf default 10.0.255.100
+ip name-server vrf default 10.136.128.100
+ip name-server vrf default 10.231.108.100
+dns domain usaa.com
+!
+sflow sample 65536
+sflow polling-interval 5
+sflow source-interface Vlan1001
+sflow run
+!
+snmp-server engineID local f5717f2cdde9fa686400
+snmp-server contact http://go/acc-lan
+snmp-server local-interface Vlan1001
+snmp-server view READALL ISO included
+snmp-server group CAPC v3 auth read READALL
+snmp-server group READONLY v3 priv read READALL
+snmp-server user NETSVC_NETBRAIN READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 4146adc42aa8853eccbc1a38e97ea00d7406dfa7 priv aes 2f731cd3968fb2e321c4ccc27f90cb8a
+snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 0c8d15369ba40f62da84953da549db15bcab247b priv aes e0a4addc4acafdbf7bbeb02816cee87a
+snmp-server user NETSVC_NETSCOUT READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 816c471fe6bc6a297c45b76c64469be74c82731e priv aes 49eec8cd3a09c6c85ea1cbbf760c9641
+snmp-server user NETSVC_SPECTRUM READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 01da6f5daa81c34645b28b3f708e28748888b65a priv aes 54976de00b43bd906f43a11eb21965d1
+snmp-server user SERVICENOW READONLY v3 localized 16b53cfddd7d7950a7c6c9516644f2ef6f433cb7 auth sha 90d309463546f2e726ac946040cd7156aba3ac42 priv aes 5dd748f1cb378016b5a0a535feca9d6e
+snmp-server host 10.139.4.41 version 3 priv NETSVC_SPECTRUM
+snmp-server host 10.139.4.44 version 3 priv NETSVC_SPECTRUM
+snmp-server host proddxnspv1lsat.usaa.com version 3 auth sdadmin
+snmp-server host proddxnspv2lsat.usaa.com version 3 auth sdadmin
+snmp-server enable traps
+no snmp-server enable traps bgp backward-transition
+no snmp-server enable traps bridge
+!
+hardware speed-group1 serdes 10g
+hardware speed-group2 serdes 10g
+hardware speed-group3 serdes 10g
+hardware speed-group4 serdes 10g
+hardware speed-group5 serdes 10g
+hardware speed-group6 serdes 10g
+hardware speed-group7 serdes 10g
+hardware speed-group8 serdes 10g
+hardware speed-group9 serdes 10g
+hardware speed-group10 serdes 10g
+hardware speed-group11 serdes 10g
+hardware speed-group12 serdes 10g
+!
+spanning-tree mode mstp
+spanning-tree mst 1 priority 4096
+!
+spanning-tree mst configuration
+   name OB1
+!
+system l1
+   unsupported speed action error
+   unsupported error-correction action error
+!
+clock timezone CST6CDT
+!
+vlan 1001
+   name 3PCC_MGMT
+!
+banner login
+******************************WARNING************************************
+This system is for authorized users only. This, and any other sessions,
+can and will be monitored to determine whether or not it is being used
+by an authorized user.
+
+By logging into this system, you are consenting to such monitoring, and
+are advised that the system administrators retain the right to use any
+recorded session as evidence of criminal activity, if such activity is
+monitored.
+******************************WARNING************************************
+EOF
+!
+management api http-commands
+   protocol https ssl profile SSL_TLS_1_2
+   no shutdown
+!
+management api gnmi
+   transport grpc default
+      ssl profile SSL_TLS_1_2
+   provider eos-native
+!
+management security
+   entropy source hardware
+   !
+   ssl profile SSL_TLS_1_2
+      tls versions 1.2
+      cipher-list HIGH:!NULL:!MD5:!ADH:!ANULL:!AECDH
+      certificate SSL_TLS_1_2.crt key SSL_TLS_1_2.key
+      trust certificate SSL_TLS_1_2.crt
+!
+tacacs-server host prodauth.usaa.com key 7 06033519661C5F3A530F251F3C
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ local
+aaa authorization serial-console
+aaa authorization exec default group tacacs+ local
+aaa authorization commands 15 default group tacacs+ local
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 15 default stop-only group tacacs+
+!
+interface Port-Channel11
+   description L3-PtP:OVERLAY:OB1:PE-CE
+   no switchport
+   ip address 10.9.177.233/31
+   bfd interval 150 min-rx 150 multiplier 3
+!
+interface Port-Channel12
+   description L3-PtP:OVERLAY:OB1:PE-CE
+   no switchport
+   ip address 10.9.177.235/31
+   bfd interval 150 min-rx 150 multiplier 3
+!
+interface Ethernet1
+   profile MGMT
+   profile override description mgmt interface
+   description MCO-TRX1-CONCENTRIX-PE1-MA1
+   no shutdown
+!
+interface Ethernet2
+   profile MGMT
+   profile override description mgmt interface
+   description MCO-TRX1-CONCENTRIX-PE2-MA1
+   no shutdown
+!
+interface Ethernet3
+   profile MGMT
+   profile override description mgmt interface
+   description MCO-OB1-CONCENTRIX-TS1
+   no shutdown
+!
+interface Ethernet4
+   profile MGMT
+   shutdown
+!
+interface Ethernet5
+   profile MGMT
+   shutdown
+!
+interface Ethernet6
+   profile MGMT
+   shutdown
+!
+interface Ethernet7
+   profile MGMT
+   shutdown
+!
+interface Ethernet8
+   profile MGMT
+   shutdown
+!
+interface Ethernet9
+   profile MGMT
+   shutdown
+!
+interface Ethernet10
+   profile MGMT
+   shutdown
+!
+interface Ethernet11
+   profile MGMT
+   shutdown
+!
+interface Ethernet12
+   profile MGMT
+   shutdown
+!
+interface Ethernet13
+   description MCO-TRX1-CONCENTRIX-PE1:Eth4/1
+   no shutdown
+   channel-group 11 mode active
+   spanning-tree portfast
+   spanning-tree bpduguard enable
+!
+interface Ethernet14
+   description MCO-TRX1-CONCENTRIX-PE2:Eth4/1
+   no shutdown
+   channel-group 12 mode active
+   spanning-tree portfast
+   spanning-tree bpduguard enable
+!
+interface Loopback0
+   description LO MGMT
+   ip address 10.9.176.186/32
+!
+interface Vlan1001
+   description OB1:MGMT
+   no autostate
+   ip address 10.9.181.161/28
+   ip helper-address 10.132.30.7
+   ip helper-address 10.229.88.5
+!
+interface profile MGMT
+   command description mgmt interface
+   command switchport
+   command switchport access vlan 1001
+   command spanning-tree portfast
+   command no spanning-tree portfast auto
+   command spanning-tree bpduguard enable
+!
+ip access-list SSH_ACCESS
+   10 permit tcp 10.0.0.0/8 any eq ssh
+   20 permit tcp 172.16.0.0/12 any eq ssh
+   30 permit tcp 167.24.0.0/16 any eq ssh
+   40 permit tcp 192.168.0.0/16 any eq ssh
+   50 permit tcp 198.148.150.0/24 any eq ssh
+!
+ip routing
+!
+ip prefix-list DEFAULT_ROUTE seq 5 permit 0.0.0.0/0
+ip prefix-list OB1_3PCC_POLICY_OUT seq 5 permit 10.9.181.160/28
+ip prefix-list OB1_3PCC_POLICY_OUT seq 10 permit 10.9.176.186/32
+!
+system control-plane
+   no service-policy input copp-system-policy
+!
+arp aging timeout default 900
+!
+ip ssh client source-interface Vlan1001
+!
+ntp authentication-key 10 md5 7 0721350D7E4F32560E
+ntp trusted-key 10
+ntp authenticate
+ntp server 10.0.16.254 local-interface Loopback0 key 10
+ntp server 10.136.128.253 local-interface Loopback0 key 10
+ntp server 10.136.128.254 local-interface Loopback0 key 10
+!
+route-map DEFAULT_ROUTE permit 10
+   match ip address prefix-list DEFAULT_ROUTE
+!
+route-map OB1_3PCC_POLICY_OUT permit 10
+   description OB1_3PCC_POLICY_OUT
+   match ip address prefix-list OB1_3PCC_POLICY_OUT
+   set community 64801:11710
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
+!
+router bgp 64801
+   router-id 10.9.176.186
+   update wait-install
+   no bgp default ipv4-unicast
+   distance bgp 20 200 200
+   maximum-paths 2 ecmp 2
+   bgp bestpath tie-break router-id
+   neighbor PE_CE_OB1 peer group
+   neighbor PE_CE_OB1 remote-as 64800
+   neighbor PE_CE_OB1 bfd
+   neighbor PE_CE_OB1 route-map DEFAULT_ROUTE in
+   neighbor PE_CE_OB1 route-map OB1_3PCC_POLICY_OUT out
+   neighbor PE_CE_OB1 password 7 LrxdPchq0LiOI2Jz39Pe5Q==
+   neighbor PE_CE_OB1 send-community
+   neighbor 10.9.177.232 peer group PE_CE_OB1
+   neighbor 10.9.177.232 description MCO-TRX1-CONCENTRIX-PE1
+   neighbor 10.9.177.234 peer group PE_CE_OB1
+   neighbor 10.9.177.234 description MCO-TRX1-CONCENTRIX-PE2
+   !
+   address-family ipv4
+      neighbor PE_CE_OB1 activate
+      network 10.9.176.186/32
+      network 10.9.181.160/28
+!
+ip tacacs source-interface Vlan1001
+!
+management ssh
+   ip access-group SSH_ACCESS in
+   idle-timeout 10
+   authentication mode password
+!
+end

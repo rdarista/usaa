@@ -1,0 +1,11 @@
+# ---
+
+# # Define default interfaces
+# default_interfaces:
+
+
+#   - types: [ l3router ]
+#     platforms: [ 710P ]
+#     downlink_interfaces: "{{ ['Ethernet1-12,15-48'] }}"
+#     uplink_interfaces: ['Ethernet13', 'Ethernet14']
+
