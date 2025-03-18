@@ -3,8 +3,6 @@
 fabric_name: OB_FABRIC
 
 
-
-
 bgp_peer_groups:
   ipv4_underlay_peers:
     name: PE_CE_OB1
@@ -19,6 +17,7 @@ bgp_peer_groups:
 
 bgp_ecmp: 2
 bgp_maximum_paths: 2
+
 
 # TODO: Validate if default config should be generated. None of these configs render at all with this turned off.
 generate_default_config: True

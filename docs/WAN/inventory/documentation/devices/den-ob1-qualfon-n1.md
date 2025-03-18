@@ -51,6 +51,8 @@
   - [Static Routes](#static-routes)
   - [ARP](#arp)
   - [Router BGP](#router-bgp)
+- [BFD](#bfd)
+  - [Router BFD](#router-bfd)
 - [Queue Monitor](#queue-monitor)
   - [Queue Monitor Length](#queue-monitor-length)
   - [Queue Monitor Streaming](#queue-monitor-streaming)
@@ -934,6 +936,24 @@ router bgp 64801
       neighbor PE_CE_OB1 activate
       network 10.9.176.185/32
       network 10.9.176.189/28
+```
+
+## BFD
+
+### Router BFD
+
+#### Router BFD Multihop Summary
+
+| Interval | Minimum RX | Multiplier |
+| -------- | ---------- | ---------- |
+| 300 | 300 | 3 |
+
+#### Router BFD Device Configuration
+
+```eos
+!
+router bfd
+   multihop interval 300 min-rx 300 multiplier 3
 ```
 
 ## Queue Monitor

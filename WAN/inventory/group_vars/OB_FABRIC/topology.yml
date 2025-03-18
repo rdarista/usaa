@@ -12,6 +12,10 @@ l3router:
       - distance bgp 20 200 200
       - graceful-restart restart-time 300
       - graceful-restart
+    bfd_multihop:
+      interval: 300
+      min_rx: 300
+      multiplier: 3
     raw_eos_cli: |
       dhcp relay
         vss control disabled
@@ -45,6 +49,11 @@ l3router:
       #   - name: Ethernet14
       #     spanning_tree_bpduguard: True
       #     spanning_tree_portfast: edge
+      router_bfd:
+        multihop:
+          interval: 300
+          min_rx: 300
+          multiplier: 3
       route_maps:
         - name: OB1_3PCC_POLICY_OUT
           sequence_numbers:

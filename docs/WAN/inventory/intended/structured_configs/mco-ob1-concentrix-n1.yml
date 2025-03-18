@@ -263,6 +263,11 @@ ip_igmp_snooping:
 ip_virtual_router_mac_address: 00:1c:73:00:00:99
 metadata:
   platform: 710P
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
 route_maps:
 - name: OB1_3PCC_POLICY_OUT
   sequence_numbers:
@@ -376,3 +381,4 @@ system:
   l1:
     unsupported_speed_action: error
     unsupported_error_correction_action: error
+bfd: null
