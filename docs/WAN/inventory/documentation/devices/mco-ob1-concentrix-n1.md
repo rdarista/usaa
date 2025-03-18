@@ -42,7 +42,6 @@
   - [Interface Defaults](#interface-defaults)
   - [Interface Profiles](#interface-profiles)
   - [Ethernet Interfaces](#ethernet-interfaces)
-  - [Port-Channel Interfaces](#port-channel-interfaces)
   - [Loopback Interfaces](#loopback-interfaces)
 - [Routing](#routing)
   - [Service Routing Protocols Model](#service-routing-protocols-model)
@@ -52,8 +51,6 @@
   - [Static Routes](#static-routes)
   - [ARP](#arp)
   - [Router BGP](#router-bgp)
-- [BFD](#bfd)
-  - [BFD Interfaces](#bfd-interfaces)
 - [Queue Monitor](#queue-monitor)
   - [Queue Monitor Length](#queue-monitor-length)
   - [Queue Monitor Streaming](#queue-monitor-streaming)
@@ -740,6 +737,7 @@ interface Ethernet12
 interface Ethernet13
    description MCO-TRX1-CONCENTRIX-PE1_Ethernet4/1
    no shutdown
+   switchport
    channel-group 11 mode active
    spanning-tree portfast
    spanning-tree bpduguard enable
@@ -747,6 +745,7 @@ interface Ethernet13
 interface Ethernet14
    description MCO-TRX1-CONCENTRIX-PE2_Ethernet4/1
    no shutdown
+   switchport
    channel-group 12 mode active
    spanning-tree portfast
    spanning-tree bpduguard enable
@@ -756,39 +755,13 @@ interface Port-Channel11
    no shutdown
    no switchport
    ip address 10.9.177.233/31
+   bfd interval 150 min-rx 150 multiplier 150
 !
 interface Port-Channel12
    description L3-PtP:OVERLAY:OB1:PE-CE
    no shutdown
    no switchport
    ip address 10.9.177.235/31
-```
-
-### Port-Channel Interfaces
-
-#### Port-Channel Interfaces Summary
-
-##### L2
-
-| Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
-| --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel11 | MCO-TRX1-CONCENTRIX-PE1 | switched | access | - | - | - | - | - | - | - |
-| Port-Channel12 | MCO-TRX1-CONCENTRIX-PE2 | switched | access | - | - | - | - | - | - | - |
-
-#### Port-Channel Interfaces Device Configuration
-
-```eos
-!
-interface Port-Channel11
-   description MCO-TRX1-CONCENTRIX-PE1
-   no shutdown
-   switchport
-   bfd interval 150 min-rx 150 multiplier 150
-!
-interface Port-Channel12
-   description MCO-TRX1-CONCENTRIX-PE2
-   no shutdown
-   switchport
    bfd interval 150 min-rx 150 multiplier 150
 ```
 
@@ -962,15 +935,6 @@ router bgp 64801
       network 10.9.176.186/32
       network 10.9.181.160/28
 ```
-
-## BFD
-
-### BFD Interfaces
-
-| Interface | Interval | Minimum RX | Multiplier | Echo |
-| --------- | -------- | ---------- | ---------- | ---- |
-| Port-Channel11 | 150 | 150 | 150 | - |
-| Port-Channel12 | 150 | 150 | 150 | - |
 
 ## Queue Monitor
 

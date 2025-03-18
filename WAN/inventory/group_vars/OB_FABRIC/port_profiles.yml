@@ -37,33 +37,51 @@ routers:
         switch_ports: ['Ethernet13']
         switches: [mco-ob1-concentrix-n1]
         profile: PE
-        port_channel:
-          mode: active
-          channel_id: 11
+        structured_config:
+          channel_group:
+            id: 11
+            mode: "active"
+          type: "switched"
+
   - name: MCO-TRX1-CONCENTRIX-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
         switch_ports: ['Ethernet14']
         switches: [mco-ob1-concentrix-n1]
         profile: PE
-        port_channel:
-          mode: active
-          channel_id: 12
+        structured_config:
+          channel_group:
+            id: 12
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 12
   - name: DEN-TRX1-QUALFON-PE1
     adapters:
       - endpoint_ports: ['Ethernet4/1']
         switch_ports: ['Ethernet13']
         switches: [den-ob1-qualfon-n1]
         profile: PE
-        port_channel:
-          mode: active
-          channel_id: 11
+        structured_config:
+          channel_group:
+            id: 11
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 11
   - name: DEN-TRX1-QUALFON-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
         switch_ports: ['Ethernet14']
         switches: [den-ob1-qualfon-n1]
         profile: PE
-        port_channel:
-          mode: active
-          channel_id: 12
+        structured_config:
+          channel_group:
+            id: 12
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 12

@@ -147,12 +147,14 @@ ethernet_interfaces:
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
+  eos_cli: bfd interval 150 min-rx 150 multiplier 150
 - name: Port-Channel12
   peer_type: l3_interface
   ip_address: 10.9.177.235/31
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
+  eos_cli: bfd interval 150 min-rx 150 multiplier 150
 - name: Ethernet1
   peer_type: network_port
   shutdown: false
@@ -232,12 +234,12 @@ ethernet_interfaces:
   port_profile: PE
   description: MCO-TRX1-CONCENTRIX-PE1_Ethernet4/1
   shutdown: false
-  type: port-channel-member
+  type: switched
+  spanning_tree_bpduguard: 'True'
+  spanning_tree_portfast: edge
   channel_group:
     id: 11
     mode: active
-  spanning_tree_bpduguard: 'True'
-  spanning_tree_portfast: edge
 - name: Ethernet14
   peer: MCO-TRX1-CONCENTRIX-PE2
   peer_interface: Ethernet4/1
@@ -245,12 +247,12 @@ ethernet_interfaces:
   port_profile: PE
   description: MCO-TRX1-CONCENTRIX-PE2_Ethernet4/1
   shutdown: false
-  type: port-channel-member
+  type: switched
+  spanning_tree_bpduguard: 'True'
+  spanning_tree_portfast: edge
   channel_group:
     id: 12
     mode: active
-  spanning_tree_bpduguard: 'True'
-  spanning_tree_portfast: edge
 loopback_interfaces:
 - name: Loopback0
   description: Router_ID
@@ -259,23 +261,6 @@ loopback_interfaces:
 ip_igmp_snooping:
   globally_enabled: true
 ip_virtual_router_mac_address: 00:1c:73:00:00:99
-port_channel_interfaces:
-- name: Port-Channel11
-  description: MCO-TRX1-CONCENTRIX-PE1
-  type: switched
-  shutdown: false
-  bfd:
-    interval: 150
-    min_rx: 150
-    multiplier: 150
-- name: Port-Channel12
-  description: MCO-TRX1-CONCENTRIX-PE2
-  type: switched
-  shutdown: false
-  bfd:
-    interval: 150
-    min_rx: 150
-    multiplier: 150
 metadata:
   platform: 710P
 route_maps:

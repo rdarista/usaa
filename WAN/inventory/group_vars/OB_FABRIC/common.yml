@@ -34,3 +34,15 @@ custom_structured_configuration_system:
 
 custom_group_configuration_router_bgp:
   redistribute_routes: null
+
+# custom_group_configuration_port_channel_interfaces:
+#   - name: Port-Channel11
+#     bfd:
+#       interval: 150
+#       min_rx: 150
+#       multiplier: 150
+#   - name: Port-Channel12
+#     bfd:
+#       interval: 150
+#       min_rx: 150
+#       multiplier: 150

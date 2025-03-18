@@ -27,17 +27,17 @@ l3router:
       system control-plane
         no service-policy input copp-system-policy
     structured_config:
-      port_channel_interfaces:
-        - name: Port-Channel11
-          bfd:
-            interval: 150
-            min_rx: 150
-            multiplier: 150
-        - name: Port-Channel12
-          bfd:
-            interval: 150
-            min_rx: 150
-            multiplier: 150
+      # port_channel_interfaces:
+      #   - name: Port-Channel11
+      #     bfd:
+      #       interval: 150
+      #       min_rx: 150
+      #       multiplier: 150
+      #   - name: Port-Channel12
+      #     bfd:
+      #       interval: 150
+      #       min_rx: 150
+      #       multiplier: 150
       # ethernet_interfaces:
       #   - name: Ethernet13
       #     spanning_tree_bpduguard: True
@@ -88,10 +88,12 @@ l3router:
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
           # l3_port_channels: #supported in 5.2 , not in 4.10
           #   # - profile: PE
           #     - name: Port-Channel11
@@ -129,10 +131,12 @@ l3router:
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
 
 
 
