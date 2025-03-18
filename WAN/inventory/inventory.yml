@@ -37,8 +37,9 @@ all:
               mgmt_interface: Vlan1001
               mgmt_interface_vrf: default
               management_gateway: 1.1.1.1 #TODO
-              policy_out_ip: 10.9.176.186
+              policy_out_ip: 10.9.181.160
               Loopback0: 10.9.176.186
+              community: 64801:11710
             den-ob1-qualfon-n1:
               type: l3router
               serial_number: WTW23320663

@@ -38,18 +38,19 @@ l3router:
             interval: 150
             min_rx: 150
             multiplier: 150
-      ethernet_interfaces:
-        - name: Ethernet13
-          spanning_tree_bpduguard: True
-          spanning_tree_portfast: edge
-        - name: Ethernet14
-          spanning_tree_bpduguard: True
-          spanning_tree_portfast: edge
+      # ethernet_interfaces:
+      #   - name: Ethernet13
+      #     spanning_tree_bpduguard: True
+      #     spanning_tree_portfast: edge
+      #   - name: Ethernet14
+      #     spanning_tree_bpduguard: True
+      #     spanning_tree_portfast: edge
       route_maps:
         - name: OB1_3PCC_POLICY_OUT
           sequence_numbers:
             - sequence: 10
               type: permit
+              description: OB1_3PCC_POLICY_OUT
               match:
                 - ip address prefix-list OB1_3PCC_POLICY_OUT
         - name: DEFAULT_ROUTE
@@ -69,15 +70,19 @@ l3router:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: permit 10.9.181.160/28
+                    action:  "{{ 'permit' + hostvars[groups['3PCC_OB'][0]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: permit 10.9.176.186/32
+                    action:  "{{ 'permit' + hostvars[groups['3PCC_OB'][0]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_ip }}"
                   peer_group: "PE_CE_OB1"
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_ip }}"
                   peer_group: "PE_CE_OB1"
+              address_family_ipv4:
+                networks:
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][0]].Loopback0 + '/32'}}"
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][0]].policy_out_ip + '/28' }}"
           l3_interfaces:
             - profile: PE
               name: Port-Channel11
@@ -106,15 +111,19 @@ l3router:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: permit 10.10.184.48/28
+                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: permit 10.10.176.184/32
+                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"
                   peer_group: "PE_CE_OB1"
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_ip }}"
                   peer_group: "PE_CE_OB1"
+              address_family_ipv4:
+                networks:
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
           l3_interfaces:
             - profile: PE
               name: Port-Channel11

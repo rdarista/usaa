@@ -956,10 +956,11 @@ router bgp 64801
    neighbor PE_CE_OB1 route-map OB1_3PCC_POLICY_OUT out
    neighbor 10.9.178.232 peer group PE_CE_OB1
    neighbor 10.9.178.234 peer group PE_CE_OB1
-   redistribute connected
    !
    address-family ipv4
       neighbor PE_CE_OB1 activate
+      network 10.9.176.185/32
+      network 10.9.176.189/28
 ```
 
 ## BFD
@@ -1022,12 +1023,23 @@ queue-monitor streaming
 | -------- | ------ |
 | 10 | permit 0.0.0.0/0 |
 
+##### OB1_3PCC_POLICY_OUT
+
+| Sequence | Action |
+| -------- | ------ |
+| 5 | permit10.9.176.189/28 |
+| 10 | permit10.9.176.185/32 |
+
 #### Prefix-lists Device Configuration
 
 ```eos
 !
 ip prefix-list DEFAULT_ROUTE
    seq 10 permit 0.0.0.0/0
+!
+ip prefix-list OB1_3PCC_POLICY_OUT
+   seq 5 permit10.9.176.189/28
+   seq 10 permit10.9.176.185/32
 ```
 
 ### Route-maps
@@ -1054,6 +1066,7 @@ route-map DEFAULT_ROUTE permit 10
    match ip address prefix-list DEFAULT_ROUTE
 !
 route-map OB1_3PCC_POLICY_OUT permit 10
+   description OB1_3PCC_POLICY_OUT
    match ip address prefix-list OB1_3PCC_POLICY_OUT
 ```
 

@@ -1,15 +1,9 @@
 ---
-custom_group_configuration_prefix_lists:
+custom_structured_configuration_prefix_lists:
   - name: DEFAULT_ROUTE
     sequence_numbers:
       - sequence: 10
         action: permit 0.0.0.0/0
-#   - name: OB1_3PCC_POLICY_OUT
-#     sequence_numbers:
-#       - sequence: 5
-#         action: permit 10.9.181.160/28
-#       - sequence: 10
-#         action: permit {{ policy_out_ip }}/32
 
 custom_structured_configuration_ntp:
   servers:
@@ -37,3 +31,6 @@ custom_structured_configuration_system:
   l1:
     unsupported_speed_action: error
     unsupported_error_correction_action: error
+
+custom_group_configuration_router_bgp:
+  redistribute_routes: null
