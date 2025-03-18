@@ -20,6 +20,7 @@
 | OB_FABRIC | l3router | den-ob1-qualfon-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | den-ob1-ttech-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | dfw-ob1-foundever-n1 | - | - | Provisioned | WTW23320663 |
+| OB_FABRIC | l3router | dfw-ob1-telepf-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | mco-ob1-concentrix-n1 | - | 710P | Provisioned | WTW23320662 |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
@@ -50,7 +51,7 @@
 
 | Loopback Pool | Available Addresses | Assigned addresses | Assigned Address % |
 | ------------- | ------------------- | ------------------ | ------------------ |
-| 10.9.176.0/24 | 256 | 4 | 1.57 % |
+| 10.9.176.0/24 | 256 | 5 | 1.96 % |
 
 ### Loopback0 Interfaces Node Allocation
 
@@ -59,6 +60,7 @@
 | OB_FABRIC | den-ob1-qualfon-n1 | 10.9.176.185/32 |
 | OB_FABRIC | den-ob1-ttech-n1 | 10.9.176.180/32 |
 | OB_FABRIC | dfw-ob1-foundever-n1 | 10.9.176.183/32 |
+| OB_FABRIC | dfw-ob1-telepf-n1 | 10.9.176.179/32 |
 | OB_FABRIC | mco-ob1-concentrix-n1 | 10.9.176.186/32 |
 
 ### VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)

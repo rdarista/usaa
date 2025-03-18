@@ -200,4 +200,37 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
+    - group: telepf_OB1_switches
+      nodes:
+        - name: dfw-ob1-telepf-n1
+          id: 1
+          structured_config:
+            prefix-list:
+              - name: OB1_3PCC_POLICY_OUT
+                sequence_numbers:
+                  - sequence: 5
+                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][4]].policy_out_ip + '/28' }}"
+                  - sequence: 10
+                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][4]].Loopback0 + '/32'}}"
+            router_bgp:
+              neighbors:
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe1_ip }}"
+                  peer_group: "PE_CE_OB1"
+                - ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe2_ip }}"
+                  peer_group: "PE_CE_OB1"
+              address_family_ipv4:
+                networks:
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][4]].Loopback0 + '/32'}}"
+                  - prefix: "{{ hostvars[groups['3PCC_OB'][4]].policy_out_ip + '/28' }}"
+          l3_interfaces:
+            - profile: PE
+              name: Port-Channel11
+              ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe1_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
+            - profile: PE
+              name: Port-Channel12
+              ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe2_local_ip + '/31' }}"
+              description: L3-PtP:OVERLAY:OB1:PE-CE
+              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
 

@@ -75,6 +75,18 @@ all:
               policy_out_ip: 10.9.184.0
               Loopback0: 10.9.176.183
               vlan_1001_ip: 10.192.17.46
+            dfw-ob1-telepf-n1:
+              type: l3router
+              serial_number: WTW23320663 #TODO
+              ob1_pe1_ip: 10.9.176.228
+              ob1_pe1_local_ip: 10.9.176.229
+              ob1_pe2_ip: 10.9.176.230
+              ob1_pe2_local_ip: 10.9.176.231
+              mgmt_interface: Vlan1001
+              mgmt_interface_vrf: default
+              policy_out_ip: 10.9.184.16
+              Loopback0: 10.9.176.179
+              vlan_1001_ip: 10.192.17.36
           vars:
             management_gateway: 10.192.17.1
 

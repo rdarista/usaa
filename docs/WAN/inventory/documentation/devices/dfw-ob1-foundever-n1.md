@@ -641,8 +641,20 @@ interface profile MGMT
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet13 | DEN-TRX1-FOUNDEVER-PE1_Ethernet4/1 | *access | *- | *- | *- | 11 |
-| Ethernet14 | DEN-TRX1-FOUNDEVER-PE2_Ethernet4/1 | *access | *- | *- | *- | 12 |
+| Ethernet1 |  - | access | - | - | - | - |
+| Ethernet2 |  - | access | - | - | - | - |
+| Ethernet3 |  - | access | - | - | - | - |
+| Ethernet4 |  - | access | - | - | - | - |
+| Ethernet5 |  - | access | - | - | - | - |
+| Ethernet6 |  - | access | - | - | - | - |
+| Ethernet7 |  - | access | - | - | - | - |
+| Ethernet8 |  - | access | - | - | - | - |
+| Ethernet9 |  - | access | - | - | - | - |
+| Ethernet10 |  - | access | - | - | - | - |
+| Ethernet11 |  - | access | - | - | - | - |
+| Ethernet12 |  - | access | - | - | - | - |
+| Ethernet13 | DFW-TRX1-FOUNDEVER-PE1_Ethernet4/1 | *access | *- | *- | *- | 11 |
+| Ethernet14 | DFW-TRX1-FOUNDEVER-PE2_Ethernet4/1 | *access | *- | *- | *- | 12 |
 
 *Inherited from Port-Channel Interface
 
@@ -657,8 +669,80 @@ interface profile MGMT
 
 ```eos
 !
+interface Ethernet1
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet2
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet3
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet4
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet5
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet6
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet7
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet8
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet9
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet10
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet11
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
+interface Ethernet12
+   profile MGMT
+   no shutdown
+   switchport
+   profile override description mgmt interface
+!
 interface Ethernet13
-   description DEN-TRX1-FOUNDEVER-PE1_Ethernet4/1
+   description DFW-TRX1-FOUNDEVER-PE1_Ethernet4/1
    no shutdown
    switchport
    channel-group 11 mode active
@@ -666,7 +750,7 @@ interface Ethernet13
    spanning-tree bpduguard enable
 !
 interface Ethernet14
-   description DEN-TRX1-FOUNDEVER-PE2_Ethernet4/1
+   description DFW-TRX1-FOUNDEVER-PE2_Ethernet4/1
    no shutdown
    switchport
    channel-group 12 mode active

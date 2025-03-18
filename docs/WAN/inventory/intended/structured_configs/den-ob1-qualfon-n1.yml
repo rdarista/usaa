@@ -158,73 +158,73 @@ ethernet_interfaces:
 - name: Ethernet1
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet2
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet3
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet4
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet5
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet6
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet7
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet8
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet9
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet10
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet11
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet12
   peer_type: network_port
   shutdown: false
-  eos_cli: rofile override description mgmt interface
+  eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
 - name: Ethernet13
