@@ -43,6 +43,7 @@
   - [Interface Profiles](#interface-profiles)
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Loopback Interfaces](#loopback-interfaces)
+  - [VLAN Interfaces](#vlan-interfaces)
 - [Routing](#routing)
   - [Service Routing Protocols Model](#service-routing-protocols-model)
   - [Virtual Router MAC Address](#virtual-router-mac-address)
@@ -580,6 +581,7 @@ vlan internal order ascending range 1006 1199
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
 | 1 | Default | - |
+| 1001 | OB1:MGMT | - |
 
 ### VLANs Device Configuration
 
@@ -588,6 +590,9 @@ vlan internal order ascending range 1006 1199
 vlan 1
    name Default
    state suspend
+!
+vlan 1001
+   name OB1:MGMT
 ```
 
 ## Interfaces
@@ -791,6 +796,32 @@ interface Loopback0
    description Router_ID
    no shutdown
    ip address 10.9.176.185/32
+```
+
+### VLAN Interfaces
+
+#### VLAN Interfaces Summary
+
+| Interface | Description | VRF |  MTU | Shutdown |
+| --------- | ----------- | --- | ---- | -------- |
+| Vlan1001 | OB1:MGMT | default | - | False |
+
+##### IPv4
+
+| Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
+| --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
+| Vlan1001 |  default  |  10.192.17.98/28  |  -  |  -  |  -  |  -  |  -  |
+
+#### VLAN Interfaces Device Configuration
+
+```eos
+!
+interface Vlan1001
+   description OB1:MGMT
+   no shutdown
+   ip address 10.192.17.98/28
+   ip helper-address 10.132.30.7
+   ip helper-address 10.229.88.5
 ```
 
 ## Routing

@@ -31,24 +31,12 @@ l3router:
       system control-plane
         no service-policy input copp-system-policy
     structured_config:
-      # port_channel_interfaces:
-      #   - name: Port-Channel11
-      #     bfd:
-      #       interval: 150
-      #       min_rx: 150
-      #       multiplier: 150
-      #   - name: Port-Channel12
-      #     bfd:
-      #       interval: 150
-      #       min_rx: 150
-      #       multiplier: 150
-      # ethernet_interfaces:
-      #   - name: Ethernet13
-      #     spanning_tree_bpduguard: True
-      #     spanning_tree_portfast: edge
-      #   - name: Ethernet14
-      #     spanning_tree_bpduguard: True
-      #     spanning_tree_portfast: edge
+      vlan_interfaces:
+        - name: Vlan1001
+          # description: OB1:MGMT
+          ip_helpers:
+            - ip_helper: 10.132.30.7
+            - ip_helper: 10.229.88.5
       router_bfd:
         multihop:
           interval: 300
