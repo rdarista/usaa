@@ -1,4 +1,4 @@
-# DFW-OB1-TELEPF-N1
+# DTW-OB1-QUALFON-N1
 
 ## Table of Contents
 
@@ -486,15 +486,15 @@ logging source-interface Vlan1001
 
 | Contact | Location | SNMP Traps | State |
 | ------- | -------- | ---------- | ----- |
-| nsho_provider_networks | DFW | All | Enabled |
-| nsho_provider_networks | DFW |  | Enabled |
-| nsho_provider_networks | DFW | bgp backward-transition, bridge | Disabled |
+| nsho_provider_networks | DTW | All | Enabled |
+| nsho_provider_networks | DTW |  | Enabled |
+| nsho_provider_networks | DTW | bgp backward-transition, bridge | Disabled |
 
 #### SNMP EngineID Configuration
 
 | Type | EngineID (Hex) | IP | Port |
 | ---- | -------------- | -- | ---- |
-| local | 3063a7ec0d71f5a64b11047e37dfdd242a929535 | - | - |
+| local | a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 | - | - |
 
 #### SNMP Local Interfaces
 
@@ -532,25 +532,25 @@ logging source-interface Vlan1001
 
 | User | Group | Version | Authentication | Privacy | Remote Address | Remote Port | Engine ID |
 | ---- | ----- | ------- | -------------- | ------- | -------------- | ----------- | --------- |
-| NETSVC_NETBRAIN_TEST | READONLY | v3 | sha | aes | - | - | 3063a7ec0d71f5a64b11047e37dfdd242a929535 |
-| NETSVC_NETBRAIN | READONLY | v3 | sha | aes | - | - | 3063a7ec0d71f5a64b11047e37dfdd242a929535 |
-| SERVICENOW | READONLY | v3 | sha | aes | - | - | 3063a7ec0d71f5a64b11047e37dfdd242a929535 |
-| NETSVC_SPECTRUM | READONLY | v3 | sha | aes | - | - | 3063a7ec0d71f5a64b11047e37dfdd242a929535 |
+| NETSVC_NETBRAIN_TEST | READONLY | v3 | sha | aes | - | - | a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 |
+| NETSVC_NETBRAIN | READONLY | v3 | sha | aes | - | - | a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 |
+| SERVICENOW | READONLY | v3 | sha | aes | - | - | a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 |
+| NETSVC_SPECTRUM | READONLY | v3 | sha | aes | - | - | a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 |
 
 #### SNMP Device Configuration
 
 ```eos
 !
-snmp-server engineID local 3063a7ec0d71f5a64b11047e37dfdd242a929535
+snmp-server engineID local a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
 snmp-server contact nsho_provider_networks
-snmp-server location DFW
+snmp-server location DTW
 snmp-server vrf default local-interface Vlan1001
 snmp-server view READALL ISO included
 snmp-server group READONLY v3 priv read READALL
-snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized 3063a7ec0d71f5a64b11047e37dfdd242a929535 auth sha <removed> priv aes <removed>
-snmp-server user NETSVC_NETBRAIN READONLY v3 localized 3063a7ec0d71f5a64b11047e37dfdd242a929535 auth sha <removed> priv aes <removed>
-snmp-server user SERVICENOW READONLY v3 localized 3063a7ec0d71f5a64b11047e37dfdd242a929535 auth sha <removed> priv aes <removed>
-snmp-server user NETSVC_SPECTRUM READONLY v3 localized 3063a7ec0d71f5a64b11047e37dfdd242a929535 auth sha <removed> priv aes <removed>
+snmp-server user NETSVC_NETBRAIN_TEST READONLY v3 localized a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 auth sha <removed> priv aes <removed>
+snmp-server user NETSVC_NETBRAIN READONLY v3 localized a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 auth sha <removed> priv aes <removed>
+snmp-server user SERVICENOW READONLY v3 localized a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 auth sha <removed> priv aes <removed>
+snmp-server user NETSVC_SPECTRUM READONLY v3 localized a0cca7cb230d09dffb9d1b8b9869471e4cfdba66 auth sha <removed> priv aes <removed>
 snmp-server host 10.139.4.41 version 3 priv NETSVC_SPECTRUM
 snmp-server host 10.139.4.44 version 3 priv NETSVC_SPECTRUM
 snmp-server enable traps
@@ -698,8 +698,6 @@ interface profile MGMT
 | Ethernet10 |  - | access | - | - | - | - |
 | Ethernet11 |  - | access | - | - | - | - |
 | Ethernet12 |  - | access | - | - | - | - |
-| Ethernet13 | DFW-TRX1-TELEPF-PE1_Ethernet4/1 | *access | *- | *- | *- | 11 |
-| Ethernet14 | DFW-TRX1-TELEPF-PE2_Ethernet4/1 | *access | *- | *- | *- | 12 |
 
 *Inherited from Port-Channel Interface
 
@@ -707,8 +705,8 @@ interface profile MGMT
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Port-Channel11 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.176.229/31 | default | - | False | - | - |
-| Port-Channel12 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.176.231/31 | default | - | False | - | - |
+| Port-Channel11 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.177.229/31 | default | - | False | - | - |
+| Port-Channel12 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.177.231/31 | default | - | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
@@ -786,34 +784,18 @@ interface Ethernet12
    switchport
    profile override description mgmt interface
 !
-interface Ethernet13
-   description DFW-TRX1-TELEPF-PE1_Ethernet4/1
-   no shutdown
-   switchport
-   channel-group 11 mode active
-   spanning-tree portfast
-   spanning-tree bpduguard enable
-!
-interface Ethernet14
-   description DFW-TRX1-TELEPF-PE2_Ethernet4/1
-   no shutdown
-   switchport
-   channel-group 12 mode active
-   spanning-tree portfast
-   spanning-tree bpduguard enable
-!
 interface Port-Channel11
    description L3-PtP:OVERLAY:OB1:PE-CE
    no shutdown
    no switchport
-   ip address 10.9.176.229/31
+   ip address 10.9.177.229/31
    bfd interval 150 min-rx 150 multiplier 150
 !
 interface Port-Channel12
    description L3-PtP:OVERLAY:OB1:PE-CE
    no shutdown
    no switchport
-   ip address 10.9.176.231/31
+   ip address 10.9.177.231/31
    bfd interval 150 min-rx 150 multiplier 150
 ```
 
@@ -825,7 +807,7 @@ interface Port-Channel12
 
 | Interface | Description | VRF | IP Address |
 | --------- | ----------- | --- | ---------- |
-| Loopback0 | Router_ID | default | 10.9.176.179/32 |
+| Loopback0 | Router_ID | default | 10.9.176.184/32 |
 
 ##### IPv6
 
@@ -840,7 +822,7 @@ interface Port-Channel12
 interface Loopback0
    description Router_ID
    no shutdown
-   ip address 10.9.176.179/32
+   ip address 10.9.176.184/32
 ```
 
 ### VLAN Interfaces
@@ -855,7 +837,7 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan1001 |  default  |  10.192.17.36/24  |  -  |  -  |  -  |  -  |  -  |
+| Vlan1001 |  default  |  10.192.17.83/24  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
@@ -864,7 +846,7 @@ interface Loopback0
 interface Vlan1001
    description OB1:MGMT
    no shutdown
-   ip address 10.192.17.36/24
+   ip address 10.192.17.83/24
    ip helper-address 10.132.30.7
    ip helper-address 10.229.88.5
 ```
@@ -951,7 +933,7 @@ ASN Notation: asplain
 
 | BGP AS | Router ID |
 | ------ | --------- |
-| 64801 | 10.9.176.179 |
+| 64801 | 10.9.176.184 |
 
 | BGP Tuning |
 | ---------- |
@@ -980,15 +962,15 @@ ASN Notation: asplain
 
 | Neighbor | Remote AS | VRF | Shutdown | Send-community | Maximum-routes | Allowas-in | BFD | RIB Pre-Policy Retain | Route-Reflector Client | Passive | TTL Max Hops |
 | -------- | --------- | --- | -------- | -------------- | -------------- | ---------- | --- | --------------------- | ---------------------- | ------- | ------------ |
-| 10.9.176.228 | Inherited from peer group PE_CE_OB1 | default | - | Inherited from peer group PE_CE_OB1 | Inherited from peer group PE_CE_OB1 | - | Inherited from peer group PE_CE_OB1 | - | - | - | - |
-| 10.9.176.230 | Inherited from peer group PE_CE_OB1 | default | - | Inherited from peer group PE_CE_OB1 | Inherited from peer group PE_CE_OB1 | - | Inherited from peer group PE_CE_OB1 | - | - | - | - |
+| 10.9.177.229 | Inherited from peer group PE_CE_OB1 | default | - | Inherited from peer group PE_CE_OB1 | Inherited from peer group PE_CE_OB1 | - | Inherited from peer group PE_CE_OB1 | - | - | - | - |
+| 10.9.177.230 | Inherited from peer group PE_CE_OB1 | default | - | Inherited from peer group PE_CE_OB1 | Inherited from peer group PE_CE_OB1 | - | Inherited from peer group PE_CE_OB1 | - | - | - | - |
 
 #### Router BGP Device Configuration
 
 ```eos
 !
 router bgp 64801
-   router-id 10.9.176.179
+   router-id 10.9.176.184
    maximum-paths 2 ecmp 2
    update wait-install
    no bgp default ipv4-unicast
@@ -1005,13 +987,13 @@ router bgp 64801
    neighbor PE_CE_OB1 maximum-routes 12000
    neighbor PE_CE_OB1 route-map DEFAULT_ROUTE in
    neighbor PE_CE_OB1 route-map OB1_3PCC_POLICY_OUT out
-   neighbor 10.9.176.228 peer group PE_CE_OB1
-   neighbor 10.9.176.230 peer group PE_CE_OB1
+   neighbor 10.9.177.229 peer group PE_CE_OB1
+   neighbor 10.9.177.230 peer group PE_CE_OB1
    !
    address-family ipv4
       neighbor PE_CE_OB1 activate
-      network 10.9.176.179/32
-      network 10.9.184.16/28
+      network 10.9.176.184/32
+      network 10.9.184.48/28
 ```
 
 ## BFD

@@ -2,7 +2,6 @@
 
 fabric_name: OB_FABRIC
 
-
 bgp_peer_groups:
   ipv4_underlay_peers:
     name: PE_CE_OB1
@@ -12,8 +11,6 @@ bgp_peer_groups:
       remote_as: 64800
       route_map_in: DEFAULT_ROUTE
       route_map_out: OB1_3PCC_POLICY_OUT
-
-# loopback_ipv4_pool: 10.48.26.0/24
 
 bgp_ecmp: 2
 bgp_maximum_paths: 2
@@ -29,6 +26,15 @@ pre_running_config_backup_filename: "{{ inventory_hostname }}_pre_running-config
 pre_running_config_backup_dir_name: 'config_backup'
 pre_running_config_backup_dir: '{{ inventory_dir }}/{{ pre_running_config_backup_dir_name }}'
 
+# TODO: This can be inherited from global vars > need to check why is this section commented out in global_vars wan_common_management.yml
+management_ssh:
+  access_groups:
+    - name: SSH_ACCESS
+      vrf: "{{ mgmt_interface_vrf }}"
+  idle_timeout: 10
+  vrfs:
+    - name: "{{ mgmt_interface_vrf }}"
+      enable: true
 
 node_type_keys:
   - key: l3router

@@ -1,9 +1,9 @@
-hostname: DFW-OB1-TELEPF-N1
+hostname: DTW-OB1-QUALFON-N1
 is_deployed: true
 serial_number: WTW23320663
 router_bgp:
   as: '64801'
-  router_id: 10.9.176.179
+  router_id: 10.9.176.184
   bgp_defaults:
   - update wait-install
   - no bgp default ipv4-unicast
@@ -33,13 +33,13 @@ router_bgp:
     - name: PE_CE_OB1
       activate: true
     networks:
-    - prefix: 10.9.176.179/32
-    - prefix: 10.9.184.16/28
+    - prefix: 10.9.176.184/32
+    - prefix: 10.9.184.48/28
   redistribute_routes: null
   neighbors:
-  - ip_address: 10.9.176.228
+  - ip_address: 10.9.177.229
     peer_group: PE_CE_OB1
-  - ip_address: 10.9.176.230
+  - ip_address: 10.9.177.230
     peer_group: PE_CE_OB1
 service_routing_protocols_model: multi-agent
 ip_routing: true
@@ -69,41 +69,41 @@ eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhc
   mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy input copp-system-policy\n"
 snmp_server:
   engine_ids:
-    local: 3063a7ec0d71f5a64b11047e37dfdd242a929535
+    local: a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
   contact: nsho_provider_networks
   users:
   - name: NETSVC_NETBRAIN_TEST
     group: READONLY
     version: v3
-    localized: 3063a7ec0d71f5a64b11047e37dfdd242a929535
+    localized: a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
     auth: sha
-    auth_passphrase: 014a205067334658cf160fd70ee535174fa210d1
+    auth_passphrase: 32b48ec7ffbb28dcaf711298a313446e4e135403
     priv: aes
-    priv_passphrase: 4789d6c3a9318702b06ff27cadd8ae34
+    priv_passphrase: 66aa1574fa6a3d1b83a66e32f0d4b3be
   - name: NETSVC_NETBRAIN
     group: READONLY
     version: v3
-    localized: 3063a7ec0d71f5a64b11047e37dfdd242a929535
+    localized: a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
     auth: sha
-    auth_passphrase: b713a814456eae441ddd196fc5f4589c283f38dc
+    auth_passphrase: 22a460f43e71fea83b0faaabe0a80ba64263e044
     priv: aes
-    priv_passphrase: 0475afa8a8e44ddf24a59bb733f50c59
+    priv_passphrase: 172c11d7b376047d9278e0b823164d9b
   - name: SERVICENOW
     group: READONLY
     version: v3
-    localized: 3063a7ec0d71f5a64b11047e37dfdd242a929535
+    localized: a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
     auth: sha
-    auth_passphrase: 064af8b64bad77db7e756ecfd51155af445d4120
+    auth_passphrase: a2f15e50e46a4b5f5685ca915d82e494543450bf
     priv: aes
-    priv_passphrase: 8118fc0a3e0bd89dafa99cc540ca85bb
+    priv_passphrase: 16df92c8aac3b3091febdb7efdb6775d
   - name: NETSVC_SPECTRUM
     group: READONLY
     version: v3
-    localized: 3063a7ec0d71f5a64b11047e37dfdd242a929535
+    localized: a0cca7cb230d09dffb9d1b8b9869471e4cfdba66
     auth: sha
-    auth_passphrase: bcc4a3cbbb6cc4a4b78c4e9a176f52e0395b168f
+    auth_passphrase: 6affb71bdbe9483126c986c82fa96f975771994e
     priv: aes
-    priv_passphrase: cdb713c9629e8c0863e31ea51420e32b
+    priv_passphrase: f117fc795363704521edbb737c55f097
   hosts:
   - host: 10.139.4.41
     version: '3'
@@ -136,21 +136,21 @@ snmp_server:
       enabled: false
     - name: bridge
       enabled: false
-  location: DFW
+  location: DTW
   local_interfaces:
   - name: Vlan1001
     vrf: default
 ethernet_interfaces:
 - name: Port-Channel11
   peer_type: l3_interface
-  ip_address: 10.9.176.229/31
+  ip_address: 10.9.177.229/31
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
   eos_cli: bfd interval 150 min-rx 150 multiplier 150
 - name: Port-Channel12
   peer_type: l3_interface
-  ip_address: 10.9.176.231/31
+  ip_address: 10.9.177.231/31
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
@@ -227,37 +227,11 @@ ethernet_interfaces:
   eos_cli: profile override description mgmt interface
   type: switched
   profile: MGMT
-- name: Ethernet13
-  peer: DFW-TRX1-TELEPF-PE1
-  peer_interface: Ethernet4/1
-  peer_type: router
-  port_profile: PE
-  description: DFW-TRX1-TELEPF-PE1_Ethernet4/1
-  shutdown: false
-  type: switched
-  spanning_tree_bpduguard: 'True'
-  spanning_tree_portfast: edge
-  channel_group:
-    id: 11
-    mode: active
-- name: Ethernet14
-  peer: DFW-TRX1-TELEPF-PE2
-  peer_interface: Ethernet4/1
-  peer_type: router
-  port_profile: PE
-  description: DFW-TRX1-TELEPF-PE2_Ethernet4/1
-  shutdown: false
-  type: switched
-  spanning_tree_bpduguard: 'True'
-  spanning_tree_portfast: edge
-  channel_group:
-    id: 12
-    mode: active
 loopback_interfaces:
 - name: Loopback0
   description: Router_ID
   shutdown: false
-  ip_address: 10.9.176.179/32
+  ip_address: 10.9.176.184/32
 vlans:
 - id: 1001
   name: OB1:MGMT
@@ -273,7 +247,7 @@ vlan_interfaces:
   tenant: OB1
   description: OB1:MGMT
   shutdown: false
-  ip_address: 10.192.17.36/24
+  ip_address: 10.192.17.83/24
   ip_helpers:
   - ip_helper: 10.132.30.7
   - ip_helper: 10.229.88.5
@@ -300,9 +274,9 @@ prefix-list:
 - name: OB1_3PCC_POLICY_OUT
   sequence_numbers:
   - sequence: 5
-    action: permit10.9.184.16/28
+    action: permit10.9.184.48/28
   - sequence: 10
-    action: permit10.9.176.179/32
+    action: permit10.9.176.184/32
 local_users:
 - name: admin
   disabled: true

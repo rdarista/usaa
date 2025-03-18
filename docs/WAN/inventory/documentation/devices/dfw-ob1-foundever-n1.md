@@ -8,6 +8,7 @@
   - [Domain Lookup](#domain-lookup)
   - [Clock Settings](#clock-settings)
   - [NTP](#ntp)
+  - [Management SSH](#management-ssh)
   - [IP Client Source Interfaces](#ip-client-source-interfaces)
   - [Management API gNMI](#management-api-gnmi)
   - [Management API HTTP](#management-api-http)
@@ -165,6 +166,50 @@ ntp authenticate
 ntp server 10.0.16.254 local-interface Loopback0 key <removed>
 ntp server 10.136.128.253 local-interface Loopback0 key <removed>
 ntp server 10.136.128.254 local-interface Loopback0 key <removed>
+```
+
+### Management SSH
+
+#### IPv4 ACL
+
+| IPv4 ACL | VRF |
+| -------- | --- |
+| SSH_ACCESS | default |
+
+#### SSH Timeout and Management
+
+| Idle Timeout | SSH Management |
+| ------------ | -------------- |
+| 10 | Enabled |
+
+#### Max number of SSH sessions limit and per-host limit
+
+| Connection Limit | Max from a single Host |
+| ---------------- | ---------------------- |
+| - | - |
+
+#### Ciphers and Algorithms
+
+| Ciphers | Key-exchange methods | MAC algorithms | Hostkey server algorithms |
+|---------|----------------------|----------------|---------------------------|
+| default | default | default | default |
+
+#### VRFs
+
+| VRF | Status |
+| --- | ------ |
+| default | Enabled |
+
+#### Management SSH Device Configuration
+
+```eos
+!
+management ssh
+   ip access-group SSH_ACCESS vrf default in
+   idle-timeout 10
+   !
+   vrf default
+      no shutdown
 ```
 
 ### IP Client Source Interfaces
