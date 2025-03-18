@@ -29,7 +29,6 @@ all:
             mco-ob1-concentrix-n1:
               type: l3router
               serial_number: WTW23320662
-              vlan_1001_local_ip: 10.9.181.161
               ob1_pe1_ip: 10.9.177.232
               ob1_pe1_local_ip: 10.9.177.233
               ob1_pe2_ip: 10.9.177.234
@@ -43,20 +42,18 @@ all:
             den-ob1-qualfon-n1:
               type: l3router
               serial_number: WTW23320663
-              vlan_1001_local_ip: 10.9.182.161
               ob1_pe1_ip: 10.9.178.232
               ob1_pe1_local_ip: 10.9.178.233
               ob1_pe2_ip: 10.9.178.234
               ob1_pe2_local_ip: 10.9.178.235
               mgmt_interface: Vlan1001
               mgmt_interface_vrf: default
-              policy_out_ip: 10.9.176.189
+              policy_out_ip: 10.9.176.189 #TODO
               Loopback0: 10.9.176.185
               vlan_1001_ip: 10.192.17.98
             den-ob1-ttech-n1:
               type: l3router
-              serial_number: WTW23320663
-              vlan_1001_local_ip: 10.9.182.161
+              serial_number: WTW23320663 #TODO
               ob1_pe1_ip: 10.9.176.232
               ob1_pe1_local_ip: 10.9.176.233
               ob1_pe2_ip: 10.9.176.234
@@ -66,6 +63,18 @@ all:
               policy_out_ip: 10.9.184.32
               Loopback0: 10.9.176.180
               vlan_1001_ip: 10.192.17.107
+            dfw-ob1-foundever-n1:
+              type: l3router
+              serial_number: WTW23320663 #TODO
+              ob1_pe1_ip: 10.9.176.244
+              ob1_pe1_local_ip: 10.9.176.245
+              ob1_pe2_ip: 10.9.176.246
+              ob1_pe2_local_ip: 10.9.176.247
+              mgmt_interface: Vlan1001
+              mgmt_interface_vrf: default
+              policy_out_ip: 10.9.184.0
+              Loopback0: 10.9.176.183
+              vlan_1001_ip: 10.192.17.46
           vars:
             management_gateway: 10.192.17.1
 

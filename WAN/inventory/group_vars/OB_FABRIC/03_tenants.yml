@@ -30,6 +30,8 @@ tenants:
               ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/24'  }}"
             - node: "{{ groups['3PCC_OB'][2] }}"
               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][3] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][3]].vlan_1001_ip + '/24'  }}"
           # profile: MGMT-1
           # tags:
           #   - SP

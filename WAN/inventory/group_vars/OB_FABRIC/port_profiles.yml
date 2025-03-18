@@ -130,3 +130,34 @@ routers:
         # port_channel:
         #   mode: active
         #   channel_id: 12
+##############
+#dfw-ob1-foundever-n1 connections
+##############
+  - name: DEN-TRX1-FOUNDEVER-PE1
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet13']
+        switches: [dfw-ob1-foundever-n1]
+        profile: PE
+        structured_config:
+          channel_group:
+            id: 11
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 11
+  - name: DEN-TRX1-FOUNDEVER-PE2
+    adapters:
+      - endpoint_ports: ['Ethernet4/1']
+        switch_ports: ['Ethernet14']
+        switches: [dfw-ob1-foundever-n1]
+        profile: PE
+        structured_config:
+          channel_group:
+            id: 12
+            mode: "active"
+          type: "switched"
+        # port_channel:
+        #   mode: active
+        #   channel_id: 12
