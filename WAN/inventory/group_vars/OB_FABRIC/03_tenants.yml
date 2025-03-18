@@ -27,7 +27,9 @@ tenants:
             - node: "{{ groups['3PCC_OB'][0] }}"
               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].vlan_1001_ip + '/28'  }}"
             - node: "{{ groups['3PCC_OB'][1] }}"
-              ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/28'  }}"
+              ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][2] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][2]].vlan_1001_ip + '/24'  }}"
           # profile: MGMT-1
           # tags:
           #   - SP

@@ -810,7 +810,7 @@ interface Loopback0
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan1001 |  default  |  -  |  -  |  -  |  -  |  -  |  -  |
+| Vlan1001 |  default  |  10.192.17.107/24  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
@@ -819,6 +819,7 @@ interface Loopback0
 interface Vlan1001
    description OB1:MGMT
    no shutdown
+   ip address 10.192.17.107/24
    ip helper-address 10.132.30.7
    ip helper-address 10.229.88.5
 ```
