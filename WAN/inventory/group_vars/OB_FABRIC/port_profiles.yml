@@ -64,7 +64,13 @@ network_ports:
     structured_config:
       profile: MGMT
     raw_eos_cli: profile override description mgmt interface
-
+  - switches:
+      - oma-ob1-foundever-n1
+    switch_ports:
+      - Ethernet1-12
+    structured_config:
+      profile: MGMT
+    raw_eos_cli: profile override description mgmt interface
 routers:
 ##############
 #mco-ob1-concentrix-n1 connections

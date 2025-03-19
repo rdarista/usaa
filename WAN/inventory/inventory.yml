@@ -111,6 +111,18 @@ all:
               policy_out_ip: 10.9.184.96
               Loopback0: 10.9.176.181
               vlan_1001_ip: 10.192.17.65
+            oma-ob1-foundever-n1:
+              type: l3router
+              serial_number: WTW23320663 #TODO
+              ob1_pe1_ip: 10.9.176.240
+              ob1_pe1_local_ip: 10.9.176.241
+              ob1_pe2_ip: 10.9.176.242
+              ob1_pe2_local_ip: 10.9.176.243
+              mgmt_interface: Vlan1001
+              mgmt_interface_vrf: default
+              policy_out_ip: 10.9.184.64
+              Loopback0: 10.9.176.182
+              vlan_1001_ip: 10.192.17.72
           vars:
             management_gateway: 10.192.17.1
 

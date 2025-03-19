@@ -1,0 +1,360 @@
+hostname: OMA-OB1-FOUNDEVER-N1
+is_deployed: true
+serial_number: WTW23320663
+router_bgp:
+  as: '64801'
+  router_id: 10.9.176.182
+  bgp_defaults:
+  - update wait-install
+  - no bgp default ipv4-unicast
+  - distance bgp 20 200 200
+  - graceful-restart restart-time 300
+  - graceful-restart
+  bgp:
+    default:
+      ipv4_unicast: false
+  maximum_paths:
+    paths: 2
+    ecmp: 2
+  updates:
+    wait_install: true
+  peer_groups:
+  - name: PE_CE_OB1
+    type: ipv4
+    password: LrxdPchq0LiOI2Jz39Pe5Q==
+    bfd: true
+    maximum_routes: 12000
+    send_community: all
+    remote_as: '64800'
+    route_map_in: DEFAULT_ROUTE
+    route_map_out: OB1_3PCC_POLICY_OUT
+  address_family_ipv4:
+    peer_groups:
+    - name: PE_CE_OB1
+      activate: true
+    networks:
+    - prefix: 10.9.176.182/32
+    - prefix: 10.9.184.64/28
+  redistribute_routes: null
+  neighbors:
+  - ip_address: 10.9.176.240
+    peer_group: PE_CE_OB1
+  - ip_address: 10.9.176.242
+    peer_group: PE_CE_OB1
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+queue_monitor_length:
+  enabled: true
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 32768
+clock:
+  timezone: CST6CDT
+vrfs:
+- name: default
+  ip_routing: false
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+  https_ssl_profile: SSL_TLS_1_2
+eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhcp relay all-subnets default\n!\nmanagement ssh\n  authentication
+  mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy input copp-system-policy\n"
+snmp_server:
+  engine_ids:
+    local: 931a05630a1987e309a4a5378c9e8d29eb10cd31
+  contact: nsho_provider_networks
+  users:
+  - name: NETSVC_NETBRAIN_TEST
+    group: READONLY
+    version: v3
+    localized: 931a05630a1987e309a4a5378c9e8d29eb10cd31
+    auth: sha
+    auth_passphrase: d7564530f8eeb42afa068ec0ac873b124daa7340
+    priv: aes
+    priv_passphrase: 920468b03b3934c4d44618dabc340f77
+  - name: NETSVC_NETBRAIN
+    group: READONLY
+    version: v3
+    localized: 931a05630a1987e309a4a5378c9e8d29eb10cd31
+    auth: sha
+    auth_passphrase: 4522a6c54863c1d3f8a9ec125e5c83c4b8b00fbd
+    priv: aes
+    priv_passphrase: d8f6c188680620cc632705b2d2b8621d
+  - name: SERVICENOW
+    group: READONLY
+    version: v3
+    localized: 931a05630a1987e309a4a5378c9e8d29eb10cd31
+    auth: sha
+    auth_passphrase: c67c77289329cce610b11a0b7700856723cec428
+    priv: aes
+    priv_passphrase: 40331424f6141e4c52c8cdda234dbaf8
+  - name: NETSVC_SPECTRUM
+    group: READONLY
+    version: v3
+    localized: 931a05630a1987e309a4a5378c9e8d29eb10cd31
+    auth: sha
+    auth_passphrase: 7d19b24385d20d1b795ead0036144094e526f15a
+    priv: aes
+    priv_passphrase: eb07e65424b1e89d58e78ee8f85bc0c6
+  hosts:
+  - host: 10.139.4.41
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+  - host: 10.139.4.44
+    version: '3'
+    users:
+    - username: NETSVC_SPECTRUM
+      authentication_level: priv
+  vrfs:
+  - name: default
+    enable: false
+  - name: MGMT
+    enable: true
+  views:
+  - name: READALL
+    MIB_family_name: ISO
+    included: true
+  groups:
+  - name: READONLY
+    version: v3
+    authentication: priv
+    read: READALL
+  traps:
+    enable: true
+    snmp_traps:
+    - name: bgp backward-transition
+      enabled: false
+    - name: bridge
+      enabled: false
+  location: OMA
+  local_interfaces:
+  - name: Vlan1001
+    vrf: default
+ethernet_interfaces:
+- name: Port-Channel11
+  peer_type: l3_interface
+  ip_address: 10.9.176.241/31
+  shutdown: false
+  type: routed
+  description: L3-PtP:OVERLAY:OB1:PE-CE
+  eos_cli: bfd interval 150 min-rx 150 multiplier 150
+- name: Port-Channel12
+  peer_type: l3_interface
+  ip_address: 10.9.176.243/31
+  shutdown: false
+  type: routed
+  description: L3-PtP:OVERLAY:OB1:PE-CE
+  eos_cli: bfd interval 150 min-rx 150 multiplier 150
+- name: Ethernet1
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet2
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet3
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet4
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet5
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet6
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet7
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet8
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet9
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet10
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet11
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+- name: Ethernet12
+  peer_type: network_port
+  shutdown: false
+  eos_cli: profile override description mgmt interface
+  type: switched
+  profile: MGMT
+loopback_interfaces:
+- name: Loopback0
+  description: Router_ID
+  shutdown: false
+  ip_address: 10.9.176.182/32
+vlans:
+- id: 1001
+  name: OB1:MGMT
+  tenant: OB1
+- id: 1
+  name: Default
+  state: suspend
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:1c:73:00:00:99
+vlan_interfaces:
+- name: Vlan1001
+  tenant: OB1
+  description: OB1:MGMT
+  shutdown: false
+  ip_helpers:
+  - ip_helper: 10.132.30.7
+  - ip_helper: 10.229.88.5
+router_bfd:
+  multihop:
+    interval: 300
+    min_rx: 300
+    multiplier: 3
+route_maps:
+- name: OB1_3PCC_POLICY_OUT
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    description: OB1_3PCC_POLICY_OUT
+    match:
+    - ip address prefix-list OB1_3PCC_POLICY_OUT
+- name: DEFAULT_ROUTE
+  sequence_numbers:
+  - sequence: 10
+    type: permit
+    match:
+    - ip address prefix-list DEFAULT_ROUTE
+prefix-list:
+- name: OB1_3PCC_POLICY_OUT
+  sequence_numbers:
+  - sequence: 5
+    action: permit10.9.184.64/28
+  - sequence: 10
+    action: permit10.9.176.182/32
+local_users:
+- name: admin
+  disabled: true
+  privilege: 1
+  sha512_password: $6$/3gu1w5nx7rPncKI$oHs51oNr5I9U58F.ddhLj7yfPGjKTMZM6eVTlitYyA0GujXJXbFfWlEf56.mKxumjQRPgU4ol9FNvLrBtY4nM/
+- name: netsupport
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+ip_access_lists:
+- name: SSH_ACCESS
+  entries:
+  - sequence: 10
+    action: permit
+    protocol: tcp
+    source: 10.0.0.0/8
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 20
+    action: permit
+    protocol: tcp
+    source: 172.16.0.0/12
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 30
+    action: permit
+    protocol: tcp
+    source: 167.24.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 40
+    action: permit
+    protocol: tcp
+    source: 192.168.0.0/16
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+  - sequence: 50
+    action: permit
+    protocol: tcp
+    source: 198.148.150.0/24
+    destination: any
+    destination_ports_match: eq
+    destination_ports:
+    - ssh
+prefix_lists:
+- name: DEFAULT_ROUTE
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
+ntp:
+  servers:
+  - name: 10.136.128.253
+    vrf: default
+    local_interface: Loopback0
+    key: 10
+  - name: 10.136.128.254
+    vrf: default
+    local_interface: Loopback0
+    key: 10
+  - name: 10.0.16.254
+    vrf: default
+    local_interface: Loopback0
+    key: 10
+  authenticate: true
+  authentication_keys:
+  - id: 10
+    hash_algorithm: md5
+    key: 0721350D7E4F32560E
+    key_type: '7'
+  trusted_keys: '10'
+system:
+  l1:
+    unsupported_speed_action: error
+    unsupported_error_correction_action: error

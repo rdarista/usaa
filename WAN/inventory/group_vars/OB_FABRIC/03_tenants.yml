@@ -38,7 +38,8 @@ tenants:
               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
             - node: "{{ groups['3PCC_OB'][6] }}"
               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
-
+            - node: "{{ groups['3PCC_OB'][6] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
         # l3_interfaces:
         # - interfaces: [ Port-Channel11 , Port-Channel12 ]
         #   nodes: [ "{{ groups['3PCC_OB'][0] }}", "{{ groups['3PCC_OB'][0] }}" ]
