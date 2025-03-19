@@ -8,7 +8,6 @@ l3router:
     loopback_ipv4_pool: 10.9.176.0/24
     virtual_router_mac_address: 00:1c:73:00:00:99
     spanning_tree_mode: mstp
-    # bgp_as: "{{ hostvars[inventory_hostname].bgp_as }}"
     bgp_as: 64801
     bgp_defaults:
       - update wait-install
@@ -98,13 +97,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
           # l3_port_channels: #supported in 5.2 , not in 4.10
     - group: den-ob1-qualfon-n1
       nodes:
@@ -132,13 +127,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: den-ob1-ttech-n1
       nodes:
         - name: den-ob1-ttech-n1
@@ -165,13 +156,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: dfw-ob1-foundever-n1
       nodes:
         - name: dfw-ob1-foundever-n1
@@ -198,13 +185,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: dfw-ob1-telepf-n1
       nodes:
         - name: dfw-ob1-telepf-n1
@@ -231,13 +214,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: dtw-ob1-qualfon-n1
       nodes:
         - name: dtw-ob1-qualfon-n1
@@ -264,13 +243,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: iad-ob1-ttech-n1
       nodes:
         - name: iad-ob1-ttech-n1
@@ -297,13 +272,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][6]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][6]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: oma-ob1-foundever-n1
       nodes:
         - name: oma-ob1-foundever-n1
@@ -330,13 +301,9 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][7]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][7]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
     - group: slc-ob1-telepf-n1
       nodes:
         - name: slc-ob1-telepf-n1
@@ -363,13 +330,11 @@ l3router:
             - profile: PE
               name: Port-Channel11
               ip_address: "{{ hostvars[groups['3PCC_OB'][8]].ob1_pe1_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
             - profile: PE
               name: Port-Channel12
               ip_address: "{{ hostvars[groups['3PCC_OB'][8]].ob1_pe2_local_ip + '/31' }}"
-              description: L3-PtP:OVERLAY:OB1:PE-CE
-              raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
+              # description: L3-PtP:OVERLAY:OB1:PE-CE
+              # raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
 
 tenants:
   - name: OB1

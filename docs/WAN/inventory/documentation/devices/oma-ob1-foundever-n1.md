@@ -43,6 +43,7 @@
   - [Interface Defaults](#interface-defaults)
   - [Interface Profiles](#interface-profiles)
   - [Ethernet Interfaces](#ethernet-interfaces)
+  - [Port-Channel Interfaces](#port-channel-interfaces)
   - [Loopback Interfaces](#loopback-interfaces)
   - [VLAN Interfaces](#vlan-interfaces)
 - [Routing](#routing)
@@ -55,6 +56,7 @@
   - [Router BGP](#router-bgp)
 - [BFD](#bfd)
   - [Router BFD](#router-bfd)
+  - [BFD Interfaces](#bfd-interfaces)
 - [Queue Monitor](#queue-monitor)
   - [Queue Monitor Length](#queue-monitor-length)
   - [Queue Monitor Streaming](#queue-monitor-streaming)
@@ -705,8 +707,8 @@ interface profile MGMT
 
 | Interface | Description | Type | Channel Group | IP Address | VRF |  MTU | Shutdown | ACL In | ACL Out |
 | --------- | ----------- | -----| ------------- | ---------- | ----| ---- | -------- | ------ | ------- |
-| Port-Channel11 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.176.241/31 | default | - | False | - | - |
-| Port-Channel12 | L3-PtP:OVERLAY:OB1:PE-CE | routed | - | 10.9.176.243/31 | default | - | False | - | - |
+| Port-Channel11 | - | routed | - | 10.9.176.241/31 | default | - | False | - | - |
+| Port-Channel12 | - | routed | - | 10.9.176.243/31 | default | - | False | - | - |
 
 #### Ethernet Interfaces Device Configuration
 
@@ -785,17 +787,37 @@ interface Ethernet12
    profile override description mgmt interface
 !
 interface Port-Channel11
-   description L3-PtP:OVERLAY:OB1:PE-CE
    no shutdown
    no switchport
    ip address 10.9.176.241/31
+!
+interface Port-Channel12
+   no shutdown
+   no switchport
+   ip address 10.9.176.243/31
+```
+
+### Port-Channel Interfaces
+
+#### Port-Channel Interfaces Summary
+
+##### L2
+
+| Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
+| --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
+
+#### Port-Channel Interfaces Device Configuration
+
+```eos
+!
+interface Port-Channel11
+   description L3-PtP:OVERLAY:OB1:PE-CE
+   no switchport
    bfd interval 150 min-rx 150 multiplier 150
 !
 interface Port-Channel12
    description L3-PtP:OVERLAY:OB1:PE-CE
-   no shutdown
    no switchport
-   ip address 10.9.176.243/31
    bfd interval 150 min-rx 150 multiplier 150
 ```
 
@@ -1013,6 +1035,13 @@ router bgp 64801
 router bfd
    multihop interval 300 min-rx 300 multiplier 3
 ```
+
+### BFD Interfaces
+
+| Interface | Interval | Minimum RX | Multiplier | Echo |
+| --------- | -------- | ---------- | ---------- | ---- |
+| Port-Channel11 | 150 | 150 | 150 | - |
+| Port-Channel12 | 150 | 150 | 150 | - |
 
 ## Queue Monitor
 
