@@ -22,7 +22,7 @@
 | OB_FABRIC | l3router | dfw-ob1-foundever-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | dfw-ob1-telepf-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | dtw-ob1-qualfon-n1 | - | - | Provisioned | WTW23320663 |
-| OB_FABRIC | l3router | iad-ob1-teletech-n1 | - | - | Provisioned | WTW23320663 |
+| OB_FABRIC | l3router | iad-ob1-ttech-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | mco-ob1-concentrix-n1 | - | 710P | Provisioned | WTW23320662 |
 | OB_FABRIC | l3router | oma-ob1-foundever-n1 | - | - | Provisioned | WTW23320663 |
 | OB_FABRIC | l3router | slc-ob1-telepf-n1 | - | - | Provisioned | WTW23320663 |
@@ -66,7 +66,7 @@
 | OB_FABRIC | dfw-ob1-foundever-n1 | 10.9.176.183/32 |
 | OB_FABRIC | dfw-ob1-telepf-n1 | 10.9.176.179/32 |
 | OB_FABRIC | dtw-ob1-qualfon-n1 | 10.9.176.184/32 |
-| OB_FABRIC | iad-ob1-teletech-n1 | 10.9.176.181/32 |
+| OB_FABRIC | iad-ob1-ttech-n1 | 10.9.176.181/32 |
 | OB_FABRIC | mco-ob1-concentrix-n1 | 10.9.176.186/32 |
 | OB_FABRIC | oma-ob1-foundever-n1 | 10.9.176.182/32 |
 | OB_FABRIC | slc-ob1-telepf-n1 | 10.9.176.1177/32 |

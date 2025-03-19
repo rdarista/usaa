@@ -99,7 +99,7 @@ all:
               policy_out_ip: 10.9.184.48
               Loopback0: 10.9.176.184
               vlan_1001_ip: 10.192.17.83
-            iad-ob1-teletech-n1:
+            iad-ob1-ttech-n1:
               type: l3router
               serial_number: WTW23320663 #TODO
               ob1_pe1_ip: 10.9.176.236

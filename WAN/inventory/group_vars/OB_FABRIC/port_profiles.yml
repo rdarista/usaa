@@ -58,7 +58,7 @@ network_ports:
       profile: MGMT
     raw_eos_cli: profile override description mgmt interface
   - switches:
-      - iad-ob1-teletech-n1
+      - iad-ob1-ttech-n1
     switch_ports:
       - Ethernet1-12
     structured_config:

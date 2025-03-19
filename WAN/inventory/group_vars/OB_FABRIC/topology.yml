@@ -267,9 +267,9 @@ l3router:
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
 
-    - group: iad-ob1-teletech-n1
+    - group: iad-ob1-ttech-n1
       nodes:
-        - name: iad-ob1-teletech-n1
+        - name: iad-ob1-ttech-n1
           id: 1
           structured_config:
             prefix-list:
