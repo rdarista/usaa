@@ -93,7 +93,6 @@ routers:
             id: 11
             mode: "active"
           type: "switched"
-
   - name: MCO-TRX1-CONCENTRIX-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -105,10 +104,6 @@ routers:
             id: 12
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 12
-
 ##############
 #den-ob1-qualfon-n1 connections
 ##############
@@ -123,9 +118,6 @@ routers:
             id: 11
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 11
   - name: DEN-TRX1-QUALFON-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -137,9 +129,6 @@ routers:
             id: 12
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 12
 ##############
 #den-ob1-ttech-n1 connections
 ##############
@@ -154,9 +143,6 @@ routers:
             id: 11
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 11
   - name: DEN-TRX1-TTECH-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -168,9 +154,6 @@ routers:
             id: 12
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 12
 ##############
 #dfw-ob1-foundever-n1 connections
 ##############
@@ -185,9 +168,6 @@ routers:
             id: 11
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 11
   - name: DFW-TRX1-FOUNDEVER-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -199,9 +179,6 @@ routers:
             id: 12
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 12
 ##############
 #dfw-ob1-telepf-n1 connections
 ##############
@@ -216,9 +193,6 @@ routers:
             id: 11
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 11
   - name: DFW-TRX1-TELEPF-PE2
     adapters:
       - endpoint_ports: ['Ethernet4/1']
@@ -230,6 +204,3 @@ routers:
             id: 12
             mode: "active"
           type: "switched"
-        # port_channel:
-        #   mode: active
-        #   channel_id: 12
