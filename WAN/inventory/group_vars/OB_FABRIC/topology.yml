@@ -1,4 +1,8 @@
 ---
+mgmt_interface: Vlan1001
+mgmt_interface_vrf: default
+management_gateway: 10.192.17.1
+
 l3router:
   defaults:
     loopback_ipv4_pool: 10.9.176.0/24
@@ -31,6 +35,13 @@ l3router:
       system control-plane
         no service-policy input copp-system-policy
     structured_config:
+      # ethernet_interfaces:
+      #   - name: Ethernet13
+      #     mode: trunk
+      #     native_vlan: 1001
+      #   - name: Ethernet14
+      #     mode: trunk
+      #     native_vlan: 1001
       vlan_interfaces:
         - name: Vlan1001
           # description: OB1:MGMT
@@ -56,8 +67,11 @@ l3router:
               type: permit
               match:
                 - ip address prefix-list DEFAULT_ROUTE
+
   node_groups:
     - group: mco-ob1-concentrix-n1
+      # uplink_switches: ['mco-trx1-concentrix-pe1', 'mco-trx1-concentrix-pe2']
+      # uplink_interfaces: ['Ethernet13', 'Ethernet14']
       platform: 710P
       nodes:
         - name: mco-ob1-concentrix-n1
@@ -92,15 +106,6 @@ l3router:
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
           # l3_port_channels: #supported in 5.2 , not in 4.10
-          #   # - profile: PE
-          #     - name: Port-Channel11
-          #       member_interfaces:
-          #         - name: Ethernet13
-          #       peer: MCO-TRX1-CONCENTRIX-PE1
-          #       peer_interface: Eth4/1
-          #       ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip }}"
-          #       description: L3-PtP:OVERLAY:OB1:PE-CE
-          #       mode: active
     - group: den-ob1-qualfon-n1
       nodes:
         - name: den-ob1-qualfon-n1
@@ -366,30 +371,30 @@ l3router:
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
 
-# tenants:
-#   - name: OB1
-#     vrfs:
-#       - name: default
-#         svis:
-#         - id: 1001
-#           name: OB1:MGMT
-#           enabled: true
-#           nodes:
-#             - node: "{{ groups['3PCC_OB'][0] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].vlan_1001_ip + '/28'  }}"
-#             - node: "{{ groups['3PCC_OB'][1] }}"
-#               ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][2] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][3] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][4] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][4]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][5] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][6] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][6]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][7] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][7]].vlan_1001_ip + '/24'  }}"
-#             - node: "{{ groups['3PCC_OB'][8] }}"
-#               ip_address: "{{ hostvars[groups['3PCC_OB'][8]].vlan_1001_ip + '/24'  }}"
+tenants:
+  - name: OB1
+    vrfs:
+      - name: default
+        svis:
+        - id: 1001
+          name: OB1:MGMT
+          enabled: true
+          nodes:
+            - node: "{{ groups['3PCC_OB'][0] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][0]].vlan_1001_ip + '/28'  }}"
+            - node: "{{ groups['3PCC_OB'][1] }}"
+              ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][2] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][2]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][3] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][3]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][4] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][4]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][5] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][6] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][6]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][7] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][7]].vlan_1001_ip + '/24'  }}"
+            - node: "{{ groups['3PCC_OB'][8] }}"
+              ip_address: "{{ hostvars[groups['3PCC_OB'][8]].vlan_1001_ip + '/24'  }}"
