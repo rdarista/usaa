@@ -247,6 +247,7 @@ vlan_interfaces:
   tenant: OB1
   description: OB1:MGMT
   shutdown: false
+  ip_address: 10.192.17.72/24
   ip_helpers:
   - ip_helper: 10.132.30.7
   - ip_helper: 10.229.88.5

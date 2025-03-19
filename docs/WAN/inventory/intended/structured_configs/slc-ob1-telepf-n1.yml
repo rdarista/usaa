@@ -1,9 +1,9 @@
-hostname: IAD-OB1-TELETECH-N1
+hostname: SLC-OB1-TELEPF-N1
 is_deployed: true
 serial_number: WTW23320663
 router_bgp:
   as: '64801'
-  router_id: 10.9.176.181
+  router_id: 10.9.176.1177
   bgp_defaults:
   - update wait-install
   - no bgp default ipv4-unicast
@@ -33,13 +33,13 @@ router_bgp:
     - name: PE_CE_OB1
       activate: true
     networks:
-    - prefix: 10.9.176.181/32
-    - prefix: 10.9.184.96/28
+    - prefix: 10.9.176.1177/32
+    - prefix: 10.9.184.80/28
   redistribute_routes: null
   neighbors:
-  - ip_address: 10.9.176.236
+  - ip_address: 10.9.176.226
     peer_group: PE_CE_OB1
-  - ip_address: 10.9.176.238
+  - ip_address: 10.9.176.228
     peer_group: PE_CE_OB1
 service_routing_protocols_model: multi-agent
 ip_routing: true
@@ -69,41 +69,41 @@ eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhc
   mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy input copp-system-policy\n"
 snmp_server:
   engine_ids:
-    local: 66208c95ba80fc05fc3d7ea50ab203a649233a56
+    local: 21055e0766d8775896704d9fa5a114640a15d786
   contact: nsho_provider_networks
   users:
   - name: NETSVC_NETBRAIN_TEST
     group: READONLY
     version: v3
-    localized: 66208c95ba80fc05fc3d7ea50ab203a649233a56
+    localized: 21055e0766d8775896704d9fa5a114640a15d786
     auth: sha
-    auth_passphrase: 92c3b55f5a823f7dc7f4c9e6d7d4820b72eec2be
+    auth_passphrase: a12ac6656dff5a007b8236516deb8675e66305fe
     priv: aes
-    priv_passphrase: f461c9272c6457087163055164b8e545
+    priv_passphrase: b31e859ccd991d7fbb339cea8a57f70a
   - name: NETSVC_NETBRAIN
     group: READONLY
     version: v3
-    localized: 66208c95ba80fc05fc3d7ea50ab203a649233a56
+    localized: 21055e0766d8775896704d9fa5a114640a15d786
     auth: sha
-    auth_passphrase: 5a665eba358dfa79aecb3ffef211697876838f56
+    auth_passphrase: f6b83832f30cb4703f4e5e33d71b0d20d33612b4
     priv: aes
-    priv_passphrase: 8851fb9a85b47cdb55422ea4e3030f7c
+    priv_passphrase: 7b78b9f9de4a7e1f49e9626d3f40df56
   - name: SERVICENOW
     group: READONLY
     version: v3
-    localized: 66208c95ba80fc05fc3d7ea50ab203a649233a56
+    localized: 21055e0766d8775896704d9fa5a114640a15d786
     auth: sha
-    auth_passphrase: 9ae9b80524e8cc7d22f218078b15b253da71b578
+    auth_passphrase: 2a89bda41aec72908b6968bf3205e4f7b9c04273
     priv: aes
-    priv_passphrase: 1a9accba73b30959db32b371f12f65f0
+    priv_passphrase: dd710d34ec93a79741d9845e1de3ba62
   - name: NETSVC_SPECTRUM
     group: READONLY
     version: v3
-    localized: 66208c95ba80fc05fc3d7ea50ab203a649233a56
+    localized: 21055e0766d8775896704d9fa5a114640a15d786
     auth: sha
-    auth_passphrase: 797e39968c6f68c483ce7422ba6ab3dc552ad6d2
+    auth_passphrase: 54407b0bdb9b925da05a85652e7f8b3e407398e9
     priv: aes
-    priv_passphrase: f3d87e9c6c9366d4592df64159426962
+    priv_passphrase: 8e09da0f23358c90f71a1cf0a5628629
   hosts:
   - host: 10.139.4.41
     version: '3'
@@ -136,21 +136,21 @@ snmp_server:
       enabled: false
     - name: bridge
       enabled: false
-  location: IAD
+  location: SLC
   local_interfaces:
   - name: Vlan1001
     vrf: default
 ethernet_interfaces:
 - name: Port-Channel11
   peer_type: l3_interface
-  ip_address: 10.9.176.237/31
+  ip_address: 10.9.176.225/31
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
   eos_cli: bfd interval 150 min-rx 150 multiplier 150
 - name: Port-Channel12
   peer_type: l3_interface
-  ip_address: 10.9.176.239/31
+  ip_address: 10.9.176.227/31
   shutdown: false
   type: routed
   description: L3-PtP:OVERLAY:OB1:PE-CE
@@ -231,7 +231,7 @@ loopback_interfaces:
 - name: Loopback0
   description: Router_ID
   shutdown: false
-  ip_address: 10.9.176.181/32
+  ip_address: 10.9.176.1177/32
 vlans:
 - id: 1001
   name: OB1:MGMT
@@ -247,7 +247,7 @@ vlan_interfaces:
   tenant: OB1
   description: OB1:MGMT
   shutdown: false
-  ip_address: 10.192.17.65/24
+  ip_address: 10.192.17.79/24
   ip_helpers:
   - ip_helper: 10.132.30.7
   - ip_helper: 10.229.88.5
@@ -274,9 +274,9 @@ prefix-list:
 - name: OB1_3PCC_POLICY_OUT
   sequence_numbers:
   - sequence: 5
-    action: permit10.9.184.96/28
+    action: permit10.9.184.80/28
   - sequence: 10
-    action: permit10.9.176.181/32
+    action: permit10.9.176.1177/32
 local_users:
 - name: admin
   disabled: true
