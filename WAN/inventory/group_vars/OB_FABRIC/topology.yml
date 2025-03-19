@@ -57,7 +57,7 @@ l3router:
               match:
                 - ip address prefix-list DEFAULT_ROUTE
   node_groups:
-    - group: 3PCC_OB1_switches
+    - group: mco-ob1-concentrix-n1
       platform: 710P
       nodes:
         - name: mco-ob1-concentrix-n1
@@ -101,7 +101,7 @@ l3router:
           #       ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_local_ip }}"
           #       description: L3-PtP:OVERLAY:OB1:PE-CE
           #       mode: active
-    - group: Qualfon_OB1_switches
+    - group: den-ob1-qualfon-n1
       nodes:
         - name: den-ob1-qualfon-n1
           id: 1
@@ -134,7 +134,7 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-    - group: Ttech_OB1_switches
+    - group: den-ob1-ttech-n1
       nodes:
         - name: den-ob1-ttech-n1
           id: 1
@@ -167,7 +167,7 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-    - group: foundever_OB1_switches
+    - group: dfw-ob1-foundever-n1
       nodes:
         - name: dfw-ob1-foundever-n1
           id: 1
@@ -200,7 +200,7 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-    - group: telepf_OB1_switches
+    - group: dfw-ob1-telepf-n1
       nodes:
         - name: dfw-ob1-telepf-n1
           id: 1
@@ -233,7 +233,7 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-    - group: dtw_OB1_switches
+    - group: dtw-ob1-qualfon-n1
       nodes:
         - name: dtw-ob1-qualfon-n1
           id: 1
@@ -266,7 +266,6 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-
     - group: iad-ob1-ttech-n1
       nodes:
         - name: iad-ob1-ttech-n1
@@ -300,7 +299,6 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][6]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-
     - group: oma-ob1-foundever-n1
       nodes:
         - name: oma-ob1-foundever-n1
@@ -334,7 +332,6 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][7]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
-
     - group: slc-ob1-telepf-n1
       nodes:
         - name: slc-ob1-telepf-n1
@@ -368,3 +365,31 @@ l3router:
               ip_address: "{{ hostvars[groups['3PCC_OB'][8]].ob1_pe2_local_ip + '/31' }}"
               description: L3-PtP:OVERLAY:OB1:PE-CE
               raw_eos_cli: bfd interval 150 min-rx 150 multiplier 150
+
+# tenants:
+#   - name: OB1
+#     vrfs:
+#       - name: default
+#         svis:
+#         - id: 1001
+#           name: OB1:MGMT
+#           enabled: true
+#           nodes:
+#             - node: "{{ groups['3PCC_OB'][0] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][0]].vlan_1001_ip + '/28'  }}"
+#             - node: "{{ groups['3PCC_OB'][1] }}"
+#               ip_address:  "{{ hostvars[groups['3PCC_OB'][1]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][2] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][2]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][3] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][3]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][4] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][4]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][5] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][5]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][6] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][6]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][7] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][7]].vlan_1001_ip + '/24'  }}"
+#             - node: "{{ groups['3PCC_OB'][8] }}"
+#               ip_address: "{{ hostvars[groups['3PCC_OB'][8]].vlan_1001_ip + '/24'  }}"
