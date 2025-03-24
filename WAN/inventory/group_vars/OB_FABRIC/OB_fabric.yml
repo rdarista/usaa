@@ -2,6 +2,7 @@
 
 fabric_name: OB_FABRIC
 
+transceiver_qsfp_default_mode_4x10: false
 bgp_peer_groups:
   ipv4_underlay_peers:
     name: PE_CE_OB1
