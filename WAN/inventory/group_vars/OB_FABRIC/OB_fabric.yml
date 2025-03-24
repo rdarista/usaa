@@ -51,3 +51,6 @@ node_type_keys:
     uplink_type: p2p
     ip_addressing:
       router_id: router_id.j2
+    # interface_descriptions:
+    #   connected_endpoints_ethernet_interfaces: 'custom_templates/interface_descriptions/connected_endpoints/ethernet-interfaces.j2'
+

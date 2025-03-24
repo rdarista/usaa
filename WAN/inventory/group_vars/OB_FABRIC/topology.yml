@@ -77,13 +77,13 @@ l3router:
         - name: mco-ob1-concentrix-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action:  "{{ 'permit' + hostvars[groups['3PCC_OB'][0]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][0]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action:  "{{ 'permit' + hostvars[groups['3PCC_OB'][0]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][0]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][0]].ob1_pe1_ip }}"
@@ -107,13 +107,13 @@ l3router:
         - name: den-ob1-qualfon-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + ' ' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + ' ' + hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit '  + hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"
@@ -136,13 +136,13 @@ l3router:
         - name: den-ob1-ttech-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][2]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][2]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][2]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][2]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][2]].ob1_pe1_ip }}"
@@ -165,13 +165,13 @@ l3router:
         - name: dfw-ob1-foundever-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][3]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][3]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][3]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][3]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][3]].ob1_pe1_ip }}"
@@ -194,13 +194,13 @@ l3router:
         - name: dfw-ob1-telepf-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][4]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][4]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][4]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][4]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][4]].ob1_pe1_ip }}"
@@ -223,13 +223,13 @@ l3router:
         - name: dtw-ob1-qualfon-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][5]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][5]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][5]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][5]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][5]].ob1_pe1_ip }}"
@@ -252,13 +252,13 @@ l3router:
         - name: iad-ob1-ttech-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][6]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][6]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][6]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][6]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][6]].ob1_pe1_ip }}"
@@ -281,13 +281,13 @@ l3router:
         - name: oma-ob1-foundever-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][7]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][7]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][7]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][7]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][7]].ob1_pe1_ip }}"
@@ -310,13 +310,13 @@ l3router:
         - name: slc-ob1-telepf-n1
           id: 1
           structured_config:
-            prefix-list:
+            prefix_lists:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][8]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][8]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][8]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit ' + hostvars[groups['3PCC_OB'][8]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][8]].ob1_pe1_ip }}"

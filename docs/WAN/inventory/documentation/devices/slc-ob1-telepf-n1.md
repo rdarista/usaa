@@ -1092,12 +1092,23 @@ queue-monitor streaming
 | -------- | ------ |
 | 10 | permit 0.0.0.0/0 |
 
+##### OB1_3PCC_POLICY_OUT
+
+| Sequence | Action |
+| -------- | ------ |
+| 5 | permit 10.9.184.80/28 |
+| 10 | permit 10.9.176.1177/32 |
+
 #### Prefix-lists Device Configuration
 
 ```eos
 !
 ip prefix-list DEFAULT_ROUTE
    seq 10 permit 0.0.0.0/0
+!
+ip prefix-list OB1_3PCC_POLICY_OUT
+   seq 5 permit 10.9.184.80/28
+   seq 10 permit 10.9.176.1177/32
 ```
 
 ### Route-maps

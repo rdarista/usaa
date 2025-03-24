@@ -291,13 +291,17 @@ route_maps:
     type: permit
     match:
     - ip address prefix-list DEFAULT_ROUTE
-prefix-list:
+prefix_lists:
 - name: OB1_3PCC_POLICY_OUT
   sequence_numbers:
   - sequence: 5
-    action: permit10.9.184.32/28
+    action: permit 10.9.184.32/28
   - sequence: 10
-    action: permit10.9.176.180/32
+    action: permit 10.9.176.180/32
+- name: DEFAULT_ROUTE
+  sequence_numbers:
+  - sequence: 10
+    action: permit 0.0.0.0/0
 local_users:
 - name: admin
   disabled: true
@@ -363,11 +367,6 @@ ip_access_lists:
     destination_ports_match: eq
     destination_ports:
     - ssh
-prefix_lists:
-- name: DEFAULT_ROUTE
-  sequence_numbers:
-  - sequence: 10
-    action: permit 0.0.0.0/0
 ntp:
   servers:
   - name: 10.136.128.253

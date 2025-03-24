@@ -1112,8 +1112,8 @@ queue-monitor streaming
 
 | Sequence | Action |
 | -------- | ------ |
-| 5 | permit10.9.176.189/28 |
-| 10 | permit10.9.176.185/32 |
+| 5 | permit 10.9.176.189/28 |
+| 10 | permit 10.9.176.185/32 |
 
 #### Prefix-lists Device Configuration
 
@@ -1123,8 +1123,8 @@ ip prefix-list DEFAULT_ROUTE
    seq 10 permit 0.0.0.0/0
 !
 ip prefix-list OB1_3PCC_POLICY_OUT
-   seq 5 permit10.9.176.189/28
-   seq 10 permit10.9.176.185/32
+   seq 5 permit 10.9.176.189/28
+   seq 10 permit 10.9.176.185/32
 ```
 
 ### Route-maps
