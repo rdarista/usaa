@@ -9,7 +9,7 @@ interface_profiles:
   - name: MGMT
     commands:
       - description mgmt interface
-      - switchport access vlan 110
+      - switchport access vlan 1001
       - spanning-tree portfast
       - no spanning-tree portfast auto
       - spanning-tree bpduguard enable

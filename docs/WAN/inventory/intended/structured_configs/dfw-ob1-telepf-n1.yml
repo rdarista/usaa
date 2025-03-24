@@ -65,8 +65,9 @@ management_api_http:
   - name: default
   enable_https: true
   https_ssl_profile: SSL_TLS_1_2
-eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay always-on\nip dhcp relay all-subnets default\n!\nmanagement ssh\n  authentication
-  mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy input copp-system-policy\n"
+eos_cli: "dhcp relay\n  vss control disabled\n!\nip dhcp relay information option\nip dhcp relay always-on\nip dhcp relay all-subnets
+  default\n!\nmanagement ssh\n  authentication mode password\n!\narp aging timeout default 900\n!\nsystem control-plane\n  no service-policy
+  input copp-system-policy\n!\nspanning-tree mst configuration\n  name OB1\n"
 snmp_server:
   engine_ids:
     local: 3063a7ec0d71f5a64b11047e37dfdd242a929535

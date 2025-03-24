@@ -674,7 +674,7 @@ interface defaults
 !
 interface profile MGMT
    command description mgmt interface
-   command switchport access vlan 110
+   command switchport access vlan 1001
    command spanning-tree portfast
    command no spanning-tree portfast auto
    command spanning-tree bpduguard enable
@@ -943,13 +943,13 @@ ip routing
 
 | VRF | Destination Prefix | Next Hop IP | Exit interface | Administrative Distance | Tag | Route Name | Metric |
 | --- | ------------------ | ----------- | -------------- | ----------------------- | --- | ---------- | ------ |
-| MGMT | 0.0.0.0/0 | 10.192.17.1 | - | 1 | - | - | - |
+| default | 0.0.0.0/0 | 10.192.17.1 | - | 1 | - | - | - |
 
 #### Static Routes Device Configuration
 
 ```eos
 !
-ip route vrf MGMT 0.0.0.0/0 10.192.17.1
+ip route 0.0.0.0/0 10.192.17.1
 ```
 
 ### ARP
@@ -1199,6 +1199,7 @@ system l1
 dhcp relay
   vss control disabled
 !
+ip dhcp relay information option
 ip dhcp relay always-on
 ip dhcp relay all-subnets default
 !
@@ -1209,5 +1210,8 @@ arp aging timeout default 900
 !
 system control-plane
   no service-policy input copp-system-policy
+!
+spanning-tree mst configuration
+  name OB1
 
 ```

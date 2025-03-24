@@ -23,6 +23,7 @@ l3router:
       dhcp relay
         vss control disabled
       !
+      ip dhcp relay information option
       ip dhcp relay always-on
       ip dhcp relay all-subnets default
       !
@@ -33,17 +34,17 @@ l3router:
       !
       system control-plane
         no service-policy input copp-system-policy
+      !
+      spanning-tree mst configuration
+        name OB1
     structured_config:
-      # ethernet_interfaces:
-      #   - name: Ethernet13
-      #     mode: trunk
-      #     native_vlan: 1001
-      #   - name: Ethernet14
-      #     mode: trunk
-      #     native_vlan: 1001
+      # spanning_tree:
+      #   mst_instances:
+      #   - id: 0
+      #     priority: 4096
       vlan_interfaces:
         - name: Vlan1001
-          # description: OB1:MGMT
+          description: OB1:MGMT
           ip_helpers:
             - ip_helper: 10.132.30.7
             - ip_helper: 10.229.88.5
@@ -110,9 +111,9 @@ l3router:
               - name: OB1_3PCC_POLICY_OUT
                 sequence_numbers:
                   - sequence: 5
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
+                    action: "{{ 'permit' + ' ' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit' + ' '+ hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"

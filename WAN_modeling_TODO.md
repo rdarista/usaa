@@ -20,3 +20,12 @@
 - remove default addition of rt import for rt:rt generated
 >> fixed with rt_override;
 
+
+###
+
+move the SNMP vrf settings
+remove transreceievr 4x10G
+check the mismatch in the terminattr config
+add in ip dhcp relay interformation option
+stp mst 1 priority 4096 >> will not be needed to be discussed
+
