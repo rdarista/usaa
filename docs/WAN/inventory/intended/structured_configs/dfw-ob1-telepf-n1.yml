@@ -118,8 +118,6 @@ snmp_server:
       authentication_level: priv
   vrfs:
   - name: default
-    enable: false
-  - name: MGMT
     enable: true
   views:
   - name: READALL

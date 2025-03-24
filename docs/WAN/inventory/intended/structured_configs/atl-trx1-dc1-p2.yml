@@ -80,10 +80,10 @@ snmp_server:
       authentication_level: priv
     vrf: MGMT
   vrfs:
-  - name: default
-    enable: false
   - name: MGMT
     enable: true
+  - name: default
+    enable: false
   views:
   - name: READALL
     MIB_family_name: ISO
@@ -896,6 +896,18 @@ local_users:
   privilege: 15
   role: network-admin
   sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+daemon_terminattr:
+  cvaddrs:
+  - 10.139.16.173:9910
+  - 10.139.16.174:9910
+  - 10.139.16.175:9910
+  cvauth:
+    method: token
+    token_file: tmp/token
+  cvvrf: MGMT
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  taillogs: /var/log/messages
 vlans:
 - id: 1
   name: Default

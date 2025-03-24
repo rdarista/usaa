@@ -508,8 +508,7 @@ logging source-interface Vlan1001
 
 | VRF | Status |
 | --- | ------ |
-| default | Disabled |
-| MGMT | Enabled |
+| default | Enabled |
 
 #### SNMP Hosts Configuration
 
@@ -558,8 +557,7 @@ snmp-server host 10.139.4.44 version 3 priv NETSVC_SPECTRUM
 snmp-server enable traps
 no snmp-server enable traps bgp backward-transition
 no snmp-server enable traps bridge
-no snmp-server vrf default
-snmp-server vrf MGMT
+snmp-server vrf default
 ```
 
 ### SFlow

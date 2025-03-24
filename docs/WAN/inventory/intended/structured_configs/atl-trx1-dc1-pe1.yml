@@ -117,10 +117,10 @@ snmp_server:
       authentication_level: priv
     vrf: MGMT
   vrfs:
-  - name: default
-    enable: false
   - name: MGMT
     enable: true
+  - name: default
+    enable: false
   views:
   - name: READALL
     MIB_family_name: ISO
@@ -240,9 +240,9 @@ eos_cli: "!\nmac security\n    profile MKA_AES_256\n        cipher aes256-gcm\n 
   Loopback0\n  description MPLS_Overlay_peering\n  ip address 10.199.0.28/32\n  ip ospf area 0.0.0.0\n!\ninterface Management1\n  description
   oob_management\n  no shutdown\n  vrf MGMT\n  ip address 10.9.182.151/28\n!\n!\nmpls ip\n!\nmpls ldp\n  router-id interface Loopback0\n
   \ no shutdown\n!\n!\nrouter bgp 64800\n  router-id 10.199.0.28\n  update wait-install\n  no bgp default ipv4-unicast\n  distance bgp
-  20 200 200\n  maximum-paths 2 ecmp 2\n  bgp bestpath tie-break router-id\n  \n  neighbor PE_CE_DC_OB_SOB_DCX1 peer group\nneighbor
-  PE_CE_DC_OB_SOB_DCX1 remote-as 65140\nneighbor PE_CE_DC_OB_SOB_DCX1 bfd\nneighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN
-  in\nneighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_OB_SOB_DCX1 password 7 kKXxGiEu6TVyilumLqEW/A==\nneighbor
+  20 200 200\n  maximum-paths 2 ecmp 2\n  bgp bestpath tie-break router-id\n\n  neighbor PE_CE_DC_OB_SOB_DCX1 peer group\nneighbor PE_CE_DC_OB_SOB_DCX1
+  remote-as 65140\nneighbor PE_CE_DC_OB_SOB_DCX1 bfd\nneighbor PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor
+  PE_CE_DC_OB_SOB_DCX1 route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_OB_SOB_DCX1 password 7 kKXxGiEu6TVyilumLqEW/A==\nneighbor
   PE_CE_DC_OB_SOB_DCX1 send-community\n  !\n  neighbor PE_CE_DC_PCI_SE_CCHYBRID peer group\nneighbor PE_CE_DC_PCI_SE_CCHYBRID remote-as
   65120\nneighbor PE_CE_DC_PCI_SE_CCHYBRID bfd\nneighbor PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_IN in\nneighbor
   PE_CE_DC_PCI_SE_CCHYBRID route-map STANDARD_1NET_BGP_POLICY_OUT out\nneighbor PE_CE_DC_PCI_SE_CCHYBRID password 7 6eausfeHuNQGCcxKUsAFPw==\nneighbor
@@ -618,6 +618,18 @@ local_users:
   privilege: 15
   role: network-admin
   sha512_password: $6$i3XkyYyHAzD9FePr$hw9tQwmUxHUV8tkBxuXn9jqQyFbF96apImBW93b0QQ1l1nlhkgVDRmVLrhkrrdxpp35OWhba8BsNBF3kcDSjp/
+daemon_terminattr:
+  cvaddrs:
+  - 10.139.16.173:9910
+  - 10.139.16.174:9910
+  - 10.139.16.175:9910
+  cvauth:
+    method: token
+    token_file: tmp/token
+  cvvrf: MGMT
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  taillogs: /var/log/messages
 vlans:
 - id: 1
   name: Default

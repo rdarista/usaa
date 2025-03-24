@@ -489,8 +489,8 @@ logging vrf MGMT source-interface Management1
 
 | VRF | Status |
 | --- | ------ |
-| default | Disabled |
 | MGMT | Enabled |
+| default | Disabled |
 
 #### SNMP Hosts Configuration
 
@@ -539,8 +539,8 @@ snmp-server host 10.139.4.44 vrf MGMT version 3 priv NETSVC_SPECTRUM
 snmp-server enable traps
 no snmp-server enable traps bgp backward-transition
 no snmp-server enable traps bridge
-no snmp-server vrf default
 snmp-server vrf MGMT
+no snmp-server vrf default
 ```
 
 ### SFlow
@@ -1853,7 +1853,7 @@ router bgp 64800
   distance bgp 20 200 200
   maximum-paths 2 ecmp 2
   bgp bestpath tie-break router-id
-  
+
   neighbor PE_CE_DC_OB_SOB_DCX1 peer group
 neighbor PE_CE_DC_OB_SOB_DCX1 remote-as 65140
 neighbor PE_CE_DC_OB_SOB_DCX1 bfd

@@ -362,9 +362,10 @@ snmp_settings:
       - name: bridge
         enabled: false
   vrfs:
-    - name: default
-      enable: false
-    - name: MGMT
+    # - name: default
+    #   enable: false
+    # - name: MGMT
+    - name: "{{ mgmt_interface_vrf }}"
       enable: true
   users:
     - name: NETSVC_NETBRAIN_TEST
