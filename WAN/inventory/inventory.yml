@@ -128,7 +128,7 @@ all:
                   children:
                     ATL_PE_ROUTERS:
                       hosts:
-                        atl-trx1-dc1-pe1:
+                        atl-trx1-dc1-pe1: 
                           ansible_host: 10.9.182.151
                           is_deployed: false
                           management_gateway: 10.9.182.145

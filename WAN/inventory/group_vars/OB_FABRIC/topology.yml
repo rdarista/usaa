@@ -113,7 +113,7 @@ l3router:
                   - sequence: 5
                     action: "{{ 'permit' + ' ' + hostvars[groups['3PCC_OB'][1]].policy_out_ip + '/28' }}"
                   - sequence: 10
-                    action: "{{ 'permit' + ' '+ hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
+                    action: "{{ 'permit' + ' ' + hostvars[groups['3PCC_OB'][1]].Loopback0 + '/32'}}"
             router_bgp:
               neighbors:
                 - ip_address: "{{ hostvars[groups['3PCC_OB'][1]].ob1_pe1_ip }}"

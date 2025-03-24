@@ -51,3 +51,5 @@ custom_group_configuration_port_channel_interfaces:
       min_rx: 150
       multiplier: 150
 
+custom_group_configuration_daemon_terminattr:
+  cvsourceintf: Vlan1001

@@ -10,7 +10,7 @@ eos_cli: |-
   {{MPLS_DEFAULTS}}
   !
   {{ROUTER_BGP_DEFAULTS}}
-    
+
     {{ROUTER_BGP_PE_CE_DC_OB_SOB_DCX1_PG}}
     !
     {{ROUTER_BGP_PE_CE_DC_PCI_SE_CCHYBRID_PG}}

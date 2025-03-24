@@ -213,7 +213,7 @@ custom_structured_configuration_management_api_http:
 # MONITORING
 ############################################################
 
-daemon_terminattr:
+custom_structured_configuration_daemon_terminattr:
 
   # Address of the gRPC server on CloudVision, TCP 9910 is used on on-prem, TCP 443 is used on CV as a Service
   cvaddrs: # For single cluster
